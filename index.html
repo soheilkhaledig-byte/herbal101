@@ -259,28 +259,9 @@
             margin: 15px 0;
         }
 
-        /* Loading Animation - بهبود یافته */
+        /* Loading Animation - حذف شده */
         .loading {
             display: none;
-            text-align: center;
-            color: white;
-            margin: 20px 0;
-            grid-column: 1 / -1;
-        }
-        
-        .loading-spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         /* اسکرول نرم */
@@ -429,12 +410,6 @@
             <button class="clear-search" id="clearSearch">×</button>
         </div>
         
-        <!-- Loading - بهبود یافته -->
-        <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p>در حال بارگذاری...</p>
-        </div>
-        
         <!-- گرید 3 در 3 برای موبایل -->
         <div class="grid" id="systemsGrid">
             <!-- ردیف اول -->
@@ -493,53 +468,15 @@
         
         <div class="footer">
             <p>عطاری هوشمند الیسترزعفران</p>
-            <a href="https://elstarzaffron.ir" class="website-link" target="_blank">Elstarsaffron.ir</a>
+            <a href="https://elstarzaffron.ir" class="website-link" target="_blank">Elstarzaffron.ir</a>
         </div>
     </div>
 
     <script>
-        // مدیریت وضعیت loading
-        let isLoading = false;
-        
-        // Navigation function ساده و مطمئن
+        // Navigation function ساده و بدون loading
         function navigateTo(page) {
-            if (isLoading) return;
-            
-            isLoading = true;
-            const loadingElement = document.getElementById('loading');
-            loadingElement.style.display = 'block';
-            
-            // زمان‌بندی برای رفتن به صفحه مقصد
-            setTimeout(() => {
-                window.location.href = page;
-            }, 350);
+            window.location.href = page;
         }
-        
-        // وقتی صفحه کاملاً لود شد
-        window.addEventListener('load', function() {
-            document.getElementById('loading').style.display = 'none';
-            isLoading = false;
-        });
-        
-        // وقتی DOM آماده شد
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('loading').style.display = 'none';
-            isLoading = false;
-        });
-        
-        // مدیریت بازگشت از صفحات دیگر
-        window.addEventListener('pageshow', function(event) {
-            document.getElementById('loading').style.display = 'none';
-            isLoading = false;
-        });
-        
-        // اگر صفحه از cache لود شود
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-                isLoading = false;
-            }, 100);
-        });
         
         // جستجوی پویا
         const searchInput = document.getElementById('searchInput');
@@ -645,4 +582,17 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('sw.js')
-      
+                    .then(function(registration) {
+                        console.log('ServiceWorker registered successfully');
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+        
+        // بهبود عملکرد لمسی
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
+</body>
+</html>
