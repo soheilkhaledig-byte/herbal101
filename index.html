@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>عطاری هوشمند الیسترزعفران</title>
+    <title>طب جامع گیاهی</title>
     <meta name="theme-color" content="#2E7D32">
-    <meta name="description" content="راهکارهای طبیعی برای سلامتی">
+    <meta name="description" content="اپلیکیشن جامع گیاهان دارویی برای سیستم‌های مختلف بدن">
     
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="عطاری هوشمند">
+    <meta name="apple-mobile-web-app-title" content="طب گیاهی">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/192/2829/2829076.png">
     
     <!-- PWA Manifest -->
@@ -242,26 +242,33 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .website-link {
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 5px;
-            display: inline-block;
-        }
-        
-        .website-link:hover {
-            text-decoration: underline;
-        }
-        
         .pwa-install {
             text-align: center;
             margin: 15px 0;
         }
 
-        /* Loading Animation - حذف شده */
+        /* Loading Animation - بهبود یافته */
         .loading {
             display: none;
+            text-align: center;
+            color: white;
+            margin: 20px 0;
+            grid-column: 1 / -1;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         /* اسکرول نرم */
@@ -394,8 +401,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🌿 عطاری هوشمند الیسترزعفران</h1>
-            <p>راهکارهای طبیعی برای سلامتی</p>
+            <h1>🌿 طب جامع گیاهی</h1>
+            <p>درمان‌های طبیعی برای سیستم‌های مختلف بدن</p>
         </div>
         
         <!-- دکمه نصب PWA -->
@@ -408,6 +415,12 @@
             <input type="text" class="search-box" id="searchInput" placeholder="جستجو..." inputmode="search">
             <div class="search-icon">🔍</div>
             <button class="clear-search" id="clearSearch">×</button>
+        </div>
+        
+        <!-- Loading - بهبود یافته -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>در حال بارگذاری...</p>
         </div>
         
         <!-- گرید 3 در 3 برای موبایل -->
@@ -467,16 +480,53 @@
         </div>
         
         <div class="footer">
-            <p>عطاری هوشمند الیسترزعفران</p>
-            <a href="https://elstarzaffron.ir" class="website-link" target="_blank">Elstarzaffron.ir</a>
+            <p>© 2024 طب جامع گیاهی</p>
         </div>
     </div>
 
     <script>
-        // Navigation function ساده و بدون loading
+        // مدیریت وضعیت loading
+        let isLoading = false;
+        
+        // Navigation function ساده و مطمئن
         function navigateTo(page) {
-            window.location.href = page;
+            if (isLoading) return;
+            
+            isLoading = true;
+            const loadingElement = document.getElementById('loading');
+            loadingElement.style.display = 'block';
+            
+            // زمان‌بندی برای رفتن به صفحه مقصد
+            setTimeout(() => {
+                window.location.href = page;
+            }, 350);
         }
+        
+        // وقتی صفحه کاملاً لود شد
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+            isLoading = false;
+        });
+        
+        // وقتی DOM آماده شد
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loading').style.display = 'none';
+            isLoading = false;
+        });
+        
+        // مدیریت بازگشت از صفحات دیگر
+        window.addEventListener('pageshow', function(event) {
+            document.getElementById('loading').style.display = 'none';
+            isLoading = false;
+        });
+        
+        // اگر صفحه از cache لود شود
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                isLoading = false;
+            }, 100);
+        });
         
         // جستجوی پویا
         const searchInput = document.getElementById('searchInput');
@@ -593,6 +643,12 @@
         
         // بهبود عملکرد لمسی
         document.addEventListener('touchstart', function() {}, {passive: true});
+        
+        // مطمئن شویم loading هنگام بازگشت پنهان است
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            isLoading = false;
+        }, 500);
     </script>
 </body>
 </html>
