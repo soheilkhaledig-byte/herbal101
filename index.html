@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>طب جامع گیاهی</title>
+    <title>عطاری هوشمند الیسترزعفران</title>
     <meta name="theme-color" content="#2E7D32">
-    <meta name="description" content="اپلیکیشن جامع گیاهان دارویی برای سیستم‌های مختلف بدن">
+    <meta name="description" content="راهکارهای طبیعی برای سلامتی">
     
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="طب گیاهی">
+    <meta name="apple-mobile-web-app-title" content="عطاری هوشمند">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/192/2829/2829076.png">
     
     <!-- PWA Manifest -->
@@ -242,6 +242,18 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        .website-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        
+        .website-link:hover {
+            text-decoration: underline;
+        }
+        
         .pwa-install {
             text-align: center;
             margin: 15px 0;
@@ -401,8 +413,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🌿 طب جامع گیاهی</h1>
-            <p>درمان‌های طبیعی برای سیستم‌های مختلف بدن</p>
+            <h1>🌿 عطاری هوشمند الیسترزعفران</h1>
+            <p>راهکارهای طبیعی برای سلامتی</p>
         </div>
         
         <!-- دکمه نصب PWA -->
@@ -480,7 +492,8 @@
         </div>
         
         <div class="footer">
-            <p>© 2024 طب جامع گیاهی</p>
+            <p>عطاری هوشمند الیسترزعفران</p>
+            <a href="https://elstarzaffron.ir" class="website-link" target="_blank">Elstarsaffron.ir</a>
         </div>
     </div>
 
@@ -632,23 +645,4 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registered successfully');
-                    })
-                    .catch(function(error) {
-                        console.log('ServiceWorker registration failed: ', error);
-                    });
-            });
-        }
-        
-        // بهبود عملکرد لمسی
-        document.addEventListener('touchstart', function() {}, {passive: true});
-        
-        // مطمئن شویم loading هنگام بازگشت پنهان است
-        setTimeout(() => {
-            document.getElementById('loading').style.display = 'none';
-            isLoading = false;
-        }, 500);
-    </script>
-</body>
-</html>
+      
