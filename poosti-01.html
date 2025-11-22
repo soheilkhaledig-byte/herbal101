@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بیماری‌های پوستی</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.small {
+            padding: 12px 20px;
+        }
+        
+        header.small h1 {
+            font-size: 1.3rem;
+        }
+        
+        h1 {
+            font-size: 1.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content {
+            margin-top: 100px;
+            transition: all 0.3s ease;
+        }
+        
+        header.small ~ .main-content {
+            margin-top: 70px;
+        }
+        
+        .search-container {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .diseases-list {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 140px;
+            border: 1px solid #e9ecef;
+        }
+        
+        header.small ~ .main-content .diseases-list {
+            top: 90px;
+        }
+        
+        .diseases-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .diseases-list h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e9ecef;
+            text-align: center;
+            font-size: 1.4rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            padding-top: 10px;
+        }
+        
+        .disease-category {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* رنگ‌بندی کاملاً متفاوت برای هر دسته */
+        .category-inflammatory {
+            border: 2px solid #e63946;
+        }
+        
+        .category-inflammatory .category-header {
+            background: linear-gradient(135deg, #e63946 0%, #d00000 100%);
+            color: white;
+        }
+        
+        .category-inflammatory .category-header:hover {
+            background: linear-gradient(135deg, #d00000 0%, #9d0208 100%);
+        }
+        
+        .category-inflammatory .disease-item:hover {
+            background: linear-gradient(135deg, #ffafcc 0%, #ffc8dd 100%);
+        }
+        
+        .category-infectious {
+            border: 2px solid #2a9d8f;
+        }
+        
+        .category-infectious .category-header {
+            background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);
+            color: white;
+        }
+        
+        .category-infectious .category-header:hover {
+            background: linear-gradient(135deg, #264653 0%, #1d3557 100%);
+        }
+        
+        .category-infectious .disease-item:hover {
+            background: linear-gradient(135deg, #a8dadc 0%, #caffbf 100%);
+        }
+        
+        .category-autoimmune {
+            border: 2px solid #f4a261;
+        }
+        
+        .category-autoimmune .category-header {
+            background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
+            color: white;
+        }
+        
+        .category-autoimmune .category-header:hover {
+            background: linear-gradient(135deg, #e76f51 0%, #d00000 100%);
+        }
+        
+        .category-autoimmune .disease-item:hover {
+            background: linear-gradient(135deg, #fdfcdc 0%, #ffafcc 100%);
+        }
+        
+        .category-pigmentary {
+            border: 2px solid #9d4edd;
+        }
+        
+        .category-pigmentary .category-header {
+            background: linear-gradient(135deg, #9d4edd 0%, #5a189a 100%);
+            color: white;
+        }
+        
+        .category-pigmentary .category-header:hover {
+            background: linear-gradient(135deg, #5a189a 0%, #3c096c 100%);
+        }
+        
+        .category-pigmentary .disease-item:hover {
+            background: linear-gradient(135deg, #e0aaff 0%, #c77dff 100%);
+        }
+
+        .category-tumors {
+            border: 2px solid #ff9e00;
+        }
+        
+        .category-tumors .category-header {
+            background: linear-gradient(135deg, #ff9e00 0%, #ff9100 100%);
+            color: white;
+        }
+        
+        .category-tumors .category-header:hover {
+            background: linear-gradient(135deg, #ff9100 0%, #ff8500 100%);
+        }
+        
+        .category-tumors .disease-item:hover {
+            background: linear-gradient(135deg, #ffd166 0%, #ffd166 100%);
+        }
+        
+        .category-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .category-open .category-icon {
+            transform: rotate(180deg);
+        }
+        
+        .category-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .category-open .category-items {
+            max-height: 1000px;
+        }
+        
+        .disease-item {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .disease-item:last-child {
+            border-bottom: none;
+        }
+        
+        .disease-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disease-item.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .disease-name {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+        
+        .disease-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .disease-item.active .disease-desc {
+            color: #e9ecef;
+        }
+        
+        .symptoms-container {
+            flex: 2;
+            min-width: 320px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+        }
+        
+        .symptoms-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .symptoms-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .symptoms-title {
+            color: #495057;
+            font-size: 1.5rem;
+        }
+        
+        .selected-disease {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+        
+        .scroll-to-symptoms {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+        
+        .scroll-to-symptoms:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.4);
+        }
+        
+        .symptoms-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .symptom-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff6b6b, #ee5a24);
+        }
+        
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .symptom-name {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .symptom-desc {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            color: #868e96;
+        }
+        
+        .no-selection i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ced4da;
+            opacity: 0.7;
+        }
+        
+        .no-selection p {
+            font-size: 1.1rem;
+        }
+        
+        .herbal-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-right: 5px solid #2a9d8f;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .herbal-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .herbal-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .herbal-item {
+            background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(42, 157, 143, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .herbal-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(42, 157, 143, 0.4);
+        }
+        
+        .home-remedies {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff9db 0%, #fff3bf 100%);
+            border-radius: 12px;
+            border-right: 5px solid #ffd43b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .home-remedies-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .home-remedies-list {
+            color: #666;
+            line-height: 1.7;
+            padding-right: 10px;
+        }
+        
+        .disease-details {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .details-title {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .details-content {
+            color: #666;
+            line-height: 1.7;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-left: 8px;
+        }
+        
+        .details-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .details-content::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .saffron-button {
+            display: inline-block;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff9933 0%, #ff6600 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .saffron-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+            background: linear-gradient(135deg, #ff6600 0%, #cc5200 100%);
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+            border: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+            background: linear-gradient(135deg, #ee5a24 0%, #d63031 100%);
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffffff; }
+            50% { background-color: #e7f5ff; transform: scale(1.02); }
+            100% { background-color: #ffffff; }
+        }
+
+        .symptom-card.highlight {
+            animation: highlight 2s ease;
+        }
+        
+        .footer-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-right: 5px solid #ffd43b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 999;
+            color: #856404;
+        }
+        
+        .main-content-with-footer {
+            margin-bottom: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .diseases-list, .symptoms-container {
+                width: 100%;
+                max-height: none;
+                position: static;
+            }
+            
+            .symptoms-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .symptoms-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .selected-disease {
+                margin-bottom: 0;
+            }
+            
+            .scroll-top {
+                left: 20px;
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header.small h1 {
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-top: 100px;
+            }
+            
+            header.small ~ .main-content {
+                margin-top: 70px;
+            }
+            
+            .footer-warning {
+                position: static;
+                margin: 20px 0;
+            }
+            
+            .main-content-with-footer {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <h1>بیماری‌های پوستی</h1>
+        </div>
+    </header>
+    
+    <div class="main-content main-content-with-footer">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="جستجوی بیماری یا علائم...">
+            </div>
+            
+            <div class="content">
+                <div class="diseases-list">
+                    <h2>لیست بیماری‌های پوستی</h2>
+                    <div id="diseases-container">
+                        <!-- بیماری‌ها توسط جاوااسکریپت اضافه خواهند شد -->
+                    </div>
+                </div>
+                
+                <div class="symptoms-container">
+                    <div class="symptoms-header">
+                        <div class="selected-disease" id="selected-disease-name">هیچ بیماری انتخاب نشده</div>
+                        <h2 class="symptoms-title">علائم بیماری</h2>
+                        <button class="scroll-to-symptoms" id="scrollToSymptoms" style="display: none;">
+                            <span>اسکرول به علائم</span>
+                            ↓
+                        </button>
+                    </div>
+                    
+                    <div id="symptoms-content">
+                        <div class="no-selection">
+                            <i>⬅</i>
+                            <p>لطفاً یک بیماری از لیست سمت راست انتخاب کنید</p>
+                        </div>
+                    </div>
+                    
+                    <div class="herbal-remedies" id="herbal-remedies" style="display: none;">
+                        <h3 class="herbal-title">گیاهان دارویی مفید</h3>
+                        <div class="herbal-list" id="herbal-list">
+                            <!-- گیاهان دارویی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                            <strong>تذکر:</strong> این اطلاعات صرفاً آموزشی است و مصرف هرگونه گیاه دارویی باید تحت نظر پزشک باشد.
+                        </p>
+                    </div>
+                    
+                    <div class="home-remedies" id="home-remedies" style="display: none;">
+                        <h3 class="home-remedies-title">درمان‌های خانگی</h3>
+                        <div class="home-remedies-list" id="home-remedies-list">
+                            <!-- درمان‌های خانگی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                    </div>
+                    
+                    <div class="disease-details" id="disease-details" style="display: none;">
+                        <h3 class="details-title">توضیحات بیشتر</h3>
+                        <div class="details-content" id="details-content">
+                            <!-- توضیحات بیماری توسط جاوااسکریپت اضافه خواهد شد -->
+                        </div>
+                        <a href="https://elistarsaffron.ir" target="_blank" class="saffron-button">خرید از الیسترزعفران</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-warning">
+        <strong>توجه مهم:</strong> این برنامه تنها یک ابزار کمک آموزشی است و به هیچ وجه جایگزین معاینه و تشخیص پزشک نمی‌شود. لطفاً برای تشخیص و درمان به پزشک متخصص مراجعه کنید.
+    </div>
+
+    <button class="scroll-top" id="scrollTop" title="برگشت به بالا">↑</button>
+
+    <script>
+        // داده‌های کامل بیماری‌های پوستی - 30 بیماری
+        const diseases = [
+            // بیماری‌های التهابی - قرمز (8 بیماری)
+            {
+                id: 1,
+                name: "اگزما (درماتیت آتوپیک)",
+                category: "بیماری‌های التهابی",
+                description: "التهاب پوست با خارش و قرمزی",
+                symptoms: [
+                    { name: "خارش شدید", description: "خارش که ممکن است شب‌ها بدتر شود" },
+                    { name: "قرمزی پوست", description: "لکه‌های قرمز تا قهوه‌ای مایل به خاکستری" },
+                    { name: "پوسته‌ریزی", description: "پوست خشک و پوسته‌پوسته" },
+                    { name: "تاول‌های کوچک", description: "تاول‌های ریزی که ممکن است ترشح داشته باشند" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "روغن نارگیل", "جو دوسر", "روغن گل مغربی"],
+                homeRemedies: "کمپرس سرد برای کاهش خارش، حمام جو دوسر، استفاده از مرطوب‌کننده‌های طبیعی، پرهیز از محرک‌ها، کاهش استرس",
+                details: "اگزما یک بیماری التهابی پوست است که معمولاً در کودکی شروع می‌شود و می‌تواند با آلرژی و آسم همراه باشد."
+            },
+            {
+                id: 2,
+                name: "پسوریازیس",
+                category: "بیماری‌های التهابی",
+                description: "بیماری خودایمنی با پلاک‌های پوستی",
+                symptoms: [
+                    { name: "پلاک‌های قرمز", description: "لکه‌های قرمز با پوسته‌های نقرهای" },
+                    { name: "خارش و سوزش", description: "احساس ناراحتی در نواحی درگیر" },
+                    { name: "خشکی و ترک پوست", description: "پوست خشک که ممکن است ترک بخورد" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "روغن درخت چای", "زردچوبه", "فلفل قرمز"],
+                homeRemedies: "قرارگیری محدود در معرض آفتاب، حمام نمک اپسوم، استفاده از مرطوب‌کننده‌های قوی، کاهش استرس، رژیم غذایی ضدالتهاب",
+                details: "پسوریازیس یک بیماری خودایمنی است که باعث رشد سریع سلول‌های پوستی می‌شود."
+            },
+            {
+                id: 3,
+                name: "درماتیت سبورئیک",
+                category: "بیماری‌های التهابی",
+                description: "التهاب پوست در نواحی چرب",
+                symptoms: [
+                    { name: "پوسته‌های چرب", description: "پوسته‌های زرد یا سفید روی پوست چرب" },
+                    { name: "قرمزی پوست", description: "پوست قرمز و ملتهب" },
+                    { name: "خارش", description: "خارش خفیف تا شدید" }
+                ],
+                herbalRemedies: ["روغن درخت چای", "آلوئه ورا", "سرکه سیب", "روغن نارگیل"],
+                homeRemedies: "شستشو با شامپوهای ملایم، استفاده از روغن نارگیل، کمپرس گرم، کاهش مصرف غذاهای چرب، مدیریت استرس",
+                details: "درماتیت سبورئیک معمولاً پوست سر، صورت و قسمت‌های چرب بدن را درگیر می‌کند."
+            },
+            {
+                id: 4,
+                name: "روزاسه",
+                category: "بیماری‌های التهابی",
+                description: "قرمزی و التهاب صورت",
+                symptoms: [
+                    { name: "قرمزی صورت", description: "قرمزی مداوم در مرکز صورت" },
+                    { name: "رگ‌های خونی قابل مشاهده", description: "رگ‌های کوچک قرمز روی بینی و گونه‌ها" },
+                    { name: "جوش‌های قرمز", description: "جوش‌هایی شبیه آکنه" }
+                ],
+                herbalRemedies: ["چای سبز", "آلوئه ورا", "بابونه", "اسطوخودوس"],
+                homeRemedies: "پرهیز از غذاهای تند و گرم، محافظت از پوست در برابر آفتاب، استفاده از کرم‌های مرطوب‌کننده ملایم، کمپرس خنک، کاهش استرس",
+                details: "روزاسه یک بیماری شایع پوستی است که معمولاً صورت را درگیر می‌کند."
+            },
+            {
+                id: 5,
+                name: "کهیر",
+                category: "بیماری‌های التهابی",
+                description: "واکنش آلرژیک با برآمدگی‌های قرمز",
+                symptoms: [
+                    { name: "برآمدگی‌های قرمز", description: "دانه‌های برجسته و قرمز روی پوست" },
+                    { name: "خارش شدید", description: "خارش که ممکن است شدید باشد" },
+                    { name: "تورم", description: "تورم در نواحی مختلف پوست" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "جو دوسر", "بابونه", "نعنا"],
+                homeRemedies: "کمپرس سرد، حمام جو دوسر، پرهیز از محرک‌های شناخته شده، استفاده از لباس‌های نخی گشاد، مدیریت استرس",
+                details: "کهیر می‌تواند به دلیل آلرژی، استرس یا عوامل محیطی ایجاد شود."
+            },
+            {
+                id: 6,
+                name: "درماتیت تماسی",
+                category: "بیماری‌های التهابی",
+                description: "التهاب پوست در اثر تماس با مواد محرک",
+                symptoms: [
+                    { name: "قرمزی و خارش", description: "در ناحیه تماس با ماده محرک" },
+                    { name: "تاول‌های کوچک", description: "تاول‌هایی که ممکن است ترشح داشته باشند" },
+                    { name: "پوسته‌ریزی", description: "در مراحل بهبودی" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "بابونه", "روغن نارگیل", "اسطوخودوس"],
+                homeRemedies: "شستشوی ناحیه با آب سرد، استفاده از کمپرس سرد، پرهیز از تماس با ماده محرک، استفاده از کالامین لوشن، مرطوب‌کنندگی",
+                details: "درماتیت تماسی زمانی اتفاق می‌افتد که پوست با ماده محرک یا آلرژن تماس پیدا کند."
+            },
+            {
+                id: 7,
+                name: "لکوپلاکیا",
+                category: "بیماری‌های التهابی",
+                description: "لکه‌های سفید در دهان",
+                symptoms: [
+                    { name: "لکه‌های سفید", description: "لکه‌های سفید یا خاکستری در دهان" },
+                    { name: "ضخیم شدن پوست", description: "ضخیم شدن مخاط دهان" },
+                    { name: "زبری سطح", description: "سطح ناصاف در نواحی درگیر" }
+                ],
+                herbalRemedies: ["چای سبز", "زردچوبه", "سیر", "ویتامین E"],
+                homeRemedies: "ترک سیگار و تنباکو، کاهش مصرف الکل، رعایت بهداشت دهان، مصرف غذاهای غنی از آنتی‌اکسیدان، معاینات منظم دندانپزشکی",
+                details: "لکوپلاکیا می‌تواند یک ضایعه پیش سرطانی باشد و نیاز به بررسی پزشکی دارد."
+            },
+            {
+                id: 8,
+                name: "لیکن پلان",
+                category: "بیماری‌های التهابی",
+                description: "بثورات بنفش رنگ با خارش",
+                symptoms: [
+                    { name: "ضایعات بنفش", description: "برجستگی‌های بنفش رنگ مسطح" },
+                    { name: "خارش شدید", description: "خارش که ممکن است آزاردهنده باشد" },
+                    { name: "الگوی توری شکل", description: "گاهی با خطوط سفید توری شکل" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "جو دوسر", "بابونه", "روغن نارگیل"],
+                homeRemedies: "کمپرس سرد برای کاهش خارش، پرهیز از خراشیدن، استفاده از لباس‌های نخی، کاهش استرس، حمام جو دوسر",
+                details: "لیکن پلان یک بیماری التهابی است که پوست، دهان و ناخن‌ها را درگیر می‌کند."
+            },
+
+            // بیماری‌های عفونی - سبز (6 بیماری)
+            {
+                id: 9,
+                name: "آکنه ولگاریس",
+                category: "بیماری‌های عفونی",
+                description: "جوش‌های التهابی پوست",
+                symptoms: [
+                    { name: "جوش‌های سرسیاه و سرسفید", description: "کومدون‌های باز و بسته" },
+                    { name: "جوش‌های التهابی قرمز", description: "پاپول و پوسچول" },
+                    { name: "کیست‌های عمقی", description: "ندول و کیست‌های دردناک" }
+                ],
+                herbalRemedies: ["روغن درخت چای", "آلوئه ورا", "زردچوبه", "سرکه سیب"],
+                homeRemedies: "شستشوی منظم صورت با پاک‌کننده‌های ملایم، پرهیز از دست زدن به جوش‌ها، استفاده از کمپرس گرم، رژیم غذایی کم قند، کاهش استرس",
+                details: "آکنه شایع‌ترین بیماری پوستی است که معمولاً در نوجوانی شروع می‌شود."
+            },
+            {
+                id: 10,
+                name: "زرد زخم",
+                category: "بیماری‌های عفونی",
+                description: "عفونت باکتریایی سطحی پوست",
+                symptoms: [
+                    { name: "زخم‌های قرمز", description: "زخم‌هایی که به سرعت پاره می‌شوند" },
+                    { name: "دلمه‌های عسلی رنگ", description: "پوسته‌های زرد-قهوه‌ای" },
+                    { name: "خارش و درد", description: "در نواحی درگیر" }
+                ],
+                herbalRemedies: ["روغن درخت چای", "سیر", "عسل", "زردچوبه"],
+                homeRemedies: "شستشوی ناحیه با آب و صابون ملایم، پوشاندن زخم‌ها، پرهیز از تماس با دیگران، استفاده از کمپرس گرم، رعایت بهداشت شخصی",
+                details: "زرد زخم یک عفونت مسری است که معمولاً توسط استافیلوکوک یا استرپتوکوک ایجاد می‌شود."
+            },
+            {
+                id: 11,
+                name: "کاندیدیازیس پوستی",
+                category: "بیماری‌های عفونی",
+                description: "عفونت قارچی پوست",
+                symptoms: [
+                    { name: "بثورات قرمز", description: "لکه‌های قرمز با حاشیه مشخص" },
+                    { name: "خارش و سوزش", description: "در نواحی مرطوب بدن" },
+                    { name: "پوسته‌ریزی", description: "در حاشیه ضایعات" }
+                ],
+                herbalRemedies: ["روغن نارگیل", "سرکه سیب", "سیر", "روغن پونه"],
+                homeRemedies: "خشک نگه داشتن نواحی درگیر، استفاده از پودرهای جاذب رطوبت، پوشیدن لباس‌های نخی گشاد، کاهش مصرف قند و شکر، رعایت بهداشت",
+                details: "کاندیدیازیس در نواحی مرطوب و گرم بدن مانند زیر بغل و کشاله ران ایجاد می‌شود."
+            },
+            {
+                id: 12,
+                name: "زونا",
+                category: "بیماری‌های عفونی",
+                description: "فعالیت مجدد ویروس آبله مرغان",
+                symptoms: [
+                    { name: "درد سوزشی", description: "درد که ممکن است قبل از rash شروع شود" },
+                    { name: "بثورات تاولی", description: "تاول‌های پر از مایع در یک نوار" },
+                    { name: "خارش", description: "در نواحی درگیر" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "عسل", "روغن اسطوخودوس", "جو دوسر"],
+                homeRemedies: "کمپرس سرد و مرطوب، حمام جو دوسر، پوشیدن لباس‌های نخی گشاد، استفاده از لوسیون کالامین، استراحت کافی",
+                details: "زونا توسط ویروس واریسلا زوستر ایجاد می‌شود و معمولاً یک طرف بدن را درگیر می‌کند."
+            },
+            {
+                id: 13,
+                name: "زگیل",
+                category: "بیماری‌های عفونی",
+                description: "توده‌های کوچک پوستی ناشی از HPV",
+                symptoms: [
+                    { name: "توده‌های کوچک", description: "برجستگی‌های سفت و خشن" },
+                    { name: "سurface ناصاف", description: "سطح زگیل معمولاً ناصاف است" },
+                    { name: "رنگ پوست یا تیره", description: "ممکن است تیره‌تر از پوست اطراف باشد" }
+                ],
+                herbalRemedies: ["سیر", "روغن درخت چای", "سرکه سیب", "ویتامین E"],
+                homeRemedies: "استفاده از نوار چسب، مالیدن سیر تازه روی زگیل، استفاده از سرکه سیب، پرهیز از دست زدن به زگیل، تقویت سیستم ایمنی",
+                details: "زگیل توسط ویروس پاپیلومای انسانی (HPV) ایجاد می‌شود و مسری است."
+            },
+            {
+                id: 14,
+                name: "مولوسکوم کونتاگیوزوم",
+                category: "بیماری‌های عفونی",
+                description: "عفونت ویروسی با برجستگی‌های مرواریدی",
+                symptoms: [
+                    { name: "برجستگی‌های گنبدی", description: "برجستگی‌های کوچک و صاف" },
+                    { name: "فرورفتگی مرکزی", description: "حفره کوچک در مرکز ضایعه" },
+                    { name: "خارش خفیف", description: "ممکن است باعث خارش شود" }
+                ],
+                herbalRemedies: ["روغن درخت چای", "سرکه سیب", "سیر", "آلوئه ورا"],
+                homeRemedies: "پرهیز از خراشیدن ضایعات، شستشوی مرتب دست‌ها، پوشاندن ضایعات، تقویت سیستم ایمنی، استفاده از کمپرس سرد برای خارش",
+                details: "مولوسکوم یک عفونت ویروسی است که در کودکان شایع‌تر است."
+            },
+
+            // بیماری‌های خودایمنی - نارنجی (8 بیماری)
+            {
+                id: 15,
+                name: "ویتیلیگو (برص)",
+                category: "بیماری‌های خودایمنی",
+                description: "از بین رفتن رنگدانه‌های پوست",
+                symptoms: [
+                    { name: "لکه‌های سفید", description: "لکه‌های بدون رنگدانه روی پوست" },
+                    { name: "مرز مشخص", description: "حاشیه مشخص بین پوست سالم و درگیر" },
+                    { name: "عدم حساسیت به آفتاب", description: "سوختگی سریع در آفتاب" }
+                ],
+                herbalRemedies: ["جینکو بیلوبا", "زردچوبه", "چای سبز", "روغن بابونه"],
+                homeRemedies: "استفاده از کرم ضدآفتاب با SPF بالا، پوشیدن لباس محافظ در آفتاب، مصرف غذاهای غنی از آنتی‌اکسیدان، کاهش استرس، معاینات منظم پوستی",
+                details: "ویتیلیگو یک بیماری خودایمنی است که در آن سلول‌های تولیدکننده ملانین از بین می‌روند."
+            },
+            {
+                id: 16,
+                name: "لوپوس اریتماتوز",
+                category: "بیماری‌های خودایمنی",
+                description: "بیماری خودایمنی سیستمیک",
+                symptoms: [
+                    { name: "راش پروانه‌ای", description: "راش روی بینی و گونه‌ها" },
+                    { name: "حساسیت به آفتاب", description: "بدتر شدن ضایعات با نور خورشید" },
+                    { name: "زخم‌های دهانی", description: "زخم‌های بدون درد در دهان" }
+                ],
+                herbalRemedies: ["زردچوبه", "روغن ماهی", "چای سبز", "زنجبیل"],
+                homeRemedies: "پرهیز از قرارگیری در معرض آفتاب، استفاده از کرم ضدآفتاب، استراحت کافی، رژیم غذایی ضدالتهاب، مدیریت استرس",
+                details: "لوپوس می‌تواند پوست، مفاصل و اندام‌های داخلی را درگیر کند."
+            },
+            {
+                id: 17,
+                name: "اسکلرودرمی",
+                category: "بیماری‌های خودایمنی",
+                description: "سفت و ضخیم شدن پوست",
+                symptoms: [
+                    { name: "سفتی پوست", description: "پوست سفت و کشیده" },
+                    { name: "تغییر رنگ پوست", description: "لکه‌های تیره یا روشن" },
+                    { name: "زخم‌های نوک انگشتان", description: "در موارد پیشرفته" }
+                ],
+                herbalRemedies: ["روغن گل مغربی", "ویتامین E", "آلوئه ورا", "جینسنگ"],
+                homeRemedies: "ماساژ ملایم پوست، استفاده از مرطوب‌کننده‌های قوی، حمام گرم (نه داغ)، ورزش منظم برای حفظ انعطاف‌پذیری، محافظت از پوست در برابر سرما",
+                details: "اسکلرودرمی یک بیماری خودایمنی است که پوست و بافت همبند را درگیر می‌کند."
+            },
+            {
+                id: 18,
+                name: "پمفیگوس",
+                category: "بیماری‌های خودایمنی",
+                description: "بیماری تاولی خودایمنی",
+                symptoms: [
+                    { name: "تاول‌های شکننده", description: "تاول‌هایی که به راحتی پاره می‌شوند" },
+                    { name: "زخم‌های دردناک", description: "زخم‌های باز پس از پاره شدن تاول" },
+                    { name: "درگیری مخاط", description: "زخم در دهان و گلو" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "روغن نارگیل", "عسل", "بابونه"],
+                homeRemedies: "شستشوی ملایم زخم‌ها با آب نمک رقیق، استفاده از پمادهای محافظ، پرهیز از غذاهای تند و اسیدی، استراحت کافی، مرطوب نگه داشتن پوست",
+                details: "پمفیگوس یک بیماری جدی خودایمنی است که نیاز به درمان پزشکی دارد."
+            },
+            {
+                id: 19,
+                name: "پمفیگوئید",
+                category: "بیماری‌های خودایمنی",
+                description: "بیماری تاولی با تاول‌های محکم",
+                symptoms: [
+                    { name: "تاول‌های محکم", description: "تاول‌های بزرگ و سفت" },
+                    { name: "خارش شدید", description: "قبل از ظهور تاول‌ها" },
+                    { name: "قرمزی پوست", description: "پوست قرمز و ملتهب" }
+                ],
+                herbalRemedies: ["جو دوسر", "آلوئه ورا", "روغن نارگیل", "بابونه"],
+                homeRemedies: "حمام جو دوسر برای کاهش خارش، استفاده از کمپرس سرد، پوشیدن لباس‌های نخی گشاد، پرهیز از خراشیدن، مرطوب‌کنندگی پوست",
+                details: "پمفیگوئید معمولاً در سالمندان دیده می‌شود و تاول‌های بزرگ ایجاد می‌کند."
+            },
+            {
+                id: 20,
+                name: "درماتومیوزیت",
+                category: "بیماری‌های خودایمنی",
+                description: "التهاب پوست و عضلات",
+                symptoms: [
+                    { name: "راش بنفش روی پلک", description: "راش هلیوتروپ روی پلک فوقانی" },
+                    { name: "ضایعات گوترون", description: "برجستگی‌های روی بند انگشتان" },
+                    { name: "ضعف عضلانی", description: "ضعف در عضلات نزدیک به تنه" }
+                ],
+                herbalRemedies: ["زردچوبه", "روغن ماهی", "چای سبز", "جینسنگ"],
+                homeRemedies: "استراحت کافی، ورزش ملایم برای حفظ قدرت عضلانی، رژیم غذایی پرپروتئین، محافظت از پوست در برابر آفتاب، فیزیوتراپی",
+                details: "درماتومیوزیت یک بیماری التهابی نادر است که پوست و عضلات را درگیر می‌کند."
+            },
+            {
+                id: 21,
+                name: "سارکوئیدوز پوستی",
+                category: "بیماری‌های خودایمنی",
+                description: "گرانولوم‌های پوستی",
+                symptoms: [
+                    { name: "برجستگی‌های قرمز", description: "ندول‌های قرمز یا بنفش" },
+                    { name: "ضایعات کهیری", description: "شبیه کهیر اما ماندگار" },
+                    { name: "زخم‌های پوستی", description: "در موارد پیشرفته" }
+                ],
+                herbalRemedies: ["زردچوبه", "چای سبز", "روغن ماهی", "جینکو بیلوبا"],
+                homeRemedies: "استراحت کافی، رژیم غذایی سالم و متعادل، پرهیز از سیگار، محافظت از پوست در برابر آفتاب، معاینات منظم پزشکی",
+                details: "سارکوئیدوز یک بیماری سیستمیک است که می‌تواند پوست، ریه و سایر اندام‌ها را درگیر کند."
+            },
+            {
+                id: 22,
+                name: "آلوپسی آره‌آتا",
+                category: "بیماری‌های خودایمنی",
+                description: "ریزش موی سکه‌ای",
+                symptoms: [
+                    { name: "طاسی سکه‌ای", description: "مناطق گرد بدون مو" },
+                    { name: "موی علامت تعجب", description: "موهای کوتاه با نوک پهن" },
+                    { name: "فرورفتگی ناخن", description: "حفره‌های کوچک روی ناخن" }
+                ],
+                herbalRemedies: ["روغن رزماری", "روغن نارگیل", "آلوئه ورا", "جینسنگ"],
+                homeRemedies: "ماساژ پوست سر، کاهش استرس، رژیم غذایی غنی از ویتامین و مواد معدنی، محافظت از مناطق بی‌مو در برابر آفتاب، پرهیز از درمان‌های شیمیایی خشن",
+                details: "آلوپسی آره‌آتا یک بیماری خودایمنی است که فولیکول‌های مو را هدف قرار می‌دهد."
+            },
+
+            // بیماری‌های رنگدانه‌ای - بنفش (4 بیماری)
+            {
+                id: 23,
+                name: "ملاسما",
+                category: "بیماری‌های رنگدانه‌ای",
+                description: "لکه‌های قهوه‌ای روی صورت",
+                symptoms: [
+                    { name: "لکه‌های قهوه‌ای", description: "لکه‌های تیره روی صورت" },
+                    { name: "مرز نامشخص", description: "حاشیه محو و نامشخص" },
+                    { name: "بدتر شدن با آفتاب", description: "تیرگی با قرارگیری در آفتاب" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "چای سبز", "زردچوبه", "روغن گل راعی"],
+                homeRemedies: "استفاده روزانه از کرم ضدآفتاب، پرهیز از قرارگیری در معرض آفتاب مستقیم، استفاده از کلاه لبه‌دار، مصرف غذاهای غنی از آنتی‌اکسیدان، پرهیز از هورمون‌درمانی غیرضروری",
+                details: "ملاسما معمولاً در زنان و در دوران بارداری یا با مصرف قرص‌های ضدبارداری دیده می‌شود."
+            },
+            {
+                id: 24,
+                name: "لنتیگو",
+                category: "بیماری‌های رنگدانه‌ای",
+                description: "لکه‌های پیری",
+                symptoms: [
+                    { name: "لکه‌های قهوه‌ای", description: "لکه‌های مسطح و تیره" },
+                    { name: "اندازه‌های مختلف", description: "از چند میلی‌متر تا سانتی‌متر" },
+                    { name: "مناطق در معرض آفتاب", description: "صورت، دست‌ها و ساعد" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "سرکه سیب", "روغن کرچک", "چای سبز"],
+                homeRemedies: "استفاده منظم از ضدآفتاب، پوشیدن لباس محافظ، استفاده از آنتی‌اکسیدان‌های موضعی مانند ویتامین C، لایه‌برداری ملایم، مصرف غذاهای غنی از آنتی‌اکسیدان",
+                details: "لنتیگو در اثر تماس طولانی‌مدت با نور خورشید ایجاد می‌شود."
+            },
+            {
+                id: 25,
+                name: "پوست پرتقالی (سلولیت)",
+                category: "بیماری‌های رنگدانه‌ای",
+                description: "ظاهر فرورفته پوست",
+                symptoms: [
+                    { name: "ظاهر فرورفته", description: "سطح ناهموار پوست" },
+                    { name: "بافت اسفنجی", description: "احساس اسفنجی در لمس" },
+                    { name: "مناطق ران و باسن", description: "معمولاً در نواحی زیرین" }
+                ],
+                herbalRemedies: ["روغن نارگیل", "روغن جوجوبا", "چای سبز", "جینکو بилоба"],
+                homeRemedies: "ورزش منظم، ماساژ پوست، نوشیدن آب کافی، رژیم غذایی کم نمک، استفاده از کرم‌های حاوی کافئین، خشک کردن پوست با برس ماساژ",
+                details: "سلولیت در اثر تجمع چربی و بافت همبند زیر پوست ایجاد می‌شود."
+            },
+            {
+                id: 26,
+                name: "هایپرپیگمانتاسیون",
+                category: "بیماری‌های رنگدانه‌ای",
+                description: "تیره شدن مناطق پوست",
+                symptoms: [
+                    { name: "لکه‌های تیره", description: "مناطق تیره‌تر از پوست اطراف" },
+                    { name: "اندازه‌های مختلف", description: "از نقطه‌ای تا نواحی وسیع" },
+                    { name: "بدتر شدن با آفتاب", description: "تشدید با قرارگیری در آفتاب" }
+                ],
+                herbalRemedies: ["آلوئه ورا", "لیمو", "چای سبز", "زردچوبه"],
+                homeRemedies: "استفاده روزانه از ضدآفتاب، لایه‌برداری ملایم، استفاده از ماسک‌های طبیعی مانند عسل و لیمو، مصرف ویتامین C، پرهیز از خراشیدن پوست",
+                details: "هایپرپیگمانتاسیون می‌تواند به دلیل التهاب، آفتاب یا تغییرات هورمونی ایجاد شود."
+            },
+
+            // تومورهای پوستی - زرد (4 بیماری)
+            {
+                id: 27,
+                name: "ملانوم",
+                category: "تومورهای پوستی",
+                description: "سرطان خطرناک پوست",
+                symptoms: [
+                    { name: "خال با حاشیه نامنظم", description: "حاشیه دندانه‌دار یا محو" },
+                    { name: "رنگ غیریکنواخت", description: "رنگ‌های مختلف در یک خال" },
+                    { name: "تغییر اندازه", description: "رشد سریع خال" }
+                ],
+                herbalRemedies: ["چای سبز", "زردچوبه", "جینسنگ", "قارچ ریشی"],
+                homeRemedies: "معاینه منظم پوست، استفاده از ضدآفتاب با SPF بالا، پرهیز از آفتاب سوختگی، پوشیدن لباس محافظ، معاینات سالانه توسط متخصص پوست",
+                details: "ملانوم خطرناک‌ترین نوع سرطان پوست است که از سلول‌های ملانوسیت منشأ می‌گیرد."
+            },
+            {
+                id: 28,
+                name: "کارسینوم سلول بازال",
+                category: "تومورهای پوستی",
+                description: "شایع‌ترین سرطان پوست",
+                symptoms: [
+                    { name: "زخم غیرقابل بهبود", description: "زخمی که بهبود نمی‌یابد" },
+                    { name: "توده مرواریدی", description: "برجستگی شفاف و مرواریدی" },
+                    { name: "رگ‌های خونی کوچک", description: "رگ‌های قابل مشاهده در ضایعه" }
+                ],
+                herbalRemedies: ["چای سبز", "زردچوبه", "سیر", "جینسنگ"],
+                homeRemedies: "محافظت از پوست در برابر آفتاب، معاینه منظم پوست، پرهیز از برنزه کردن، استفاده از کلاه و لباس محافظ، معاینات پزشکی منظم",
+                details: "کارسینوم سلول بازال رشد آهسته‌ای دارد و به ندرت متاستاز می‌دهد."
+            },
+            {
+                id: 29,
+                name: "کارسینوم سلول سنگفرشی",
+                category: "تومورهای پوستی",
+                description: "سرطان لایه‌های سطحی پوست",
+                symptoms: [
+                    { name: "توده سفت و قرمز", description: "برجستگی سفت با سطح پوسته‌دار" },
+                    { name: "زخم مسطح با پوسته", description: "زخمی که بهبود نمی‌یابد" },
+                    { name: "خونریزی آسان", description: "ضایعه به راحتی خونریزی می‌کند" }
+                ],
+                herbalRemedies: ["چای سبز", "زردچوبه", "سیر", "جینسنگ"],
+                homeRemedies: "استفاده منظم از ضدآفتاب، پرهیز از قرارگیری طولانی در آفتاب، معاینه ماهانه پوست، پوشیدن لباس محافظ، مراجعه فوری به پزشک در صورت مشاهده ضایعه مشکوک",
+                details: "کارسینوم سلول سنگفرشی می‌تواند در صورت عدم درمان متاستاز دهد."
+            },
+            {
+                id: 30,
+                name: "کراتوز اکتینیک",
+                category: "تومورهای پوستی",
+                description: "ضایعه پیش سرطانی",
+                symptoms: [
+                    { name: "پوسته‌های خشک", description: "نواحی پوسته‌پوسته و زبر" },
+                    { name: "رنگ قرمز یا قهوه‌ای", description: "ضایعات رنگی روی پوست" },
+                    { name: "خارش یا سوزش", description: "در نواحی درگیر" }
+                ],
+                herbalRemedies: ["چای سبز", "آلوئه ورا", "روغن درخت چای", "زردچوبه"],
+                homeRemedies: "استفاده روزانه از ضدآفتاب، پرهیز از آفتاب سوختگی، معاینه منظم توسط متخصص پوست، پوشیدن کلاه و لباس محافظ، مرطوب‌کنندگی پوست",
+                details: "کراتوز اکتینیک می‌تواند به کارسینوم سلول سنگفرشی تبدیل شود."
+            }
+        ];
+
+        // ایجاد لیست بیماری‌ها
+        const diseasesContainer = document.getElementById('diseases-container');
+        const symptomsContent = document.getElementById('symptoms-content');
+        const selectedDiseaseName = document.getElementById('selected-disease-name');
+        const herbalRemedies = document.getElementById('herbal-remedies');
+        const herbalList = document.getElementById('herbal-list');
+        const homeRemedies = document.getElementById('home-remedies');
+        const homeRemediesList = document.getElementById('home-remedies-list');
+        const diseaseDetails = document.getElementById('disease-details');
+        const detailsContent = document.getElementById('details-content');
+        const searchInput = document.getElementById('search-input');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
+        const mainHeader = document.getElementById('main-header');
+
+        // تابع برای دریافت کلاس CSS بر اساس دسته
+        function getCategoryClass(category) {
+            switch(category) {
+                case 'بیماری‌های التهابی':
+                    return 'category-inflammatory';
+                case 'بیماری‌های عفونی':
+                    return 'category-infectious';
+                case 'بیماری‌های خودایمنی':
+                    return 'category-autoimmune';
+                case 'بیماری‌های رنگدانه‌ای':
+                    return 'category-pigmentary';
+                case 'تومورهای پوستی':
+                    return 'category-tumors';
+                default:
+                    return '';
+            }
+        }
+
+        // گروه‌بندی بیماری‌ها بر اساس دسته
+        const categories = {};
+        diseases.forEach(disease => {
+            if (!categories[disease.category]) {
+                categories[disease.category] = [];
+            }
+            categories[disease.category].push(disease);
+        });
+
+        // ایجاد لیست بیماری‌ها با گروه‌بندی و منوی بازشو
+        for (const category in categories) {
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'disease-category';
+            const categoryClass = getCategoryClass(category);
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="category-title">${category}</div>
+                <div class="category-icon">▼</div>
+            `;
+            
+            const categoryItems = document.createElement('div');
+            categoryItems.className = 'category-items';
+            
+            categories[category].forEach(disease => {
+                const diseaseElement = document.createElement('div');
+                diseaseElement.className = 'disease-item';
+                diseaseElement.dataset.id = disease.id;
+                diseaseElement.innerHTML = `
+                    <div>
+                        <div class="disease-name">${disease.name}</div>
+                        <div class="disease-desc">${disease.description}</div>
+                    </div>
+                `;
+                
+                diseaseElement.addEventListener('click', () => {
+                    document.querySelectorAll('.disease-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    diseaseElement.classList.add('active');
+                    displayDiseaseSymptoms(disease);
+                    
+                    setTimeout(() => {
+                        scrollToSymptoms();
+                    }, 300);
+                });
+                
+                categoryItems.appendChild(diseaseElement);
+            });
+            
+            categoryHeader.addEventListener('click', () => {
+                categoryElement.classList.toggle('category-open');
+            });
+            
+            categoryElement.classList.add(categoryClass);
+            categoryElement.appendChild(categoryHeader);
+            categoryElement.appendChild(categoryItems);
+            diseasesContainer.appendChild(categoryElement);
+        }
+
+        // تابع برای نمایش علائم بیماری انتخاب شده
+        function displayDiseaseSymptoms(disease) {
+            selectedDiseaseName.textContent = disease.name;
+            
+            let symptomsHTML = '<div class="symptoms-list">';
+            
+            disease.symptoms.forEach(symptom => {
+                symptomsHTML += `
+                    <div class="symptom-card">
+                        <div class="symptom-name">${symptom.name}</div>
+                        <div class="symptom-desc">${symptom.description}</div>
+                    </div>
+                `;
+            });
+            
+            symptomsHTML += '</div>';
+            symptomsContent.innerHTML = symptomsHTML;
+            
+            // نمایش گیاهان دارویی
+            herbalList.innerHTML = '';
+            disease.herbalRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'herbal-item';
+                remedyElement.textContent = remedy;
+                herbalList.appendChild(remedyElement);
+            });
+            
+            // نمایش درمان‌های خانگی
+            homeRemediesList.textContent = disease.homeRemedies;
+            
+            detailsContent.textContent = disease.details;
+            herbalRemedies.style.display = 'block';
+            homeRemedies.style.display = 'block';
+            diseaseDetails.style.display = 'block';
+        }
+
+        // تابع برای اسکرول به بخش علائم
+        function scrollToSymptoms() {
+            const symptomsContainer = document.querySelector('.symptoms-container');
+            if (symptomsContainer) {
+                symptomsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                symptomCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('highlight');
+                        setTimeout(() => {
+                            card.classList.remove('highlight');
+                        }, 2000);
+                    }, index * 200);
+                });
+            }
+        }
+
+        // عملکرد جستجو - رفع مشکل
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            // اگر جستجو خالی است، همه موارد را نشان بده
+            if (searchTerm === '') {
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'block';
+                    const items = category.querySelectorAll('.disease-item');
+                    items.forEach(item => {
+                        item.style.display = 'flex';
+                    });
+                });
+                return;
+            }
+            
+            // جستجو در نام بیماری و توضیحات
+            let foundAny = false;
+            document.querySelectorAll('.disease-category').forEach(category => {
+                let categoryHasResults = false;
+                const items = category.querySelectorAll('.disease-item');
+                
+                items.forEach(item => {
+                    const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
+                    const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+                    
+                    if (diseaseName.includes(searchTerm) || diseaseDesc.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                        categoryHasResults = true;
+                        foundAny = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                if (categoryHasResults) {
+                    category.style.display = 'block';
+                    category.classList.add('category-open');
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+            
+            // اگر هیچ نتیجه‌ای پیدا نشد
+            if (!foundAny) {
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'none';
+                });
+            }
+        });
+
+        // دکمه بازگشت به بالا
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+            
+            if (window.pageYOffset > 100) {
+                mainHeader.classList.add('small');
+            } else {
+                mainHeader.classList.remove('small');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // دکمه اسکرول به علائم
+        scrollToSymptomsBtn.addEventListener('click', function() {
+            scrollToSymptoms();
+        });
+
+        // انتخاب اولین بیماری به طور پیش‌فرض
+        if (diseases.length > 0) {
+            const firstCategory = document.querySelector('.disease-category');
+            if (firstCategory) {
+                firstCategory.classList.add('category-open');
+                const firstDisease = firstCategory.querySelector('.disease-item');
+                if (firstDisease) {
+                    firstDisease.classList.add('active');
+                    const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
+                    displayDiseaseSymptoms(firstDiseaseData);
+                    scrollToSymptomsBtn.style.display = 'flex';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

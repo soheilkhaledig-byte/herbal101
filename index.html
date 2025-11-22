@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>طب جامع گیاهی</title>
+    <meta name="theme-color" content="#2E7D32">
+    <meta name="description" content="اپلیکیشن جامع گیاهان دارویی برای سیستم‌های مختلف بدن">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="طب گیاهی">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/192/2829/2829076.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 12px 8px;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 0.8rem;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+        
+        /* استایل جستجو برای موبایل */
+        .search-container {
+            width: 100%;
+            margin: 12px auto 15px;
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 12px 45px 12px 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+            background: white;
+            border: 2px solid transparent;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            border-color: #4CAF50;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .clear-search {
+            position: absolute;
+            left: 42px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .clear-search:active {
+            background: #ff3742;
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        /* گرید 3 در 3 برای موبایل */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .system-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
+            overflow: hidden;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1/1;
+        }
+        
+        .system-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50, #2E7D32);
+        }
+        
+        .system-card:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .system-card.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+            height: 0;
+            padding: 0;
+            margin: 0;
+            pointer-events: none;
+        }
+        
+        .system-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            color: #4CAF50;
+        }
+        
+        .system-card h3 {
+            color: #333;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .system-card p {
+            color: #666;
+            font-size: 0.65rem;
+            line-height: 1.3;
+            max-width: 95%;
+            display: none; /* مخفی کردن توضیحات برای صرفه‌جویی در فضا */
+        }
+        
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            margin: 20px 0;
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            grid-column: 1 / -1;
+        }
+        
+        .install-btn {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            width: 90%;
+            max-width: 250px;
+        }
+        
+        .install-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 15px 10px;
+            margin-top: 20px;
+            opacity: 0.9;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .pwa-install {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            color: white;
+            margin: 20px 0;
+            grid-column: 1 / -1;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* اسکرول نرم */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* جلوگیری از انتخاب متن */
+        .system-card, .install-btn {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* بهبود برای موبایل‌های خیلی کوچک */
+        @media (max-width: 320px) {
+            .grid {
+                gap: 6px;
+            }
+            
+            .system-card {
+                padding: 10px 6px;
+                min-height: 90px;
+            }
+            
+            .system-icon {
+                font-size: 1.6rem;
+                margin-bottom: 4px;
+            }
+            
+            .system-card h3 {
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* برای موبایل‌های بزرگ‌تر */
+        @media (min-width: 400px) {
+            .system-card {
+                padding: 14px 10px;
+                min-height: 110px;
+            }
+            
+            .system-icon {
+                font-size: 2rem;
+            }
+            
+            .system-card h3 {
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* برای تبلت */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            .grid {
+                gap: 15px;
+            }
+            
+            .system-card {
+                padding: 18px 12px;
+                min-height: 140px;
+                border-radius: 16px;
+            }
+            
+            .system-icon {
+                font-size: 2.5rem;
+                margin-bottom: 8px;
+            }
+            
+            .system-card h3 {
+                font-size: 1rem;
+            }
+            
+            .system-card p {
+                font-size: 0.75rem;
+                display: block; /* نمایش توضیحات در تبلت */
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+        }
+        
+        /* برای دسکتاپ */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1200px;
+            }
+            
+            .grid {
+                gap: 20px;
+            }
+            
+            .system-card {
+                padding: 20px 15px;
+                min-height: 160px;
+                border-radius: 20px;
+            }
+            
+            .system-icon {
+                font-size: 3rem;
+                margin-bottom: 10px;
+            }
+            
+            .system-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .system-card p {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* بهبود نمایش در مرورگرهای مختلف */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 طب جامع گیاهی</h1>
+            <p>درمان‌های طبیعی برای سیستم‌های مختلف بدن</p>
+        </div>
+        
+        <!-- دکمه نصب PWA -->
+        <div class="pwa-install" id="installContainer" style="display: none;">
+            <button class="install-btn" id="installBtn">📲 نصب اپ</button>
+        </div>
+        
+        <!-- بخش جستجوی پویا -->
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchInput" placeholder="جستجو..." inputmode="search">
+            <div class="search-icon">🔍</div>
+            <button class="clear-search" id="clearSearch">×</button>
+        </div>
+        
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>در حال بارگذاری...</p>
+        </div>
+        
+        <!-- گرید 3 در 3 برای موبایل -->
+        <div class="grid" id="systemsGrid">
+            <!-- ردیف اول -->
+            <div class="system-card" data-name="چشمی" data-keywords="چشم بینایی بینائی چشم پزشکی">
+                <div class="system-icon">👁️</div>
+                <h3>چشمی</h3>
+            </div>
+            
+            <div class="system-card" data-name="تقویت عمومی" data-keywords="تقویت عمومی سلامت کلی بدن ایمنی">
+                <div class="system-icon">💪</div>
+                <h3>تقویت عمومی</h3>
+            </div>
+            
+            <div class="system-card" data-name="اسکلتی عضلانی" data-keywords="اسکلت عضله استخوان مفصل ارتوپدی">
+                <div class="system-icon">🦴</div>
+                <h3>اسکلتی</h3>
+            </div>
+            
+            <!-- ردیف دوم -->
+            <div class="system-card" data-name="قلبی عروقی" data-keywords="قلب عروق خونی فشار خون کاردیولوژی">
+                <div class="system-icon">❤️</div>
+                <h3>قلبی</h3>
+            </div>
+            
+            <div class="system-card" data-name="کلیوی" data-keywords="کلیه ادرار مثانه نفرولوژی">
+                <div class="system-icon">🧠</div>
+                <h3>کلیوی</h3>
+            </div>
+            
+            <div class="system-card" data-name="پوستی" data-keywords="پوست مو ناخن درماتولوژی زیبایی">
+                <div class="system-icon">🧴</div>
+                <h3>پوستی</h3>
+            </div>
+            
+            <!-- ردیف سوم -->
+            <div class="system-card" data-name="گوارشی" data-keywords="گوارش معده روده کبد گاستروانترولوژی">
+                <div class="system-icon">🍎</div>
+                <h3>گوارشی</h3>
+            </div>
+            
+            <div class="system-card" data-name="اعصاب و روان" data-keywords="اعصاب روان مغز روانپزشکی نورولوژی">
+                <div class="system-icon">🧩</div>
+                <h3>اعصاب</h3>
+            </div>
+            
+            <div class="system-card" data-name="تنفسی" data-keywords="تنفس ریه شش آسم پنومولوژی">
+                <div class="system-icon">🌬️</div>
+                <h3>تنفسی</h3>
+            </div>
+            
+            <!-- پیام عدم یافتن نتیجه -->
+            <div class="no-results" id="noResults">
+                <p>❌ موردی یافت نشد</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 طب جامع گیاهی</p>
+        </div>
+    </div>
+
+    <script>
+        // Navigation function با تاخیر برای انیمیشن
+        function navigateTo(page) {
+            document.getElementById('loading').style.display = 'block';
+            setTimeout(() => {
+                window.location.href = page;
+            }, 300);
+        }
+        
+        // جستجوی پویا
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const noResults = document.getElementById('noResults');
+        const systemCards = document.querySelectorAll('.system-card');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+            let visibleCount = 0;
+            
+            clearSearch.style.display = searchTerm ? 'flex' : 'none';
+            
+            systemCards.forEach(card => {
+                if (card.id === 'noResults') return;
+                
+                const name = card.getAttribute('data-name').toLowerCase();
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                
+                if (name.includes(searchTerm) || keywords.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+        
+        // پاک کردن جستجو
+        clearSearch.addEventListener('click', function() {
+            searchInput.value = '';
+            searchInput.focus();
+            clearSearch.style.display = 'none';
+            noResults.style.display = 'none';
+            
+            systemCards.forEach(card => {
+                card.classList.remove('hidden');
+            });
+        });
+        
+        // کلیک روی کارت‌ها برای ناوبری
+        systemCards.forEach(card => {
+            if (card.id === 'noResults') return;
+            
+            card.addEventListener('click', function() {
+                const systemName = this.getAttribute('data-name');
+                
+                const pageMap = {
+                    'چشمی': 'chshm-01.html',
+                    'تقویت عمومی': 'taghviat-01.html',
+                    'اسکلتی عضلانی': 'eskelet-01.html',
+                    'قلبی عروقی': 'ghalbi-01.html',
+                    'کلیوی': 'kolie-01.html',
+                    'پوستی': 'poosti-01.html',
+                    'گوارشی': 'gova-01.html',
+                    'اعصاب و روان': 'asab-01.html',
+                    'تنفسی': 'tanafosi-01.html'
+                };
+                
+                if (pageMap[systemName]) {
+                    navigateTo(pageMap[systemName]);
+                }
+            });
+        });
+        
+        // PWA Installation
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const installContainer = document.getElementById('installContainer');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installContainer.style.display = 'block';
+        });
+        
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installContainer.style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+        
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registered successfully');
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+        
+        // Page Load Completion
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+        });
+        
+        // بهبود عملکرد لمسی
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
+</body>
+</html>

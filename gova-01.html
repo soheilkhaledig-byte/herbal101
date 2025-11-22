@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بیماری‌های گوارشی</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.small {
+            padding: 6px 20px;
+        }
+        
+        header.small h1 {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        header.small .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            margin-bottom: 5px;
+            font-size: 1.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content {
+            margin-top: 120px;
+            transition: all 0.3s ease;
+        }
+        
+        header.small ~ .main-content {
+            margin-top: 70px;
+        }
+        
+        .search-container {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .diseases-list {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 140px;
+            border: 1px solid #e9ecef;
+        }
+        
+        header.small ~ .main-content .diseases-list {
+            top: 90px;
+        }
+        
+        .diseases-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .diseases-list h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e9ecef;
+            text-align: center;
+            font-size: 1.4rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            padding-top: 10px;
+        }
+        
+        .disease-category {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* رنگ‌بندی کاملاً متفاوت برای هر دسته */
+        .category-stomach {
+            border: 2px solid #e63946;
+        }
+        
+        .category-stomach .category-header {
+            background: linear-gradient(135deg, #e63946 0%, #d00000 100%);
+            color: white;
+        }
+        
+        .category-stomach .category-header:hover {
+            background: linear-gradient(135deg, #d00000 0%, #9d0208 100%);
+        }
+        
+        .category-stomach .disease-item:hover {
+            background: linear-gradient(135deg, #ffafcc 0%, #ffc8dd 100%);
+        }
+        
+        .category-intestine {
+            border: 2px solid #2a9d8f;
+        }
+        
+        .category-intestine .category-header {
+            background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);
+            color: white;
+        }
+        
+        .category-intestine .category-header:hover {
+            background: linear-gradient(135deg, #264653 0%, #1d3557 100%);
+        }
+        
+        .category-intestine .disease-item:hover {
+            background: linear-gradient(135deg, #a8dadc 0%, #caffbf 100%);
+        }
+        
+        .category-liver {
+            border: 2px solid #f4a261;
+        }
+        
+        .category-liver .category-header {
+            background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
+            color: white;
+        }
+        
+        .category-liver .category-header:hover {
+            background: linear-gradient(135deg, #e76f51 0%, #d00000 100%);
+        }
+        
+        .category-liver .disease-item:hover {
+            background: linear-gradient(135deg, #fdfcdc 0%, #ffafcc 100%);
+        }
+        
+        .category-other {
+            border: 2px solid #9d4edd;
+        }
+        
+        .category-other .category-header {
+            background: linear-gradient(135deg, #9d4edd 0%, #5a189a 100%);
+            color: white;
+        }
+        
+        .category-other .category-header:hover {
+            background: linear-gradient(135deg, #5a189a 0%, #3c096c 100%);
+        }
+        
+        .category-other .disease-item:hover {
+            background: linear-gradient(135deg, #e0aaff 0%, #c77dff 100%);
+        }
+
+        .category-esophagus {
+            border: 2px solid #ff9e00;
+        }
+        
+        .category-esophagus .category-header {
+            background: linear-gradient(135deg, #ff9e00 0%, #ff9100 100%);
+            color: white;
+        }
+        
+        .category-esophagus .category-header:hover {
+            background: linear-gradient(135deg, #ff9100 0%, #ff8500 100%);
+        }
+        
+        .category-esophagus .disease-item:hover {
+            background: linear-gradient(135deg, #ffd166 0%, #ffd166 100%);
+        }
+        
+        .category-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .category-open .category-icon {
+            transform: rotate(180deg);
+        }
+        
+        .category-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .category-open .category-items {
+            max-height: 1000px;
+        }
+        
+        .disease-item {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .disease-item:last-child {
+            border-bottom: none;
+        }
+        
+        .disease-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disease-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .disease-name {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+        
+        .disease-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .disease-item.active .disease-desc {
+            color: #e9ecef;
+        }
+        
+        .symptoms-container {
+            flex: 2;
+            min-width: 320px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+        }
+        
+        .symptoms-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .symptoms-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .symptoms-title {
+            color: #495057;
+            font-size: 1.5rem;
+        }
+        
+        .selected-disease {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .scroll-to-symptoms {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .scroll-to-symptoms:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+        }
+        
+        .symptoms-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .symptom-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .symptom-name {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .symptom-desc {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            color: #868e96;
+        }
+        
+        .no-selection i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ced4da;
+            opacity: 0.7;
+        }
+        
+        .no-selection p {
+            font-size: 1.1rem;
+        }
+        
+        .herbal-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-right: 5px solid #2a9d8f;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .herbal-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .herbal-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .herbal-item {
+            background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(42, 157, 143, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .herbal-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(42, 157, 143, 0.4);
+        }
+        
+        .disease-details {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .details-title {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .details-content {
+            color: #666;
+            line-height: 1.7;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-left: 8px;
+        }
+        
+        .details-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .details-content::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .saffron-button {
+            display: inline-block;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff9933 0%, #ff6600 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .saffron-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+            background: linear-gradient(135deg, #ff6600 0%, #cc5200 100%);
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+            border: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2 0%, #5a3792 100%);
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffffff; }
+            50% { background-color: #e7f5ff; transform: scale(1.02); }
+            100% { background-color: #ffffff; }
+        }
+
+        .symptom-card.highlight {
+            animation: highlight 2s ease;
+        }
+        
+        .footer-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-right: 5px solid #ffd43b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 999;
+            color: #856404;
+        }
+        
+        .main-content-with-footer {
+            margin-bottom: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .diseases-list, .symptoms-container {
+                width: 100%;
+                max-height: none;
+                position: static;
+            }
+            
+            .symptoms-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .symptoms-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .selected-disease {
+                margin-bottom: 0;
+            }
+            
+            .scroll-top {
+                left: 20px;
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header.small h1 {
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-top: 120px;
+            }
+            
+            header.small ~ .main-content {
+                margin-top: 80px;
+            }
+            
+            .footer-warning {
+                position: static;
+                margin: 20px 0;
+            }
+            
+            .main-content-with-footer {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <h1>بیماری‌های گوارشی</h1>
+            <p class="subtitle">مرجع کامل بیماری‌های گوارشی، علائم و درمان‌های گیاهی</p>
+        </div>
+    </header>
+    
+    <div class="main-content main-content-with-footer">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="جستجوی بیماری یا علائم...">
+            </div>
+            
+            <div class="content">
+                <div class="diseases-list">
+                    <h2>لیست بیماری‌های گوارشی</h2>
+                    <div id="diseases-container">
+                        <!-- بیماری‌ها توسط جاوااسکریپت اضافه خواهند شد -->
+                    </div>
+                </div>
+                
+                <div class="symptoms-container">
+                    <div class="symptoms-header">
+                        <div class="selected-disease" id="selected-disease-name">هیچ بیماری انتخاب نشده</div>
+                        <h2 class="symptoms-title">علائم بیماری</h2>
+                        <button class="scroll-to-symptoms" id="scrollToSymptoms" style="display: none;">
+                            <span>اسکرول به علائم</span>
+                            ↓
+                        </button>
+                    </div>
+                    
+                    <div id="symptoms-content">
+                        <div class="no-selection">
+                            <i>⬅</i>
+                            <p>لطفاً یک بیماری از لیست سمت راست انتخاب کنید</p>
+                        </div>
+                    </div>
+                    
+                    <div class="herbal-remedies" id="herbal-remedies" style="display: none;">
+                        <h3 class="herbal-title">گیاهان دارویی مفید</h3>
+                        <div class="herbal-list" id="herbal-list">
+                            <!-- گیاهان دارویی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                            <strong>تذکر:</strong> این اطلاعات صرفاً آموزشی است و مصرف هرگونه گیاه دارویی باید تحت نظر پزشک باشد.
+                        </p>
+                    </div>
+                    
+                    <div class="disease-details" id="disease-details" style="display: none;">
+                        <h3 class="details-title">توضیحات بیشتر</h3>
+                        <div class="details-content" id="details-content">
+                            <!-- توضیحات بیماری توسط جاوااسکریپت اضافه خواهد شد -->
+                        </div>
+                        <a href="https://elistarsaffron.ir" target="_blank" class="saffron-button">خرید از الیسترزعفران</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-warning">
+        <strong>توجه مهم:</strong> این برنامه تنها یک ابزار کمک آموزشی است و به هیچ وجه جایگزین معاینه و تشخیص پزشک نمی‌شود. لطفاً برای تشخیص و درمان به پزشک متخصص مراجعه کنید.
+    </div>
+
+    <button class="scroll-top" id="scrollTop" title="برگشت به بالا">↑</button>
+
+    <script>
+        // داده‌های کامل بیماری‌های گوارشی - 30 بیماری
+        const diseases = [
+            // بیماری‌های معده - قرمز (8 بیماری)
+            {
+                id: 1,
+                name: "سوء‌هاضمه (Dyspepsia)",
+                category: "بیماری‌های معده",
+                description: "ناراحتی و درد در قسمت بالای شکم",
+                symptoms: [
+                    { name: "درد یا سوزش در قسمت بالای شکم", description: "احساس ناراحتی در ناحیه معده" },
+                    { name: "احساس پری و سنگینی بعد از غذا", description: "حتی پس از مصرف غذای کم" },
+                    { name: "نفخ شکم", description: "احساس تورم و پری در شکم" },
+                    { name: "آروغ زدن مکرر", description: "خروج گاز از معده به صورت مکرر" }
+                ],
+                herbalRemedies: ["نعنا", "زنجبیل", "بابونه", "رازیانه"],
+                details: "سوءهاضمه یکی از شایع‌ترین مشکلات گوارشی است که معمولاً به دلیل پرخوری، مصرف غذاهای چرب یا تند، استرس یا عفونت هلیکوباکتر پیلوری ایجاد می‌شود."
+            },
+            {
+                id: 2,
+                name: "ریفلاکس معده (GERD)",
+                category: "بیماری‌های معده",
+                description: "برگشت اسید معده به مری",
+                symptoms: [
+                    { name: "سوزش سر دل", description: "احساس سوزش در پشت جناغ سینه" },
+                    { name: "برگشت اسید به دهان", description: "طعم تلخ یا ترش در دهان" },
+                    { name: "دشواری در بلع", description: "احساس گیر کردن غذا در گلو" }
+                ],
+                herbalRemedies: ["بابونه", "زنجبیل", "آلوئه ورا", "شیرین بیان DGL"],
+                details: "ریفلاکس معده زمانی اتفاق می‌افتد که اسفنکتر تحتانی مری به درستی بسته نمی‌شود و اسید معده به مری برمی‌گردد."
+            },
+            {
+                id: 3,
+                name: "گاستریت (التهاب معده)",
+                category: "بیماری‌های معده",
+                description: "التهاب و تحریک پوشش معده",
+                symptoms: [
+                    { name: "درد سوزشی در شکم", description: "دردی که با غذا بهتر یا بدتر می‌شود" },
+                    { name: "حساسیت به غذاهای چرب", description: "نفخ و درد پس از مصرف چربی" },
+                    { name: "سوزش سر دل", description: "احساس سوزش در قفسه سینه" }
+                ],
+                herbalRemedies: ["زردچوبه", "شیرین بیان DGL", "عسل خام"],
+                details: "زخم معده معمولاً به دلیل عفونت هلیکوباکتر پیلوری یا استفاده طولانی مدت از داروهای ضدالتهاب غیراستروئیدی ایجاد می‌شود."
+            },
+            {
+                id: 4,
+                name: "زخم معده (Peptic Ulcer)",
+                category: "بیماری‌های معده",
+                description: "زخم در پوشش معده یا دوازدهه",
+                symptoms: [
+                    { name: "درد سوزشی در معده", description: "دردی که با خوردن غذا بهتر می‌شود یا بدتر" },
+                    { name: "حساسیت به غذاهای چرب", description: "نفخ و درد پس از مصرف چربی" },
+                    { name: "سوزش سر دل", description: "احساس سوزش در قفسه سینه" }
+                ],
+                herbalRemedies: ["کلم", "شیرین بیان DGL", "عسل خام", "زردچوبه"],
+                details: "زخم معده معمولاً به دلیل عفونت هلیکوباکتر پیلوری یا استفاده طولانی مدت از داروهای ضدالتهاب غیراستروئیدی ایجاد می‌شود."
+            },
+            {
+                id: 5,
+                name: "گاستروپارزی (تأخیر در تخلیه معده)",
+                category: "بیماری‌های معده",
+                description: "تأخیر در تخلیه محتوای معده",
+                symptoms: [
+                    { name: "احساس پری سریع", description: "سیری زودرس حتی با غذای کم" },
+                    { name: "تهوع و استفراغ", description: "به خصوص بعد از غذا" },
+                    { name: "نفخ شکم", description: "احساس تورم و ناراحتی" }
+                ],
+                herbalRemedies: ["زنجبیل", "نعنا", "بابونه", "دارچین"],
+                details: "گاستروپارزی شرایطی است که در آن معده نمی‌تواند به درستی محتوای خود را تخلیه کند."
+            },
+            {
+                id: 6,
+                name: "هلیکوباکتر پیلوری",
+                category: "بیماری‌های معده",
+                description: "عفونت باکتریایی معده",
+                symptoms: [
+                    { name: "درد معده", description: "درد مبهم یا سوزشی در معده" },
+                    { name: "آروغ زدن مکرر", description: "خروج گاز از معده" },
+                    { name: "حالت تهوع", description: "احساس ناخوشی" }
+                ],
+                herbalRemedies: ["سیر", "عسل", "زردچوبه", "زنجبیل"],
+                details: "عفونت با باکتری هلیکوباکتر پیلوری می‌تواند باعث گاستریت و زخم معده شود."
+            },
+            {
+                id: 7,
+                name: "فتق هیاتال",
+                category: "بیماری‌های معده",
+                description: "بیرون زدگی معده به قفسه سینه",
+                symptoms: [
+                    { name: "سوزش سر دل", description: "به خصوص بعد از غذا" },
+                    { name: "درد قفسه سینه", description: "درد در ناحیه سینه" },
+                    { name: "اشکال در بلع", description: "احساس گیر کردن غذا" }
+                ],
+                herbalRemedies: ["بابونه", "نعنا", "زنجبیل", "رازیانه"],
+                details: "فتق هیاتال زمانی اتفاق می‌افتد که بخشی از معده از طریق دیافراگم به قفسه سینه فشار می‌آورد."
+            },
+            {
+                id: 8,
+                name: "گاستروانتریت (آنفولانزای معده)",
+                category: "بیماری‌های معده",
+                description: "التهاب معده و روده",
+                symptoms: [
+                    { name: "اسهال", description: "دفع مکرر مدفوع شل" },
+                    { name: "استفراغ", description: "تهوع و استفراغ" },
+                    { name: "درد شکم", description: "کرامپ و درد شکمی" }
+                ],
+                herbalRemedies: ["زنجبیل", "نعنا", "بابونه", "دارچین"],
+                details: "گاستروانتریت معمولاً به دلیل عفونت ویروسی یا باکتریایی ایجاد می‌شود."
+            },
+
+            // بیماری‌های مری - نارنجی (6 بیماری)
+            {
+                id: 9,
+                name: "ازوفاژیت (التهاب مری)",
+                category: "بیماری‌های مری",
+                description: "التهاب پوشش مری",
+                symptoms: [
+                    { name: "دشواری در بلع", description: "احساس درد هنگام بلع" },
+                    { name: "درد قفسه سینه", description: "درد پشت جناغ سینه" },
+                    { name: "سوزش سر دل", description: "احساس سوزش در قفسه سینه" }
+                ],
+                herbalRemedies: ["بابونه", "آلوئه ورا", "شیرین بیان", "نعنا"],
+                details: "ازوفاژیت می‌تواند به دلیل ریفلاکس اسید، عفونت یا واکنش آلرژیک ایجاد شود."
+            },
+            {
+                id: 10,
+                name: "آشالازی",
+                category: "بیماری‌های مری",
+                description: "اختلال در شل شدن اسفنکتر تحتانی مری",
+                symptoms: [
+                    { name: "اشکال در بلع", description: "هم غذاهای جامد و هم مایعات" },
+                    { name: "برگشت غذا", description: "برگشت غذاهای هضم نشده" },
+                    { name: "درد قفسه سینه", description: "درد متناوب در قفسه سینه" }
+                ],
+                herbalRemedies: ["زنجبیل", "نعنا", "بابونه", "رازیانه"],
+                details: "آشالازی یک اختلال نادر است که در آن مری غذا را به درستی به معده منتقل نمی‌کند."
+            },
+            {
+                id: 11,
+                name: "مری بارت",
+                category: "بیماری‌های مری",
+                description: "تغییرات پیش سرطانی در مری",
+                symptoms: [
+                    { name: "سوزش سر دل مکرر", description: "سوزش سر دل مداوم" },
+                    { name: "دشواری در بلع", description: "اشکال در بلع غذا" },
+                    { name: "درد قفسه سینه", description: "درد در ناحیه سینه" }
+                ],
+                herbalRemedies: ["زردچوبه", "چای سبز", "زنجبیل", "سیر"],
+                details: "مری بارت یک عارضه جدی ریفلاکس معده است که می‌تواند به سرطان مری منجر شود."
+            },
+            {
+                id: 12,
+                name: "اسپاسم مری",
+                category: "بیماری‌های مری",
+                description: "انقباضات غیرعادی مری",
+                symptoms: [
+                    { name: "درد قفسه سینه", description: "درد شدید و ناگهانی" },
+                    { name: "اشکال در بلع", description: "دشواری در بلع غذا" },
+                    { name: "احساس گیر کردن غذا", description: "احساس چسبیدن غذا در گلو" }
+                ],
+                herbalRemedies: ["نعنا", "بابونه", "اسطوخودوس", "سنبل الطیب"],
+                details: "اسپاسم مری شامل انقباضات غیرعادی و دردناک مری است."
+            },
+            {
+                id: 13,
+                name: "تنگی مری",
+                category: "بیماری‌های مری",
+                description: "باریک شدن مری",
+                symptoms: [
+                    { name: "اشکال در بلع", description: "به خصوص غذاهای جامد" },
+                    { name: "احساس گیر کردن غذا", description: "احساس چسبیدن غذا" },
+                    { name: "کاهش وزن ناخواسته", description: "به دلیل مشکل در غذا خوردن" }
+                ],
+                herbalRemedies: ["بابونه", "آلوئه ورا", "شیرین بیان", "نعنا"],
+                details: "تنگی مری می‌تواند به دلیل التهاب مزمن، زخم یا عوامل دیگر ایجاد شود."
+            },
+            {
+                id: 14,
+                name: "ازوفاژیت ائوزینوفیلی",
+                category: "بیماری‌های مری",
+                description: "التهاب آلرژik مری",
+                symptoms: [
+                    { name: "اشکال در بلع", description: "دشواری در بلع غذا" },
+                    { name: "احساس گیر کردن غذا", description: "احساس چسبیدن غذا در گلو" },
+                    { name: "درد قفسه سینه", description: "درد در ناحیه سینه" }
+                ],
+                herbalRemedies: ["زردچوبه", "زنجبیل", "بابونه", "نعنا"],
+                details: "این بیماری نوعی التهاب مری است که به دلیل تجمع ائوزینوفیل‌ها ایجاد می‌شود."
+            },
+
+            // بیماری‌های روده - سبز (8 بیماری)
+            {
+                id: 15,
+                name: "سندرم روده تحریک‌پذیر (IBS)",
+                category: "بیماری‌های روده",
+                description: "اختلال در عملکرد روده بزرگ",
+                symptoms: [
+                    { name: "درد یا کرامپ شکمی", description: "دردی که با دفع مدفوع بهتر می‌شود" },
+                    { name: "نفخ و گاز معده", description: "احساس تورم و تولید گاز زیاد" },
+                    { name: "اسهال یا یبوست", description: "تغییر در عادات دفعی" }
+                ],
+                herbalRemedies: ["نعنا", "زردچوبه", "پوست اسفرزه", "زنجبیل"],
+                details: "IBS یک بیماری عملکردی است که هیچ آسیب ساختاری به روده وارد نمی‌کند."
+            },
+            {
+                id: 16,
+                name: "بیماری التهابی روده (IBD)",
+                category: "بیماری‌های روده",
+                description: "التهاب مزمن دستگاه گوارش",
+                symptoms: [
+                    { name: "درد شدید شکم", description: "دردهای کرامپی و مداوم" },
+                    { name: "اسهال خونی", description: "دفع مکرر همراه با خون و مخاط" },
+                    { name: "خستگی مفرط", description: "احساس ضعف و بی‌حالی شدید" }
+                ],
+                herbalRemedies: ["زردچوبه", "بوسولیا", "شیرین بیان", "آلوئه ورا"],
+                details: "IBD شامل دو بیماری کرون و کولیت اولسراتیو است."
+            },
+            {
+                id: 17,
+                name: "دیورتیکولیت",
+                category: "بیماری‌های روده",
+                description: "التهاب دیورتیکول‌های روده",
+                symptoms: [
+                    { name: "درد شدید در سمت چپ شکم", description: "دردی که معمولاً ناگهانی شروع می‌شود" },
+                    { name: "تب و لرز", description: "علائم سیستمیک التهاب" },
+                    { name: "حالت تهوع و استفراغ", description: "احساس ناخوشی عمومی" }
+                ],
+                herbalRemedies: ["پوست اسفرزه", "دانه کتان", "پروبیوتیک‌ها", "سیر"],
+                details: "دیورتیکولیت زمانی اتفاق می‌افتد که دیورتیکول‌ها ملتهب یا عفونی شوند."
+            },
+            {
+                id: 18,
+                name: "سلیاک (Celiac Disease)",
+                category: "بیماری‌های روده",
+                description: "واکنش ایمنی به گلوتن",
+                symptoms: [
+                    { name: "اسهال مزمن", description: "دفع مداوم مدفوع شل و چرب" },
+                    { name: "نفخ و درد شکم", description: "نفخ شدید پس از مصرف گلوتن" },
+                    { name: "کاهش وزن", description: "کاهش وزن با وجود تغذیه کافی" }
+                ],
+                herbalRemedies: ["زنجبیل", "نعنا", "بابونه", "پروبیوتیک‌ها"],
+                details: "بیماری سلیاک یک اختلال خودایمنی است که در آن مصرف گلوتن باعث آسیب به پرزهای روده می‌شود."
+            },
+            {
+                id: 19,
+                name: "کولیت اولسراتیو",
+                category: "بیماری‌های روده",
+                description: "التهاب و زخم روده بزرگ",
+                symptoms: [
+                    { name: "اسهال خونی", description: "دفع مکرر همراه با خون" },
+                    { name: "درد شکم", description: "دردهای کرامپی" },
+                    { name: "احساس فوریت در دفع", description: "نیاز ناگهانی به دفع" }
+                ],
+                herbalRemedies: ["زردچوبه", "بوسولیا", "شیرین بیان", "آلوئه ورا"],
+                details: "کولیت اولسراتیو باعث التهاب و زخم در پوشش روده بزرگ و راست روده می‌شود."
+            },
+            {
+                id: 20,
+                name: "بیماری کرون",
+                category: "بیماری‌های روده",
+                description: "التهاب در سراسر دستگاه گوارش",
+                symptoms: [
+                    { name: "درد شکm", description: "دردهای کرامپی" },
+                    { name: "اسهال", description: "اسهال مداوم" },
+                    { name: "خستگی", description: "خستگی شدید" }
+                ],
+                herbalRemedies: ["زردچوبه", "بوسولیا", "شیرین بیان", "آلوئه ورa"],
+                details: "بیماری کرون می‌تواند هر قسمتی از دستگاه گوارش را از دهان تا مقعد درگیر کند."
+            },
+            {
+                id: 21,
+                name: "سندرم رشد بیش از حد باکتری‌های روده (SIBO)",
+                category: "بیماری‌های روده",
+                description: "رشد بیش از حد باکتری‌ها در روده کوچک",
+                symptoms: [
+                    { name: "نفخ شکم", description: "نفخ و اتساع شکم" },
+                    { name: "اسهال", description: "اسهال متناوب" },
+                    { name: "درد شکم", description: "درد و ناراحتی شکمی" }
+                ],
+                herbalRemedies: ["سیر", "آویشن", "پونه", "روغن نارگیل"],
+                details: "SIBO زمانی اتفاق می‌افتد که باکتری‌ها در روده کوچک بیش از حد رشد می‌کنند."
+            },
+            {
+                id: 22,
+                name: "انتریت (التهاب روده کوچک)",
+                category: "بیماری‌های روده",
+                description: "التهاب روده کوچک",
+                symptoms: [
+                    { name: "اسهال", description: "اسهال آبکی" },
+                    { name: "درد شکم", description: "کرامپ شکمی" },
+                    { name: "تهوع و استفراغ", description: "احساس ناخوشی" }
+                ],
+                herbalRemedies: ["زنجبیل", "نعنا", "بابونه", "دارچین"],
+                details: "انتریت معمولاً به دلیل عفونت باکتریایی یا ویروسی ایجاد می‌شود."
+            },
+
+            // بیماری‌های کبد و کیسه صفرا - آبی (8 بیماری)
+            {
+                id: 23,
+                name: "هپاتیت",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "التهاب کبد",
+                symptoms: [
+                    { name: "زردی پوست و چشم", description: "زرد شدن ناشی از افزایش بیلی‌روبین" },
+                    { name: "ادرار تیره", description: "رنگ تیره به دلیل دفع بیلی‌روبین" },
+                    { name: "خستگی شدید", description: "ضعف و بی‌حالی مداوم" }
+                ],
+                herbalRemedies: ["خار مریم", "زردچوبه", "قاصدک", "زنجبیل"],
+                details: "هپاتیت می‌تواند ویروسی یا غیرویروسی باشد."
+            },
+            {
+                id: 24,
+                name: "کبد چرب",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "تجمع چربی در سلول‌های کبد",
+                symptoms: [
+                    { name: "خستگی و ضعف", description: "کمبود انرژی و بی‌حالی" },
+                    { name: "درد مبهم در سمت راست شکم", description: "درد خفیف در ناحیه کبد" }
+                ],
+                herbalRemedies: ["خار مریم", "زردچوبه", "چای سبز", "سیر"],
+                details: "کبد چرب می‌تواند الکلی یا غیرالکلی باشد."
+            },
+            {
+                id: 25,
+                name: "سنگ کیسه صفرا",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "سنگ‌های تشکیل شده در کیسه صفرا",
+                symptoms: [
+                    { name: "درد شدید در سمت راست شکم", description: "درد ناگهانی و شدید زیر دنده‌ها" },
+                    { name: "درد بین تیغه‌های شانه", description: "انتشار درد به پشت" }
+                ],
+                herbalRemedies: ["قاصدک", "خار مریم", "زردچوبه", "نعنا"],
+                details: "سنگ‌های کیسه صفرا زمانی تشکیل می‌شوند که مواد موجود در صفرا متبلور شوند."
+            },
+            {
+                id: 26,
+                name: "سیروز کبدی",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "جایگزینی بافت کبد با بافت فیبروز",
+                symptoms: [
+                    { name: "خستگی", description: "خستگی شدید و مداوم" },
+                    { name: "زردی", description: "زردی پوست و چشم" },
+                    { name: "ورم شکم", description: "احتباس مایع در شکم" }
+                ],
+                herbalRemedies: ["خار مریم", "زردچوبه", "قاصدک", "کنگر فرنگی"],
+                details: "سیروز کبدی مرحله نهایی بیماری کبد است که در آن بافت سالم کبد با بافت اسکار جایگزین می‌شود."
+            },
+            {
+                id: 27,
+                name: "کلانژیت صفراوی اولیه",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "بیماری خودایمنی مجاری صفراوی",
+                symptoms: [
+                    { name: "خارش پوست", description: "خارش شدید و مداوم" },
+                    { name: "خستگی", description: "خستگی مفرط" },
+                    { name: "زردی", description: "زردی پوست و چشم" }
+                ],
+                herbalRemedies: ["خار مریم", "زردچوبه", "قاصدک", "کنگر فرنگی"],
+                details: "این بیماری یک بیماری خودایمنی است که مجاری صفراوی در کبد را به تدریج تخریب می‌کند."
+            },
+            {
+                id: 28,
+                name: "کوله‌سیستیت (التهاب کیسه صفرا)",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "التهاب کیسه صفرا",
+                symptoms: [
+                    { name: "درد شدید شکم", description: "درد در سمت راست بالای شکم" },
+                    { name: "تب", description: "تب و لرز" },
+                    { name: "تهوع و استفراغ", description: "احساس ناخوشی" }
+                ],
+                herbalRemedies: ["نعنا", "زنجبیل", "قاصدک", "زردچوبه"],
+                details: "کوله‌سیستیت معمولاً به دلیل وجود سنگ کیسه صفرا ایجاد می‌شود."
+            },
+            {
+                id: 29,
+                name: "سنگ مجاری صفراوی",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "سنگ در مجاری صفراوی",
+                symptoms: [
+                    { name: "درد شکم", description: "درد شدید در سمت راست شکم" },
+                    { name: "زردی", description: "زردی پوست و چشم" },
+                    { name: "تب", description: "تب و لرز" }
+                ],
+                herbalRemedies: ["قاصدک", "خار مریم", "زردچوبه", "نعنا"],
+                details: "سنگ‌های مجاری صفراوی می‌توانند باعث انسداد و عفونت شوند."
+            },
+            {
+                id: 30,
+                name: "هپاتیت خودایمنی",
+                category: "بیماری‌های کبد و کیسه صفرا",
+                description: "بیماری خودایمنی کبد",
+                symptoms: [
+                    { name: "خستگی", description: "خستگی شدید" },
+                    { name: "درد شکم", description: "درد در ناحیه کبد" },
+                    { name: "زردی", description: "زردی پوست و چشم" }
+                ],
+                herbalRemedies: ["خار مریم", "زردچوبه", "قاصدک", "کنگر فرنگی"],
+                details: "هپاتیت خودایمنی زمانی اتفاق می‌افتد که سیستم ایمنی بدن به سلول‌های کبد حمله می‌کند."
+            }
+        ];
+
+        // ایجاد لیست بیماری‌ها
+        const diseasesContainer = document.getElementById('diseases-container');
+        const symptomsContent = document.getElementById('symptoms-content');
+        const selectedDiseaseName = document.getElementById('selected-disease-name');
+        const herbalRemedies = document.getElementById('herbal-remedies');
+        const herbalList = document.getElementById('herbal-list');
+        const diseaseDetails = document.getElementById('disease-details');
+        const detailsContent = document.getElementById('details-content');
+        const searchInput = document.getElementById('search-input');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
+        const mainHeader = document.getElementById('main-header');
+
+        // تابع برای دریافت کلاس CSS بر اساس دسته
+        function getCategoryClass(category) {
+            switch(category) {
+                case 'بیماری‌های معده':
+                    return 'category-stomach';
+                case 'بیماری‌های مری':
+                    return 'category-esophagus';
+                case 'بیماری‌های روده':
+                    return 'category-intestine';
+                case 'بیماری‌های کبد و کیسه صفرا':
+                    return 'category-liver';
+                case 'سایر بیماری‌های گوارشی':
+                    return 'category-other';
+                default:
+                    return '';
+            }
+        }
+
+        // گروه‌بندی بیماری‌ها بر اساس دسته
+        const categories = {};
+        diseases.forEach(disease => {
+            if (!categories[disease.category]) {
+                categories[disease.category] = [];
+            }
+            categories[disease.category].push(disease);
+        });
+
+        // ایجاد لیست بیماری‌ها با گروه‌بندی و منوی بازشو
+        for (const category in categories) {
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'disease-category';
+            const categoryClass = getCategoryClass(category);
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="category-title">${category}</div>
+                <div class="category-icon">▼</div>
+            `;
+            
+            const categoryItems = document.createElement('div');
+            categoryItems.className = 'category-items';
+            
+            categories[category].forEach(disease => {
+                const diseaseElement = document.createElement('div');
+                diseaseElement.className = 'disease-item';
+                diseaseElement.dataset.id = disease.id;
+                diseaseElement.innerHTML = `
+                    <div>
+                        <div class="disease-name">${disease.name}</div>
+                        <div class="disease-desc">${disease.description}</div>
+                    </div>
+                `;
+                
+                diseaseElement.addEventListener('click', () => {
+                    document.querySelectorAll('.disease-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    diseaseElement.classList.add('active');
+                    displayDiseaseSymptoms(disease);
+                    
+                    setTimeout(() => {
+                        scrollToSymptoms();
+                    }, 300);
+                });
+                
+                categoryItems.appendChild(diseaseElement);
+            });
+            
+            categoryHeader.addEventListener('click', () => {
+                categoryElement.classList.toggle('category-open');
+            });
+            
+            categoryElement.classList.add(categoryClass);
+            categoryElement.appendChild(categoryHeader);
+            categoryElement.appendChild(categoryItems);
+            diseasesContainer.appendChild(categoryElement);
+        }
+
+        // تابع برای نمایش علائم بیماری انتخاب شده
+        function displayDiseaseSymptoms(disease) {
+            selectedDiseaseName.textContent = disease.name;
+            
+            let symptomsHTML = '<div class="symptoms-list">';
+            
+            disease.symptoms.forEach(symptom => {
+                symptomsHTML += `
+                    <div class="symptom-card">
+                        <div class="symptom-name">${symptom.name}</div>
+                        <div class="symptom-desc">${symptom.description}</div>
+                    </div>
+                `;
+            });
+            
+            symptomsHTML += '</div>';
+            symptomsContent.innerHTML = symptomsHTML;
+            
+            herbalList.innerHTML = '';
+            disease.herbalRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'herbal-item';
+                remedyElement.textContent = remedy;
+                herbalList.appendChild(remedyElement);
+            });
+            
+            detailsContent.textContent = disease.details;
+            herbalRemedies.style.display = 'block';
+            diseaseDetails.style.display = 'block';
+            scrollToSymptomsBtn.style.display = 'flex';
+        }
+
+        // تابع برای اسکرول به بخش علائم
+        function scrollToSymptoms() {
+            const symptomsContainer = document.querySelector('.symptoms-container');
+            if (symptomsContainer) {
+                symptomsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                symptomCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('highlight');
+                        setTimeout(() => {
+                            card.classList.remove('highlight');
+                        }, 2000);
+                    }, index * 200);
+                });
+            }
+        }
+
+        // عملکرد جستجو - کاملاً اصلاح شده
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            const diseaseItems = document.querySelectorAll('.disease-item');
+            const categoryElements = document.querySelectorAll('.disease-category');
+            
+            // اگر جستجو خالی است، همه موارد را نمایش دهید
+            if (searchTerm === '') {
+                diseaseItems.forEach(item => {
+                    item.style.display = 'flex';
+                });
+                categoryElements.forEach(category => {
+                    category.style.display = 'block';
+                });
+                return;
+            }
+            
+            // برای هر دسته‌بندی بررسی کنیم که آیا بیماری مرتبطی دارد یا خیر
+            categoryElements.forEach(category => {
+                const itemsInCategory = category.querySelectorAll('.disease-item');
+                let hasVisibleItems = false;
+                
+                itemsInCategory.forEach(item => {
+                    const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
+                    const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+                    
+                    if (diseaseName.includes(searchTerm) || diseaseDesc.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // نمایش یا مخفی کردن دسته‌بندی
+                if (hasVisibleItems) {
+                    category.style.display = 'block';
+                    category.classList.add('category-open');
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+        });
+
+        // دکمه بازگشت به بالا
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+            
+            if (window.pageYOffset > 100) {
+                mainHeader.classList.add('small');
+            } else {
+                mainHeader.classList.remove('small');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // دکمه اسکرول به علائم
+        scrollToSymptomsBtn.addEventListener('click', function() {
+            scrollToSymptoms();
+        });
+
+        // انتخاب اولین بیماری به طور پیش‌فرض
+        if (diseases.length > 0) {
+            const firstCategory = document.querySelector('.disease-category');
+            if (firstCategory) {
+                firstCategory.classList.add('category-open');
+                const firstDisease = firstCategory.querySelector('.disease-item');
+                if (firstDisease) {
+                    firstDisease.classList.add('active');
+                    const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
+                    displayDiseaseSymptoms(firstDiseaseData);
+                    scrollToSymptomsBtn.style.display = 'flex';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

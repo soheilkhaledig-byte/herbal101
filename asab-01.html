@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بیماری‌های اعصاب و روان</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.small {
+            padding: 5px 25px;
+        }
+        
+        header.small h1 {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        h1 {
+            margin-bottom: 5px;
+            font-size: 1.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content {
+            margin-top: 120px;
+            transition: all 0.3s ease;
+        }
+        
+        header.small ~ .main-content {
+            margin-top: 70px;
+        }
+        
+        .search-container {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        #search-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            white-space: nowrap;
+        }
+        
+        #search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            left: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .search-suggestions.active {
+            display: block;
+        }
+        
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f3f5;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .suggestion-name {
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .suggestion-category {
+            font-size: 0.8rem;
+            color: #868e96;
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        
+        .search-info {
+            text-align: center;
+            padding: 10px;
+            color: #868e96;
+            font-size: 0.9rem;
+        }
+        
+        .content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .diseases-list {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 140px;
+            border: 1px solid #e1e5e9;
+        }
+        
+        header.small ~ .main-content .diseases-list {
+            top: 90px;
+        }
+        
+        .diseases-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb {
+            background: #d0d7e3;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb:hover {
+            background: #b8c2d1;
+        }
+        
+        .diseases-list h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e1e5e9;
+            text-align: center;
+            font-size: 1.4rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            padding-top: 10px;
+        }
+        
+        .disease-category {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* رنگ‌بندی کاملاً متفاوت برای هر دسته */
+        .category-mood {
+            border: 2px solid #667eea;
+        }
+        
+        .category-mood .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .category-mood .category-header:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        
+        .category-mood .disease-item:hover {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8edff 100%);
+        }
+        
+        .category-anxiety {
+            border: 2px solid #f093fb;
+        }
+        
+        .category-anxiety .category-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .category-anxiety .category-header:hover {
+            background: linear-gradient(135deg, #ee7df9 0%, #f3455c 100%);
+        }
+        
+        .category-anxiety .disease-item:hover {
+            background: linear-gradient(135deg, #fef0ff 0%, #ffeef0 100%);
+        }
+        
+        .category-psychotic {
+            border: 2px solid #4ecdc4;
+        }
+        
+        .category-psychotic .category-header {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+        }
+        
+        .category-psychotic .category-header:hover {
+            background: linear-gradient(135deg, #3dc3ba 0%, #3a8f7e 100%);
+        }
+        
+        .category-psychotic .disease-item:hover {
+            background: linear-gradient(135deg, #f0fffd 0%, #e8f9f7 100%);
+        }
+        
+        .category-personality {
+            border: 2px solid #ffd89b;
+        }
+        
+        .category-personality .category-header {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+        }
+        
+        .category-personality .category-header:hover {
+            background: linear-gradient(135deg, #ffd089 0%, #16486d 100%);
+        }
+        
+        .category-personality .disease-item:hover {
+            background: linear-gradient(135deg, #fff9f0 0%, #f5f7fa 100%);
+        }
+
+        .category-neurodevelopmental {
+            border: 2px solid #a8edea;
+        }
+        
+        .category-neurodevelopmental .category-header {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #4a5568;
+        }
+        
+        .category-neurodevelopmental .category-header:hover {
+            background: linear-gradient(135deg, #96e6e1 0%, #fdc4d9 100%);
+        }
+        
+        .category-neurodevelopmental .disease-item:hover {
+            background: linear-gradient(135deg, #f0fffe 0%, #fff0f6 100%);
+        }
+        
+        .category-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .category-open .category-icon {
+            transform: rotate(180deg);
+        }
+        
+        .category-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .category-open .category-items {
+            max-height: 1000px;
+        }
+        
+        .disease-item {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .disease-item:last-child {
+            border-bottom: none;
+        }
+        
+        .disease-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disease-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .disease-name {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+        
+        .disease-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .disease-item.active .disease-desc {
+            color: #e9ecef;
+        }
+        
+        .symptoms-container {
+            flex: 2;
+            min-width: 320px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            border: 1px solid #e1e5e9;
+        }
+        
+        .symptoms-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb {
+            background: #d0d7e3;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb:hover {
+            background: #b8c2d1;
+        }
+        
+        .symptoms-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e1e5e9;
+        }
+        
+        .symptoms-title {
+            color: #4a5568;
+            font-size: 1.5rem;
+        }
+        
+        .selected-disease {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .scroll-to-symptoms {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .scroll-to-symptoms:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+        }
+        
+        .symptoms-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .symptom-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .symptom-name {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .symptom-desc {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            color: #868e96;
+        }
+        
+        .no-selection i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ced4da;
+            opacity: 0.7;
+        }
+        
+        .no-selection p {
+            font-size: 1.1rem;
+        }
+        
+        .home-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-right: 5px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .home-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .home-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .home-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .home-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+        }
+        
+        .herbal-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 100%);
+            border-radius: 12px;
+            border-right: 5px solid #689f38;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .herbal-title {
+            color: #33691e;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .herbal-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .herbal-item {
+            background: linear-gradient(135deg, #689f38 0%, #558b2f 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(104, 159, 56, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .herbal-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(104, 159, 56, 0.4);
+        }
+        
+        .disease-details {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            border: 2px solid #e1e5e9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .details-title {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .details-content {
+            color: #666;
+            line-height: 1.7;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-left: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .details-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .details-content::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb {
+            background: #d0d7e3;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb:hover {
+            background: #b8c2d1;
+        }
+        
+        .buy-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            margin-top: 10px;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ee5a24 0%, #ff6b6b 100%);
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+            border: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffffff; }
+            50% { background-color: #f0f4ff; transform: scale(1.02); }
+            100% { background-color: #ffffff; }
+        }
+
+        .symptom-card.highlight {
+            animation: highlight 2s ease;
+        }
+        
+        .footer-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-right: 5px solid #ffd43b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 999;
+            color: #856404;
+        }
+        
+        .main-content-with-footer {
+            margin-bottom: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            #search-button {
+                width: auto;
+                min-width: 80px;
+                padding: 12px 15px;
+            }
+            
+            #search-input {
+                margin-left: 10px;
+            }
+            
+            .content {
+                flex-direction: column;
+            }
+            
+            .diseases-list, .symptoms-container {
+                width: 100%;
+                max-height: none;
+                position: static;
+            }
+            
+            .symptoms-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .symptoms-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .selected-disease {
+                margin-bottom: 0;
+            }
+            
+            .scroll-top {
+                left: 20px;
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header.small h1 {
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-top: 110px;
+            }
+            
+            header.small ~ .main-content {
+                margin-top: 70px;
+            }
+            
+            .footer-warning {
+                position: static;
+                margin: 20px 0;
+            }
+            
+            .main-content-with-footer {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <h1>بیماری‌های اعصاب و روان</h1>
+        </div>
+    </header>
+    
+    <div class="main-content main-content-with-footer">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="جستجوی بیماری یا علائم...">
+                    <button id="search-button">جستجو</button>
+                    <div class="search-suggestions" id="search-suggestions">
+                        <!-- پیشنهادات جستجو اینجا نمایش داده می‌شوند -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="diseases-list">
+                    <h2>لیست بیماری‌های اعصاب و روان</h2>
+                    <div id="diseases-container">
+                        <!-- بیماری‌ها توسط جاوااسکریپت اضافه خواهند شد -->
+                    </div>
+                </div>
+                
+                <div class="symptoms-container">
+                    <div class="symptoms-header">
+                        <div class="selected-disease" id="selected-disease-name">هیچ بیماری انتخاب نشده</div>
+                        <h2 class="symptoms-title">علائم بیماری</h2>
+                        <button class="scroll-to-symptoms" id="scrollToSymptoms" style="display: none;">
+                            <span>اسکرول به علائم</span>
+                            ↓
+                        </button>
+                    </div>
+                    
+                    <div id="symptoms-content">
+                        <div class="no-selection">
+                            <i>⬅</i>
+                            <p>لطفاً یک بیماری از لیست سمت راست انتخاب کنید</p>
+                        </div>
+                    </div>
+                    
+                    <div class="home-remedies" id="home-remedies" style="display: none;">
+                        <h3 class="home-title">درمان‌های خانگی و توصیه‌ها</h3>
+                        <div class="home-list" id="home-list">
+                            <!-- درمان‌های خانگی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                    </div>
+                    
+                    <div class="herbal-remedies" id="herbal-remedies" style="display: none;">
+                        <h3 class="herbal-title">درمان با گیاهان دارویی</h3>
+                        <div class="herbal-list" id="herbal-list">
+                            <!-- گیاهان دارویی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                    </div>
+                    
+                    <div class="disease-details" id="disease-details" style="display: none;">
+                        <h3 class="details-title">توضیحات بیشتر</h3>
+                        <div class="details-content" id="details-content">
+                            <!-- توضیحات بیماری توسط جاوااسکریپت اضافه خواهد شد -->
+                        </div>
+                        <a href="https://elistarsaffron.ir" class="buy-button" target="_blank">خرید از الیسترزعفران</a>
+                    </div>
+                    
+                    <p style="margin-top: 25px; font-size: 0.9rem; color: #666; text-align: center;">
+                        <strong>تذکر مهم:</strong> این اطلاعات صرفاً آموزشی است و برای تشخیص و درمان حتماً به روانپزشک مراجعه کنید.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-warning">
+        <strong>توجه مهم:</strong> این برنامه تنها یک ابزار کمک آموزشی است و به هیچ وجه جایگزین معاینه و تشخیص روانپزشک نمی‌شود. لطفاً برای تشخیص و درمان به روانپزشک متخصص مراجعه کنید.
+    </div>
+
+    <button class="scroll-top" id="scrollTop" title="برگشت به بالا">↑</button>
+
+    <script>
+        // داده‌های کامل بیماری‌های اعصاب و روان - 30 بیماری
+        const diseases = [
+            // اختلالات خلقی - بنفش (8 بیماری)
+            {
+                id: 1,
+                name: "افسردگی اساسی",
+                category: "اختلالات خلقی",
+                description: "اختلال خلقی با احساس غم و ناامیدی پایدار",
+                symptoms: [
+                    { name: "احساس غم و ناامیدی", description: "احساس پوچی و غمگینی مداوم" },
+                    { name: "از دست دادن علاقه", description: "بی‌علاقگی به فعالیت‌های لذت‌بخش" },
+                    { name: "تغییرات خواب", description: "بی‌خوابی یا پرخوابی" },
+                    { name: "خستگی مفرط", description: "کمبود انرژی و خستگی مداوم" }
+                ],
+                homeRemedies: ["ورزش منظم", "رژیم غذایی سالم", "مدیتیشن", "برقراری ارتباط اجتماعی"],
+                herbalRemedies: ["عصاره گل راعی", "اسطوخودوس", "بابونه", "سنبل الطیب", "زعفران"],
+                details: "افسردگی اساسی یکی از شایع‌ترین اختلالات روانی است که بر خلق، تفکر و عملکرد جسمی تأثیر می‌گذارد."
+            },
+            {
+                id: 2,
+                name: "اختلال دوقطبی",
+                category: "اختلالات خلقی",
+                description: "اختلال خلقی با دوره‌های شیدایی و افسردگی",
+                symptoms: [
+                    { name: "شیدایی", description: "احساس نشاط شدید و کاهش نیاز به خواب" },
+                    { name: "افسردگی", description: "دوره‌های افسردگی عمیق" },
+                    { name: "تحریک‌پذیری", description: "عصبانیت و تحریک‌پذیری شدید" }
+                ],
+                homeRemedies: ["ثبات در برنامه روزانه", "پرهیز از محرک‌ها", "خواب منظم", "مدیریت استرس"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "سنبل الطیب", "بابونه"],
+                details: "اختلال دوقطبی با نوسانات شدید خلقی بین شیدایی و افسردگی مشخص می‌شود."
+            },
+            {
+                id: 3,
+                name: "اختلال افسردگی مداوم",
+                category: "اختلالات خلقی",
+                description: "افسردگی خفیف اما مزمن",
+                symptoms: [
+                    { name: "خلق افسرده مزمن", description: "احساس غمگینی مداوم به مدت دو سال یا بیشتر" },
+                    { name: "کم‌انرژی بودن", description: "احساس خستگی و کمبود انرژی" },
+                    { name: "اعتماد به نفس پایین", description: "احساس بی‌کفایتی" }
+                ],
+                homeRemedies: ["درمان شناختی-رفتاری", "فعالیت بدنی منظم", "هدف‌گذاری کوچک", "شبکه حمایتی قوی"],
+                herbalRemedies: ["عصاره گل راعی", "زعفران", "اسطوخودوس", "بابونه", "سنبل الطیب"],
+                details: "اختلال افسردگی مداوم نوعی افسردگی مزمن با علائم خفیف‌تر اما طولانی‌مدت است."
+            },
+            {
+                id: 4,
+                name: "اختلال خلقی فصلی",
+                category: "اختلالات خلقی",
+                description: "افسردگی مرتبط با تغییر فصل",
+                symptoms: [
+                    { name: "افسردگی فصلی", description: "علائم افسردگی در فصل خاصی از سال" },
+                    { name: "پرخوابی", description: "نیاز به خواب بیش از حد" },
+                    { name: "افزایش وزن", description: "ویار به کربوهیدرات و افزایش وزن" }
+                ],
+                homeRemedies: ["نوردرمانی", "ورزش در فضای باز", "ویتامین D", "برنامه منظم خواب"],
+                herbalRemedies: ["عصاره گل راعی", "زعفران", "جینسینگ", "اسطوخودوس", "بابونه"],
+                details: "اختلال خلقی فصلی معمولاً در پاییز و زمستان رخ می‌دهد و با کاهش نور خورشید مرتبط است."
+            },
+            {
+                id: 5,
+                name: "سیکلوتایمیا",
+                category: "اختلالات خلقی",
+                description: "اختلال خلقی با نوسانات خفیف",
+                symptoms: [
+                    { name: "نوسانات خلقی خفیف", description: "تغییرات خلقی بین هیپومانیا و افسردگی خفیف" },
+                    { name: "بی‌ثباتی خلقی", description: "تغییرات مکرر و نامنظم در خلق" },
+                    { name: "تحریک‌پذیری", description: "حساسیت و تحریک‌پذیری بالا" }
+                ],
+                homeRemedies: ["ثبات در زندگی روزمره", "مدیریت استرس", "خواب کافی", "ورزش منظم"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B کمپلکس", "بابونه", "سنبل الطیب"],
+                details: "سیکلوتایمیا نوع خفیف‌تر اختلال دوقطبی با نوسانات خلقی کمتر شدید است."
+            },
+            {
+                id: 6,
+                name: "اختلال دیس تایمیک",
+                category: "اختلالات خلقی",
+                description: "افسردگی مزمن با علائم خفیف",
+                symptoms: [
+                    { name: "خلق افسرده مزمن", description: "احساس غمگینی مداوم" },
+                    { name: "کم‌انرژی بودن", description: "خستگی و بی‌حالی" },
+                    { name: "اختلال در تمرکز", description: "مشکل در تمرکز و تصمیم‌گیری" }
+                ],
+                homeRemedies: ["روان درمانی", "فعالیت بدنی منظم", "تغذیه سالم", "حمایت اجتماعی"],
+                herbalRemedies: ["عصاره گل راعی", "زعفران", "اسطوخودوس", "بابونه", "سنبل الطیب"],
+                details: "اختلال دیس تایمیک نوعی افسردگی مزمن با علائم خفیف‌تر اما طولانی‌مدت است."
+            },
+            {
+                id: 7,
+                name: "اختلال خلقی ناشی از مواد",
+                category: "اختلالات خلقی",
+                description: "اختلال خلقی ناشی از مصرف مواد",
+                symptoms: [
+                    { name: "تغییرات خلقی", description: "نوسانات خلقی مرتبط با مصرف مواد" },
+                    { name: "تحریک‌پذیری", description: "عصبانیت و تحریک‌پذیری" },
+                    { name: "بی‌قراری", description: "احساس بی‌قراری و ناآرامی" }
+                ],
+                homeRemedies: ["ترک مواد", "حمایت اجتماعی", "فعالیت‌های جایگزین", "مدیریت استرس"],
+                herbalRemedies: ["زردچوبه", "زنجبیل", "جینسینگ", "بابونه", "سنبل الطیب"],
+                details: "این اختلال مستقیماً ناشی از مصرف، ترک یا مواجهه با مواد است."
+            },
+            {
+                id: 8,
+                name: "اختلال خلقی ناشی از بیماری پزشکی",
+                category: "اختلالات خلقی",
+                description: "اختلال خلقی ناشی از بیماری جسمی",
+                symptoms: [
+                    { name: "تغییرات خلقی", description: "نوسانات خلقی مرتبط با بیماری جسمی" },
+                    { name: "کاهش انرژی", description: "خستگی و بی‌حالی" },
+                    { name: "بی‌علاقگی", description: "کاهش علاقه به فعالیت‌ها" }
+                ],
+                homeRemedies: ["درمان بیماری زمینه‌ای", "حمایت عاطفی", "فعالیت سبک", "تغذیه مناسب"],
+                herbalRemedies: ["زردچوبه", "زنجبیل", "جینسینگ", "بابونه", "اسطوخودوس"],
+                details: "این اختلال مستقیماً ناشی از تأثیر فیزیولوژیک یک بیماری پزشکی است."
+            },
+
+            // اختلالات اضطرابی - صورتی (6 بیماری)
+            {
+                id: 9,
+                name: "اختلال اضطراب فراگیر",
+                category: "اختلالات اضطرابی",
+                description: "نگرانی مزمن و excessive درباره مسائل مختلف",
+                symptoms: [
+                    { name: "نگرانی مداوم", description: "نگرانی excessive و غیرقابل کنترل" },
+                    { name: "تنش عضلانی", description: "احساس تنش و سفتی عضلات" },
+                    { name: "خستگی", description: "خستگی ناشی از اضطراب مداوم" }
+                ],
+                homeRemedies: ["تمرینات تنفسی", "مدیتیشن", "ورزش منظم", "محدود کردن کافئین"],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی", "بادرنجبویه"],
+                details: "اختلال اضطراب فراگیر با نگرانی مزمن و excessive درباره مسائل روزمره مشخص می‌شود."
+            },
+            {
+                id: 10,
+                name: "اختلال پانیک",
+                category: "اختلالات اضطرابی",
+                description: "حملات ناگهانی ترس شدید",
+                symptoms: [
+                    { name: "حملات پانیک", description: "حملات ناگهانی ترس شدید" },
+                    { name: "تپش قلب", description: "افزایش ضربان قلب" },
+                    { name: "تنگی نفس", description: "احساس خفگی و تنگی نفس" }
+                ],
+                homeRemedies: ["تنفس عمیق", "grounding techniques", "اجتناب از محرک‌ها", "خواب کافی"],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی", "بادرنجبویه"],
+                details: "اختلال پانیک با حملات ناگهانی و مکرر ترس شدید همراه با علائم جسمی مشخص می‌شود."
+            },
+            {
+                id: 11,
+                name: "فوبیای خاص",
+                category: "اختلالات اضطرابی",
+                description: "ترس شدید و غیرمنطقی از اشیا یا موقعیت‌های خاص",
+                symptoms: [
+                    { name: "ترس شدید", description: "ترس excessive و غیرمنطقی" },
+                    { name: "اجتناب", description: "اجتناب از موقعیت یا شیء ترسناک" },
+                    { name: "واکنش فیزیکی", description: "علائم فیزیکی اضطراب در مواجهه با محرک" }
+                ],
+                homeRemedies: ["مواجهه تدریجی", "تنفس عمیق", "تکنیک‌های آرامش‌بخشی", "حمایت اجتماعی"],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی", "بادرنجبویه"],
+                details: "فوبیای خاص با ترس شدید و پایدار از یک شیء یا موقعیت خاص مشخص می‌شود."
+            },
+            {
+                id: 12,
+                name: "اختلال اضطراب اجتماعی",
+                category: "اختلالات اضطرابی",
+                description: "ترس شدید از موقعیت‌های اجتماعی",
+                symptoms: [
+                    { name: "ترس از قضاوت", description: "ترس از مورد قضاوت قرار گرفتن" },
+                    { name: "اجتناب اجتماعی", description: "اجتناب از موقعیت‌های اجتماعی" },
+                    { name: "علائم فیزیکی", description: "سرخ شدن، لرزش، تعریق در موقعیت‌های اجتماعی" }
+                ],
+                homeRemedies: ["مواجهه تدریجی", "مهارت‌آموزی اجتماعی", "تنفس عمیق", "هدف‌گذاری کوچک"],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی", "بادرنجبویه"],
+                details: "اختلال اضطراب اجتماعی با ترس شدید و پایدار از موقعیت‌های اجتماعی مشخص می‌شود."
+            },
+            {
+                id: 13,
+                name: "اختلال وسواس فکری-عملی",
+                category: "اختلالات اضطرابی",
+                description: "وسواس‌های فکری و عملی تکراری",
+                symptoms: [
+                    { name: "وسواس‌های فکری", description: "افکار ناخواسته و تکراری" },
+                    { name: "وسواس‌های عملی", description: "رفتارهای تکراری و اجباری" },
+                    { name: "اضطراب", description: "اضطراب ناشی از وسواس‌ها" }
+                ],
+                homeRemedies: ["مواجهه و جلوگیری از پاسخ", "مدیریت استرس", "فعالیت‌های جایگزین", "خواب منظم"],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی", "بادرنجبویه"],
+                details: "OCD با وسواس‌های فکری ناخواسته و وسواس‌های عملی تکراری مشخص می‌شود."
+            },
+            {
+                id: 14,
+                name: "اختلال استرس پس از سانحه",
+                category: "اختلالات اضطرابی",
+                description: "واکنش به تجربه یک trauma شدید",
+                symptoms: [
+                    { name: "خاطرات ناخواسته", description: "فلش‌بک و کابوس‌های مرتبط با trauma" },
+                    { name: "اجتناب", description: "اجتناب از محرک‌های مرتبط با trauma" },
+                    { name: "واکنش‌پذیری شدید", description: "واکنش افراطی به محرک‌ها" }
+                ],
+                homeRemedies: ["درمان تخصصی", "حمایت اجتماعی", "تکنیک‌های آرامش‌بخشی", "فعالیت بدنی"],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی", "بادرنجبویه"],
+                details: "PTSD پس از تجربه یک رویداد تروماتیک رخ می‌دهد و با خاطرات ناخواسته و اجتناب مشخص می‌شود."
+            },
+
+            // اختلالات سایکوتیک - فیروزه‌ای (8 بیماری)
+            {
+                id: 15,
+                name: "اسکیزوفرنی",
+                category: "اختلالات سایکوتیک",
+                description: "اختلال شدید روانی با تحریف واقعیت",
+                symptoms: [
+                    { name: "هذیان", description: "باورهای غلط و تثبیت شده" },
+                    { name: "توهم", description: "ادراکات کاذب به خصوص شنوایی" },
+                    { name: "اختلال تفکر", description: "تفکر آشفته و غیرمنطقی" }
+                ],
+                homeRemedies: ["حمایت خانواده", "برنامه روزانه منظم", "پرهیز از استرس", "خواب کافی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "اسکیزوفرنی یک اختلال روانی شدید است که با تحریف واقعیت، هذیان و توهم مشخص می‌شود."
+            },
+            {
+                id: 16,
+                name: "اختلال اسکیزوافکتیو",
+                category: "اختلالات سایکوتیک",
+                description: "ترکیبی از علائم اسکیزوفرنی و اختلال خلقی",
+                symptoms: [
+                    { name: "علائم سایکوتیک", description: "هذیان و توهم" },
+                    { name: "علائم خلقی", description: "علائم افسردگی یا شیدایی" },
+                    { name: "اختلال عملکرد", description: "اختلال در عملکرد اجتماعی و شغلی" }
+                ],
+                homeRemedies: ["درمان ترکیبی", "حمایت اجتماعی", "برنامه منظم", "پرهیز از محرک‌ها"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "اختلال اسکیزوافکتیو ترکیبی از علائم اسکیزوفرنی و اختلال خلقی است."
+            },
+            {
+                id: 17,
+                name: "اختلال هذیانی",
+                category: "اختلالات سایکوتیک",
+                description: "هذیان‌های ثابت بدون توهم بارز",
+                symptoms: [
+                    { name: "هذیان‌های ثابت", description: "باورهای غلط تثبیت شده" },
+                    { name: "عملکرد نسبتاً طبیعی", description: "عملکرد خارج از حوزه هذیان نسبتاً طبیعی" },
+                    { name: "عدم بینش", description: "عدم آگاهی از غیرمنطقی بودن باورها" }
+                ],
+                homeRemedies: ["درمان تخصصی", "حمایت خانواده", "اجتناب از بحث منطقی", "فعالیت‌های سازنده"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "اختلال هذیانی با هذیان‌های ثابت و غیرعجیب بدون توهم بارز مشخص می‌شود."
+            },
+            {
+                id: 18,
+                name: "اختلال سایکوتیک گذرا",
+                category: "اختلالات سایکوتیک",
+                description: "دوره کوتاه‌مدت علائم سایکوتیک",
+                symptoms: [
+                    { name: "علائم سایکوتیک", description: "هذیان، توهم یا گفتار آشفته" },
+                    { name: "دوره کوتاه", description: "علائم کمتر از یک ماه" },
+                    { name: "بازگشت به حالت عادی", description: "بازگشت کامل به عملکرد قبلی" }
+                ],
+                homeRemedies: ["حمایت اجتماعی", "کاهش استرس", "خواب کافی", "پرهیز از محرک‌ها"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "اختلال سایکوتیک گذرا با دوره کوتاه‌مدت علائم سایکوتیک و بازگشت کامل مشخص می‌شود."
+            },
+            {
+                id: 19,
+                name: "اختلال سایکوتیک ناشی از مواد",
+                category: "اختلالات سایکوتیک",
+                description: "علائم سایکوتیک ناشی از مصرف مواد",
+                symptoms: [
+                    { name: "هذیان یا توهم", description: "علائم سایکوتیک در حین یا بلافاصله پس از مصرف مواد" },
+                    { name: "ارتباط زمانی", description: "ارتباط واضح با مصرف مواد" },
+                    { name: "عدم اختلال قبلی", description: "عدم سابقه اختلال سایکوتیک" }
+                ],
+                homeRemedies: ["ترک مواد", "حمایت اجتماعی", "درمان سم‌زدایی", "فعالیت‌های جایگزین"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "این اختلال مستقیماً ناشی از مصرف مواد است و با قطع مصرف معمولاً بهبود می‌یابد."
+            },
+            {
+                id: 20,
+                name: "اختلال سایکوتیک ناشی از بیماری پزشکی",
+                category: "اختلالات سایکوتیک",
+                description: "علائم سایکوتیک ناشی از بیماری جسمی",
+                symptoms: [
+                    { name: "هذیان یا توهم", description: "علائم سایکوتیک" },
+                    { name: "ارتباط با بیماری", description: "ارتباط مستقیم با بیماری پزشکی" },
+                    { name: "عدم اختلال اولیه", description: "عدم توضیح بهتر با اختلال سایکوتیک دیگر" }
+                ],
+                homeRemedies: ["درمان بیماری زمینه‌ای", "حمایت اجتماعی", "محیط آرام", "نظارت پزشکی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "این اختلال مستقیماً ناشی از تأثیر فیزیولوژیک یک بیماری پزشکی است."
+            },
+            {
+                id: 21,
+                name: "کاتاتونیا",
+                category: "اختلالات سایکوتیک",
+                description: "اختلال در حرکت و رفتار",
+                symptoms: [
+                    { name: "انجماد حرکتی", description: "بی‌حرکتی و mutism" },
+                    { name: "فعالیت حرکتی excessive", description: "تحریک حرکتی بی‌هدف" },
+                    { name: "negativism", description: "مقاومت در برابر دستورات" }
+                ],
+                homeRemedies: ["درمان تخصصی فوری", "نظارت دقیق", "محیط امن", "حمایت خانواده"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "کاتاتونیا یک سندرم روانی-حرکتی است که می‌تواند همراه با اختلالات سایکوتیک رخ دهد."
+            },
+            {
+                id: 22,
+                name: "اختلال سایکوتیک مشترک",
+                category: "اختلالات سایکوتیک",
+                description: "هذیان مشترک بین دو نفر",
+                symptoms: [
+                    { name: "هذیان مشترک", description: "هذیان مشابه در دو نفر" },
+                    { name: "رابطه نزدیک", description: "وجود رابطه نزدیک بین دو نفر" },
+                    { name: "جدایی", description: "هذیان پس از جدایی از فرد اصلی از بین می‌رود" }
+                ],
+                homeRemedies: ["جدایی از فرد اصلی", "درمان فردی", "حمایت اجتماعی", "بازسازی واقعیت"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "جینکو بیلوبا", "ویتامین B", "منیزیم", "زعفران"],
+                details: "اختلال سایکوتیک مشترک زمانی رخ می‌دهد که یک فرد هذیان فرد مبتلا به اختلال سایکوتیک را بپذیرد."
+            },
+
+            // اختلالات شخصیت - نارنجی طلایی (8 بیماری)
+            {
+                id: 23,
+                name: "اختلال شخصیت مرزی",
+                category: "اختلالات شخصیت",
+                description: "بی‌ثباتی در روابط، خلق و خودپنداره",
+                symptoms: [
+                    { name: "بی‌ثباتی عاطفی", description: "نوسانات خلقی شدید" },
+                    { name: "روابط بی‌ثبات", description: "روابط شدید و بی‌ثبات" },
+                    { name: "ترس از رها شدن", description: "ترس شدید از رها شدن" }
+                ],
+                homeRemedies: ["درمان دیالکتیکی", "مدیریت هیجانات", "مرزهای سالم", "خودمراقبتی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت مرزی با الگوی پایدار بی‌ثباتی در روابط بین فردی، خلق و خودپنداره مشخص می‌شود."
+            },
+            {
+                id: 24,
+                name: "اختلال شخصیت ضداجتماعی",
+                category: "اختلالات شخصیت",
+                description: "بی‌اعتنایی به حقوق دیگران",
+                symptoms: [
+                    { name: "بی‌اعتنایی به حقوق دیگران", description: "عدم توجه به قوانین و هنجارهای اجتماعی" },
+                    { name: "فریبکاری", description: "دروغگویی و فریب دیگران" },
+                    { name: "عدم پشیمانی", description: "عدم احساس گناه یا پشیمانی" }
+                ],
+                homeRemedies: ["درمان تخصصی", "مهارت‌آموزی اجتماعی", "قوانین واضح", "پیامدهای منطقی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت ضداجتماعی با الگوی پایدار بی‌اعتنایی و تجاوز به حقوق دیگران مشخص می‌شود."
+            },
+            {
+                id: 25,
+                name: "اختلال شخصیت خودشیفته",
+                category: "اختلالات شخصیت",
+                description: "احساس بزرگ‌منشی و نیاز به تحسین",
+                symptoms: [
+                    { name: "احساس بزرگ‌منشی", description: "احساس اغراق‌آمیز از اهمیت خود" },
+                    { name: "نیاز به تحسین", description: "نیاز excessive به تحسین" },
+                    { name: "کمبود همدلی", description: "عدم توانایی در درک احساسات دیگران" }
+                ],
+                homeRemedies: ["درمان روان‌تحلیلی", "بازخورد سازنده", "توسعه همدلی", "خودآگاهی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت خودشیفته با الگوی پایدار بزرگ‌منشی، نیاز به تحسین و کمبود همدلی مشخص می‌شود."
+            },
+            {
+                id: 26,
+                name: "اختلال شخصیت اجتنابی",
+                category: "اختلالات شخصیت",
+                description: "بازداری اجتماعی، احساس بی‌کفایتی",
+                symptoms: [
+                    { name: "اجتناب اجتماعی", description: "اجتناب از فعالیت‌های اجتماعی" },
+                    { name: "ترس از طرد", description: "ترس شدید از طرد و انتقاد" },
+                    { name: "احساس بی‌کفایتی", description: "احساس بی‌کفایتی و حساسیت به انتقاد" }
+                ],
+                homeRemedies: ["مواجهه تدریجی", "مهارت‌آموزی اجتماعی", "تقویت اعتماد به نفس", "حمایت اجتماعی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت اجتنابی با الگوی پایدار بازداری اجتماعی، احساس بی‌کفایتی و حساسیت به انتقاد مشخص می‌شود."
+            },
+            {
+                id: 27,
+                name: "اختلال شخصیت وابسته",
+                category: "اختلالات شخصیت",
+                description: "نیاز excessive به مراقبت شدن",
+                symptoms: [
+                    { name: "نیاز به مراقبت", description: "نیاز excessive به مراقبت شدن" },
+                    { name: "رفتار مطیع", description: "رفتار مطیع و وابسته" },
+                    { name: "ترس از جدایی", description: "ترس شدید از جدایی" }
+                ],
+                homeRemedies: ["درمان شناختی-رفتاری", "توسعه استقلال", "مهارت‌های تصمیم‌گیری", "تقویت اعتماد به نفس"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت وابسته با الگوی پایدار نیاز excessive به مراقبت شدن که منجر به رفتار مطیع و وابسته می‌شود."
+            },
+            {
+                id: 28,
+                name: "اختلال شخصیت وسواسی-جبری",
+                category: "اختلالات شخصیت",
+                description: "اشتغال ذهنی با نظم، perfectionism",
+                symptoms: [
+                    { name: "کمال‌گرایی", description: "اشتغال ذهنی با جزئیات و قواعد" },
+                    { name: "کنترل‌گری", description: "نیاز به کنترل محیط" },
+                    { name: "انعطاف‌ناپذیری", description: "انعطاف‌ناپذیری در اخلاق و ارزش‌ها" }
+                ],
+                homeRemedies: ["درمان شناختی-رفتاری", "انعطاف‌پذیری", "اولویت‌بندی", "مدیریت استرس"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت وسواسی-جبری با الگوی پایدار اشتغال ذهنی با نظم، کمال‌گرایی و کنترل ذهنی و بین‌فردی مشخص می‌شود."
+            },
+            {
+                id: 29,
+                name: "اختلال شخصیت پارانوئید",
+                category: "اختلالات شخصیت",
+                description: "بی‌اعتمادی و سوءظن به دیگران",
+                symptoms: [
+                    { name: "سوءظن", description: "سوءظن بی‌دلیل به دیگران" },
+                    { name: "بی‌اعتمادی", description: "بی‌اعتمادی به وفاداری دیگران" },
+                    { name: "حساسیت", description: "حساسیت به طرد و انتقاد" }
+                ],
+                homeRemedies: ["درمان اعتمادسازی", "بازخورد سازنده", "مهارت‌های ارتباطی", "خودآگاهی"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت پارانوئید با الگوی پایدار بی‌اعتمادی و سوءظن به انگیزه‌های دیگران مشخص می‌شود."
+            },
+            {
+                id: 30,
+                name: "اختلال شخصیت اسکیزوتایپال",
+                category: "اختلالات شخصیت",
+                description: "ناراحتی در روابط نزدیک و تحریف‌های شناختی",
+                symptoms: [
+                    { name: "تفکر جادویی", description: "باورهای عجیب یا تفکر جادویی" },
+                    { name: "تجربیات ادراکی غیرعادی", description: "تجربیات ادراکی غیرعادی" },
+                    { name: "رفتار عجیب", description: "رفتار یا ظاهر عجیب" }
+                ],
+                homeRemedies: ["مهارت‌آموزی اجتماعی", "درمان شناختی", "حمایت اجتماعی", "فعالیت‌های ساختاریافته"],
+                herbalRemedies: ["اسیدهای چرب امگا-۳", "منیزیم", "ویتامین B", "بابونه", "اسطوخودوس"],
+                details: "اختلال شخصیت اسکیزوتایپال با الگوی پایدار ناراحتی در روابط نزدیک و تحریف‌های شناختی یا ادراکی مشخص می‌شود."
+            }
+        ];
+
+        // ایجاد لیست بیماری‌ها
+        const diseasesContainer = document.getElementById('diseases-container');
+        const symptomsContent = document.getElementById('symptoms-content');
+        const selectedDiseaseName = document.getElementById('selected-disease-name');
+        const homeRemedies = document.getElementById('home-remedies');
+        const homeList = document.getElementById('home-list');
+        const herbalRemedies = document.getElementById('herbal-remedies');
+        const herbalList = document.getElementById('herbal-list');
+        const diseaseDetails = document.getElementById('disease-details');
+        const detailsContent = document.getElementById('details-content');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
+        const mainHeader = document.getElementById('main-header');
+
+        // تابع برای دریافت کلاس CSS بر اساس دسته
+        function getCategoryClass(category) {
+            switch(category) {
+                case 'اختلالات خلقی':
+                    return 'category-mood';
+                case 'اختلالات اضطرابی':
+                    return 'category-anxiety';
+                case 'اختلالات سایکوتیک':
+                    return 'category-psychotic';
+                case 'اختلالات شخصیت':
+                    return 'category-personality';
+                case 'اختلالات عصبی-رشدی':
+                    return 'category-neurodevelopmental';
+                default:
+                    return '';
+            }
+        }
+
+        // گروه‌بندی بیماری‌ها بر اساس دسته
+        const categories = {};
+        diseases.forEach(disease => {
+            if (!categories[disease.category]) {
+                categories[disease.category] = [];
+            }
+            categories[disease.category].push(disease);
+        });
+
+        // ایجاد لیست بیماری‌ها با گروه‌بندی و منوی بازشو
+        for (const category in categories) {
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'disease-category';
+            const categoryClass = getCategoryClass(category);
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="category-title">${category}</div>
+                <div class="category-icon">▼</div>
+            `;
+            
+            const categoryItems = document.createElement('div');
+            categoryItems.className = 'category-items';
+            
+            categories[category].forEach(disease => {
+                const diseaseElement = document.createElement('div');
+                diseaseElement.className = 'disease-item';
+                diseaseElement.dataset.id = disease.id;
+                diseaseElement.innerHTML = `
+                    <div>
+                        <div class="disease-name">${disease.name}</div>
+                        <div class="disease-desc">${disease.description}</div>
+                    </div>
+                `;
+                
+                diseaseElement.addEventListener('click', () => {
+                    document.querySelectorAll('.disease-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    diseaseElement.classList.add('active');
+                    displayDiseaseSymptoms(disease);
+                    
+                    setTimeout(() => {
+                        scrollToSymptoms();
+                    }, 300);
+                });
+                
+                categoryItems.appendChild(diseaseElement);
+            });
+            
+            categoryHeader.addEventListener('click', () => {
+                categoryElement.classList.toggle('category-open');
+            });
+            
+            categoryElement.classList.add(categoryClass);
+            categoryElement.appendChild(categoryHeader);
+            categoryElement.appendChild(categoryItems);
+            diseasesContainer.appendChild(categoryElement);
+        }
+
+        // تابع برای نمایش علائم بیماری انتخاب شده
+        function displayDiseaseSymptoms(disease) {
+            selectedDiseaseName.textContent = disease.name;
+            
+            let symptomsHTML = '<div class="symptoms-list">';
+            
+            disease.symptoms.forEach(symptom => {
+                symptomsHTML += `
+                    <div class="symptom-card">
+                        <div class="symptom-name">${symptom.name}</div>
+                        <div class="symptom-desc">${symptom.description}</div>
+                    </div>
+                `;
+            });
+            
+            symptomsHTML += '</div>';
+            symptomsContent.innerHTML = symptomsHTML;
+            
+            // نمایش درمان‌های خانگی
+            homeList.innerHTML = '';
+            disease.homeRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'home-item';
+                remedyElement.textContent = remedy;
+                homeList.appendChild(remedyElement);
+            });
+            
+            // نمایش درمان‌های گیاهی
+            herbalList.innerHTML = '';
+            disease.herbalRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'herbal-item';
+                remedyElement.textContent = remedy;
+                herbalList.appendChild(remedyElement);
+            });
+            
+            detailsContent.textContent = disease.details;
+            homeRemedies.style.display = 'block';
+            herbalRemedies.style.display = 'block';
+            diseaseDetails.style.display = 'block';
+        }
+
+        // تابع برای اسکرول به بخش علائم
+        function scrollToSymptoms() {
+            const symptomsContainer = document.querySelector('.symptoms-container');
+            if (symptomsContainer) {
+                symptomsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                symptomCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('highlight');
+                        setTimeout(() => {
+                            card.classList.remove('highlight');
+                        }, 2000);
+                    }, index * 200);
+                });
+            }
+        }
+
+        // تابع برای جستجوی پیش‌بینانه
+        function showSearchSuggestions(searchTerm) {
+            searchSuggestions.innerHTML = '';
+            
+            if (searchTerm.length < 2) {
+                searchSuggestions.classList.remove('active');
+                return;
+            }
+            
+            const filteredDiseases = diseases.filter(disease => 
+                disease.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                disease.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                disease.symptoms.some(symptom => 
+                    symptom.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            );
+            
+            if (filteredDiseases.length === 0) {
+                searchSuggestions.innerHTML = '<div class="search-info">هیچ نتیجه‌ای یافت نشد</div>';
+            } else {
+                filteredDiseases.slice(0, 8).forEach(disease => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.innerHTML = `
+                        <div class="suggestion-name">${disease.name}</div>
+                        <div class="suggestion-category">${disease.category}</div>
+                    `;
+                    
+                    suggestionItem.addEventListener('click', () => {
+                        searchInput.value = disease.name;
+                        searchSuggestions.classList.remove('active');
+                        performSearch(disease.name);
+                    });
+                    
+                    searchSuggestions.appendChild(suggestionItem);
+                });
+                
+                if (filteredDiseases.length > 8) {
+                    const moreInfo = document.createElement('div');
+                    moreInfo.className = 'search-info';
+                    moreInfo.textContent = `${filteredDiseases.length} نتیجه یافت شد - برای دیدن همه نتایج Enter را بزنید`;
+                    searchSuggestions.appendChild(moreInfo);
+                }
+            }
+            
+            searchSuggestions.classList.add('active');
+        }
+
+        // عملکرد جستجوی اصلی
+        function performSearch(searchTerm = null) {
+            const term = searchTerm || searchInput.value.trim().toLowerCase();
+            
+            if (term === '') {
+                // اگر جستجو خالی باشد، همه موارد را نشان بده
+                document.querySelectorAll('.disease-item').forEach(item => {
+                    item.style.display = 'flex';
+                });
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'block';
+                });
+                return;
+            }
+            
+            let foundAny = false;
+            
+            document.querySelectorAll('.disease-item').forEach(item => {
+                const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
+                const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+                
+                if (diseaseName.includes(term) || diseaseDesc.includes(term)) {
+                    item.style.display = 'flex';
+                    foundAny = true;
+                    
+                    // دسته مربوطه را باز کن
+                    const categoryElement = item.closest('.disease-category');
+                    categoryElement.style.display = 'block';
+                    categoryElement.classList.add('category-open');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // اگر هیچ نتیجه‌ای پیدا نشد
+            if (!foundAny) {
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'none';
+                });
+                
+                // پیام "نتیجه‌ای یافت نشد" نشان بده
+                const noResults = document.createElement('div');
+                noResults.className = 'no-selection';
+                noResults.innerHTML = `
+                    <p>هیچ نتیجه‌ای برای "${term}" یافت نشد</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">لطفاً عبارت جستجو را تغییر دهید</p>
+                `;
+                
+                // اگر پیام قبلی وجود دارد، حذف کن
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+                
+                noResults.classList.add('no-results');
+                diseasesContainer.appendChild(noResults);
+            } else {
+                // اگر نتیجه پیدا شد، پیام "نتیجه‌ای یافت نشد" را پاک کن
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+            }
+        }
+
+        // رویداد جستجو با دکمه
+        searchButton.addEventListener('click', () => {
+            searchSuggestions.classList.remove('active');
+            performSearch();
+        });
+
+        // رویداد جستجو با اینتر
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchSuggestions.classList.remove('active');
+                performSearch();
+            }
+        });
+
+        // جستجوی پیش‌بینانه لحظه‌ای
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const term = this.value.trim();
+            
+            if (term === '') {
+                searchSuggestions.classList.remove('active');
+                performSearch('');
+                return;
+            }
+            
+            // تاخیر برای جلوگیری از جستجوی بیش از حد
+            searchTimeout = setTimeout(() => {
+                showSearchSuggestions(term);
+            }, 300);
+        });
+
+        // بستن پیشنهادات وقتی کاربر خارج از باکس جستجو کلیک می‌کند
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        // دکمه بازگشت به بالا
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+            
+            if (window.pageYOffset > 100) {
+                mainHeader.classList.add('small');
+            } else {
+                mainHeader.classList.remove('small');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // دکمه اسکرول به علائم
+        scrollToSymptomsBtn.addEventListener('click', function() {
+            scrollToSymptoms();
+        });
+
+        // انتخاب اولین بیماری به طور پیش‌فرض
+        if (diseases.length > 0) {
+            const firstCategory = document.querySelector('.disease-category');
+            if (firstCategory) {
+                firstCategory.classList.add('category-open');
+                const firstDisease = firstCategory.querySelector('.disease-item');
+                if (firstDisease) {
+                    firstDisease.classList.add('active');
+                    const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
+                    displayDiseaseSymptoms(firstDiseaseData);
+                    scrollToSymptomsBtn.style.display = 'flex';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

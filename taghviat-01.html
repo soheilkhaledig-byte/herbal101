@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روش‌های تقویت سیستم ایمنی و سلامت عمومی بدن</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fff0 0%, #e6ffe6 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.small {
+            padding: 6px 20px;
+        }
+        
+        header.small h1 {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        header.small .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            margin-bottom: 5px;
+            font-size: 1.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content {
+            margin-top: 120px;
+            transition: all 0.3s ease;
+        }
+        
+        header.small ~ .main-content {
+            margin-top: 70px;
+        }
+        
+        .search-container {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(81, 207, 102, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .diseases-list {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 140px;
+            border: 1px solid #e9ecef;
+        }
+        
+        header.small ~ .main-content .diseases-list {
+            top: 90px;
+        }
+        
+        .diseases-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .diseases-list h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e9ecef;
+            text-align: center;
+            font-size: 1.4rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            padding-top: 10px;
+        }
+        
+        .disease-category {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* رنگ‌بندی کاملاً متفاوت برای هر دسته */
+        .category-immunity {
+            border: 2px solid #51cf66;
+        }
+        
+        .category-immunity .category-header {
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+        }
+        
+        .category-immunity .category-header:hover {
+            background: linear-gradient(135deg, #2b8a3e 0%, #2f9e44 100%);
+        }
+        
+        .category-immunity .disease-item:hover {
+            background: linear-gradient(135deg, #ebfbee 0%, #d3f9d8 100%);
+        }
+        
+        .category-energy {
+            border: 2px solid #ffd43b;
+        }
+        
+        .category-energy .category-header {
+            background: linear-gradient(135deg, #ffd43b 0%, #f59f00 100%);
+            color: white;
+        }
+        
+        .category-energy .category-header:hover {
+            background: linear-gradient(135deg, #f59f00 0%, #e67700 100%);
+        }
+        
+        .category-energy .disease-item:hover {
+            background: linear-gradient(135deg, #fff9db 0%, #fff3bf 100%);
+        }
+        
+        .category-digestive {
+            border: 2px solid #ffa94d;
+        }
+        
+        .category-digestive .category-header {
+            background: linear-gradient(135deg, #ffa94d 0%, #f76707 100%);
+            color: white;
+        }
+        
+        .category-digestive .category-header:hover {
+            background: linear-gradient(135deg, #f76707 0%, #e8590c 100%);
+        }
+        
+        .category-digestive .disease-item:hover {
+            background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%);
+        }
+        
+        .category-nervous {
+            border: 2px solid #cc5de8;
+        }
+        
+        .category-nervous .category-header {
+            background: linear-gradient(135deg, #cc5de8 0%, #9c36b5 100%);
+            color: white;
+        }
+        
+        .category-nervous .category-header:hover {
+            background: linear-gradient(135deg, #9c36b5 0%, #862e9c 100%);
+        }
+        
+        .category-nervous .disease-item:hover {
+            background: linear-gradient(135deg, #f3f0ff 0%, #e5dbff 100%);
+        }
+
+        .category-bone {
+            border: 2px solid #74c0fc;
+        }
+        
+        .category-bone .category-header {
+            background: linear-gradient(135deg, #74c0fc 0%, #339af0 100%);
+            color: white;
+        }
+        
+        .category-bone .category-header:hover {
+            background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
+        }
+        
+        .category-bone .disease-item:hover {
+            background: linear-gradient(135deg, #e7f5ff 0%, #d0ebff 100%);
+        }
+
+        .category-circulatory {
+            border: 2px solid #ff8787;
+        }
+        
+        .category-circulatory .category-header {
+            background: linear-gradient(135deg, #ff8787 0%, #fa5252 100%);
+            color: white;
+        }
+        
+        .category-circulatory .category-header:hover {
+            background: linear-gradient(135deg, #fa5252 0%, #e03131 100%);
+        }
+        
+        .category-circulatory .disease-item:hover {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffd8d8 100%);
+        }
+        
+        .category-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .category-open .category-icon {
+            transform: rotate(180deg);
+        }
+        
+        .category-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .category-open .category-items {
+            max-height: 1000px;
+        }
+        
+        .disease-item {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .disease-item:last-child {
+            border-bottom: none;
+        }
+        
+        .disease-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disease-item.active {
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(81, 207, 102, 0.4);
+        }
+        
+        .disease-name {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+        
+        .disease-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .disease-item.active .disease-desc {
+            color: #e9ecef;
+        }
+        
+        .symptoms-container {
+            flex: 2;
+            min-width: 320px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+        }
+        
+        .symptoms-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .symptoms-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e9ecef;
+        }
+        
+        .symptoms-title {
+            color: #495057;
+            font-size: 1.5rem;
+        }
+        
+        .selected-disease {
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+        }
+        
+        .scroll-to-symptoms {
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3);
+        }
+        
+        .scroll-to-symptoms:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(81, 207, 102, 0.4);
+        }
+        
+        .symptoms-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .symptom-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #51cf66, #2b8a3e);
+        }
+        
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .symptom-name {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .symptom-desc {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            color: #868e96;
+        }
+        
+        .no-selection i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ced4da;
+            opacity: 0.7;
+        }
+        
+        .no-selection p {
+            font-size: 1.1rem;
+        }
+        
+        .herbal-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-right: 5px solid #2a9d8f;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .herbal-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .herbal-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .herbal-item {
+            background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(42, 157, 143, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .herbal-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(42, 157, 143, 0.4);
+        }
+        
+        .home-remedies {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff9db 0%, #fff3bf 100%);
+            border-radius: 12px;
+            border-right: 5px solid #ffd43b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .home-remedies-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .home-remedies-list {
+            color: #666;
+            line-height: 1.7;
+            padding-right: 10px;
+        }
+        
+        .disease-details {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .details-title {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .details-content {
+            color: #666;
+            line-height: 1.7;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-left: 8px;
+        }
+        
+        .details-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .details-content::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+        
+        .saffron-button {
+            display: inline-block;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff9933 0%, #ff6600 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .saffron-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4);
+            background: linear-gradient(135deg, #ff6600 0%, #cc5200 100%);
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+            border: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(81, 207, 102, 0.5);
+            background: linear-gradient(135deg, #2b8a3e 0%, #2f9e44 100%);
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffffff; }
+            50% { background-color: #e7f5ff; transform: scale(1.02); }
+            100% { background-color: #ffffff; }
+        }
+
+        .symptom-card.highlight {
+            animation: highlight 2s ease;
+        }
+        
+        .footer-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-right: 5px solid #ffd43b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 999;
+            color: #856404;
+        }
+        
+        .main-content-with-footer {
+            margin-bottom: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .diseases-list, .symptoms-container {
+                width: 100%;
+                max-height: none;
+                position: static;
+            }
+            
+            .symptoms-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .symptoms-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .selected-disease {
+                margin-bottom: 0;
+            }
+            
+            .scroll-top {
+                left: 20px;
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header.small h1 {
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-top: 150px;
+            }
+            
+            header.small ~ .main-content {
+                margin-top: 100px;
+            }
+            
+            .footer-warning {
+                position: static;
+                margin: 20px 0;
+            }
+            
+            .main-content-with-footer {
+                margin-bottom: 20px;
+            }
+            
+            .search-container {
+                margin: 10px auto 20px;
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <h1>روش‌های تقویت سیستم ایمنی و سلامت عمومی بدن</h1>
+        </div>
+    </header>
+    
+    <div class="main-content main-content-with-footer">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="جستجوی روش تقویتی یا علائم...">
+            </div>
+            
+            <div class="content">
+                <div class="diseases-list">
+                    <h2>روش‌های تقویت عمومی بدن</h2>
+                    <div id="diseases-container">
+                        <!-- روش‌ها توسط جاوااسکریپت اضافه خواهند شد -->
+                    </div>
+                </div>
+                
+                <div class="symptoms-container">
+                    <div class="symptoms-header">
+                        <div class="selected-disease" id="selected-disease-name">هیچ روشی انتخاب نشده</div>
+                        <h2 class="symptoms-title">فواید و اثرات</h2>
+                        <button class="scroll-to-symptoms" id="scrollToSymptoms" style="display: none;">
+                            <span>اسکرول به فواید</span>
+                            ↓
+                        </button>
+                    </div>
+                    
+                    <div id="symptoms-content">
+                        <div class="no-selection">
+                            <i>⬅</i>
+                            <p>لطفاً یک روش از لیست سمت راست انتخاب کنید</p>
+                        </div>
+                    </div>
+                    
+                    <div class="herbal-remedies" id="herbal-remedies" style="display: none;">
+                        <h3 class="herbal-title">گیاهان دارویی مفید</h3>
+                        <div class="herbal-list" id="herbal-list">
+                            <!-- گیاهان دارویی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                            <strong>تذکر:</strong> این اطلاعات صرفاً آموزشی است و مصرف هرگونه گیاه دارویی باید تحت نظر پزشک باشد.
+                        </p>
+                    </div>
+                    
+                    <div class="home-remedies" id="home-remedies" style="display: none;">
+                        <h3 class="home-remedies-title">روش‌های عملی و خانگی</h3>
+                        <div class="home-remedies-list" id="home-remedies-list">
+                            <!-- روش‌های خانگی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                    </div>
+                    
+                    <div class="disease-details" id="disease-details" style="display: none;">
+                        <h3 class="details-title">توضیحات بیشتر</h3>
+                        <div class="details-content" id="details-content">
+                            <!-- توضیحات روش توسط جاوااسکریپت اضافه خواهد شد -->
+                        </div>
+                        <a href="https://elistarsaffron.ir" target="_blank" class="saffron-button">خرید از الیسترزعفران</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-warning">
+        <strong>توجه مهم:</strong> این برنامه تنها یک ابزار کمک آموزشی است و به هیچ وجه جایگزین معاینه و تشخیص پزشک نمی‌شود. لطفاً برای تشخیص و درمان به پزشک متخصص مراجعه کنید.
+    </div>
+
+    <button class="scroll-top" id="scrollTop" title="برگشت به بالا">↑</button>
+
+    <script>
+        // داده‌های کامل روش‌های تقویت عمومی بدن - 30 روش
+        const diseases = [
+            // تقویت سیستم ایمنی - سبز (6 روش)
+            {
+                id: 1,
+                name: "مصرف ویتامین C",
+                category: "تقویت سیستم ایمنی",
+                description: "افزایش مقاومت بدن در برابر عفونت‌ها",
+                symptoms: [
+                    { name: "کاهش عفونت‌های ویروسی", description: "کاهش سرماخوردگی و آنفولانزا" },
+                    { name: "تسریع بهبود زخم", description: "افزایش سرعت ترمیم بافت‌ها" },
+                    { name: "افزایش جذب آهن", description: "بهبود کم‌خونی فقر آهن" },
+                    { name: "حفاظت از سلول‌ها", description: "خاصیت آنتی‌اکسیدانی قوی" }
+                ],
+                herbalRemedies: ["مرکبات", "فلفل دلمه", "کیوی", "توت فرنگی"],
+                homeRemedies: "مصرف روزانه میوه و سبزیجات تازه، آب پرتقال طبیعی، مکمل ویتامین C تحت نظر پزشک",
+                details: "ویتامین C یک ویتامین محلول در آب است که نقش حیاتی در تقویت سیستم ایمنی دارد و به عنوان آنتی‌اکسیدان قوی عمل می‌کند."
+            },
+            {
+                id: 2,
+                name: "مصرف روی (زینک)",
+                category: "تقویت سیستم ایمنی",
+                description: "عنصر ضروری برای عملکرد سیستم ایمنی",
+                symptoms: [
+                    { name: "کاهش مدت بیماری", description: "کوتاه شدن دوره سرماخوردگی" },
+                    { name: "تولید گلبول‌های سفید", description: "افزایش لنفوسیت‌ها" },
+                    { name: "تسریع بهبود زخم", description: "افزایش سرعت ترمیم" },
+                    { name: "حفاظت از سلول‌ها", description: "خاصیت آنتی‌اکسیدانی" }
+                ],
+                herbalRemedies: ["دانه کدو", "عدس", "لوبیا", "بادام هندی"],
+                homeRemedies: "مصرف غذاهای دریایی، گوشت قرمز، حبوبات، مغزها و دانه‌ها، مکمل روی تحت نظر پزشک",
+                details: "روی یکی از微量元素های essential برای عملکرد بیش از 300 آنزیم در بدن است و نقش کلیدی در سیستم ایمنی دارد."
+            },
+            {
+                id: 3,
+                name: "مصرف ویتامین D",
+                category: "تقویت سیستم ایمنی",
+                description: "ویتامین آفتاب برای ایمنی بدن",
+                symptoms: [
+                    { name: "تنظیم پاسخ ایمنی", description: "تعادل در سیستم ایمنی" },
+                    { name: "کاهش التهاب", description: "خاصیت ضد التهابی" },
+                    { name: "حفاظت از ریه", description: "کاهش عفونت‌های تنفسی" },
+                    { name: "تقویت استخوان", description: "جذب کلسیم بهتر" }
+                ],
+                herbalRemedies: ["قارچ", "ماهی چرب", "زرده تخم مرغ", "جگر"],
+                homeRemedies: "قرارگیری در معرض آفتاب مستقیم 15-20 دقیقه روزانه، مصرف ماهی چرب، مکمل ویتامین D تحت نظر پزشک",
+                details: "ویتامین D علاوه بر نقش در سلامت استخوان‌ها، به عنوان یک تنظیم‌کننده مهم سیستم ایمنی عمل می‌کند."
+            },
+            {
+                id: 4,
+                name: "مصرف سیر",
+                category: "تقویت سیستم ایمنی",
+                description: "آنتی‌بیوتیک طبیعی",
+                symptoms: [
+                    { name: "خاصیت ضد میکروبی", description: "مقابله با باکتری و ویروس" },
+                    { name: "کاهش فشار خون", description: "گشادکننده عروق" },
+                    { name: "کاهش کلسترول", description: "کنترل چربی خون" },
+                    { name: "خاصیت ضد سرطانی", description: "پیشگیری از سرطان" }
+                ],
+                herbalRemedies: ["سیر تازه", "سیر پودر شده", "مکمل سیر", "عصاره سیر"],
+                homeRemedies: "مصرف روزانه 2-3 حبه سیر خام یا پخته، اضافه کردن سیر به غذاها، مصرف مکمل سیر تحت نظر پزشک",
+                details: "سیر حاوی آلیسین است که خاصیت ضد میکروبی قوی دارد و به تقویت سیستم ایمنی کمک می‌کند."
+            },
+            {
+                id: 5,
+                name: "مصرف زنجبیل",
+                category: "تقویت سیستم ایمنی",
+                description: "ریشه معجزه‌آسای تقویت ایمنی",
+                symptoms: [
+                    { name: "خاصیت ضد التهابی", description: "کاهش التهاب بدن" },
+                    { name: "کاهش تهوع", description: "ضد استفراغ طبیعی" },
+                    { name: "کاهش درد", description: "مسکن طبیعی" },
+                    { name: "بهبود گوارش", description: "تقویت سیستم گوارشی" }
+                ],
+                herbalRemedies: ["زنجبیل تازه", "زنجبیل خشک", "چای زنجبیل", "پودر زنجبیل"],
+                homeRemedies: "نوشیدن چای زنجبیل روزانه، اضافه کردن زنجبیل به غذاها، مصرف زنجبیل تازه با عسل",
+                details: "زنجبیل حاوی جینجرول است که خاصیت ضد التهابی و آنتی‌اکسیدانی قوی دارد."
+            },
+            {
+                id: 6,
+                name: "مصرف عسل طبیعی",
+                category: "تقویت سیستم ایمنی",
+                description: "شهد طلایی برای سلامت",
+                symptoms: [
+                    { name: "خاصیت ضد میکروبی", description: "مقابله با عفونت‌ها" },
+                    { name: "تسکین سرفه", description: "ضد سرفه طبیعی" },
+                    { name: "انرژی‌زایی", description: "منبع انرژی سریع" },
+                    { name: "تسریع بهبود زخم", description: "خاصیت التیام‌بخشی" }
+                ],
+                herbalRemedies: ["عسل طبیعی", "عسل با蜂胶", "عسل با ژل رویال", "عسل با گرده گل"],
+                homeRemedies: "مصرف یک قاشق عسل روزانه، نوشیدن شربت عسل و لیمو، استفاده از عسل در چای و دمنوش‌ها",
+                details: "عسل طبیعی حاوی آنزیم‌ها، آنتی‌اکسیدان‌ها و مواد معدنی است که به تقویت سیستم ایمنی کمک می‌کنند."
+            },
+
+            // افزایش انرژی - زرد (5 روش)
+            {
+                id: 7,
+                name: "ورزش منظم",
+                category: "افزایش انرژی",
+                description: "تقویت متابولیسم و انرژی بدن",
+                symptoms: [
+                    { name: "افزایش استقامت", description: "کاهش خستگی روزانه" },
+                    { name: "بهبود خواب", description: "خواب عمیق‌تر و با کیفیت" },
+                    { name: "تقویت قلب", description: "بهبود سلامت قلبی عروقی" },
+                    { name: "کاهش استرس", description: "ترشح اندورفین" }
+                ],
+                herbalRemedies: ["جینسینگ", "ماکا", "گوارانا", "جینکو بیلوبا"],
+                homeRemedies: "پیاده‌روی روزانه 30 دقیقه، ورزش هوازی 3-4 بار در هفته، تمرینات قدرتی، یوگا و مدیتیشن",
+                details: "ورزش منظم باعث افزایش جریان خون، بهبود اکسیژن‌رسانی و تقویت متابولیسم پایه می‌شود."
+            },
+            {
+                id: 8,
+                name: "خواب کافی",
+                category: "افزایش انرژی",
+                description: "تجدید قوای بدن و ذهن",
+                symptoms: [
+                    { name: "احساس شادابی", description: "سرحال بیدار شدن" },
+                    { name: "تمرکز بهتر", description: "بهبود عملکرد مغز" },
+                    { name: "تعادل هورمونی", description: "ترشح مناسب هورمون‌ها" },
+                    { name: "ترمیم سلولی", description: "بازسازی بافت‌ها" }
+                ],
+                herbalRemedies: ["سنبل الطیب", "بابونه", "اسطوخودوس", "گل ساعتی"],
+                homeRemedies: "خواب 7-8 ساعته شبانه، رعایت ساعت خواب منظم، تاریک کردن اتاق خواب، پرهیز از کافئین عصرانه",
+                details: "خواب کافی برای ترمیم سلولی، تقویت حافظه و تنظیم هورمون‌های بدن ضروری است."
+            },
+            {
+                id: 9,
+                name: "مدیریت استرس",
+                category: "افزایش انرژی",
+                description: "کاهش عوامل تخلیه انرژی",
+                symptoms: [
+                    { name: "آرامش ذهنی", description: "کاهش اضطراب و نگرانی" },
+                    { name: "تمرکز بهتر", description: "بهبود عملکرد شناختی" },
+                    { name: "تعادل عاطفی", description: "کنترل بهتر احساسات" },
+                    { name: "بهبود روابط", description: "ارتباطات سالم‌تر" }
+                ],
+                herbalRemedies: ["اسطوخودوس", "بابونه", "سنبل الطیب", "رزماری"],
+                homeRemedies: "تمرینات تنفسی، مدیتیشن روزانه، یوگا، پیاده‌روی در طبیعت، گوش دادن به موسیقی آرامش‌بخش",
+                details: "استرس مزمن باعث تخلیه انرژی ذخیره بدن و تضعیف سیستم ایمنی می‌شود."
+            },
+            {
+                id: 10,
+                name: "مصرف آب کافی",
+                category: "افزایش انرژی",
+                description: "سوخت حیاتی سلول‌ها",
+                symptoms: [
+                    { name: "شادابی پوست", description: "آبرسانی به سلول‌ها" },
+                    { name: "دفع سموم", description: "پاکسازی بدن" },
+                    { name: "بهبود گوارش", description: "جذب بهتر مواد مغذی" },
+                    { name: "تنظیم دمای بدن", description: "تعادل حرارتی" }
+                ],
+                herbalRemedies: ["چای سبز", "دمنوش‌های گیاهی", "آب میوه طبیعی", "آب نارگیل"],
+                homeRemedies: "نوشیدن 8-10 لیوان آب روزانه، مصرف میوه‌های آبدار، پرهیز از نوشیدنی‌های قندی، همراه داشتن بطری آب",
+                details: "کم‌آبی حتی به میزان خفیف می‌تواند باعث خستگی، سردرد و کاهش تمرکز شود."
+            },
+            {
+                id: 11,
+                name: "مصرف ویتامین B کمپلکس",
+                category: "افزایش انرژی",
+                description: "سوخت‌رسان سلول‌ها",
+                symptoms: [
+                    { name: "تولید انرژی", description: "تبدیل غذا به انرژی" },
+                    { name: "سلامت اعصاب", description: "تقویت سیستم عصبی" },
+                    { name: "سلامت پوست و مو", description: "تجدید سلولی" },
+                    { name: "سلامت گوارش", description: "تولید اسید معده" }
+                ],
+                herbalRemedies: ["مخمر آبجو", "جوانه گندم", "سبوس برنج", "دانه آفتابگردان"],
+                homeRemedies: "مصرف غلات کامل، حبوبات، مغزها، سبزیجات برگ سبز، تخم مرغ و گوشت بدون چربی",
+                details: "ویتامین‌های گروه B در تبدیل کربوهیدرات‌ها به گلوکز و تولید انرژی نقش اساسی دارند."
+            },
+
+            // تقویت گوارش - نارنجی (5 روش)
+            {
+                id: 12,
+                name: "مصرف پروبیوتیک",
+                category: "تقویت گوارش",
+                description: "تقویت فلور روده",
+                symptoms: [
+                    { name: "بهبود هضم", description: "جذب بهتر مواد مغذی" },
+                    { name: "تقویت ایمنی", description: "70% ایمنی از روده" },
+                    { name: "کاهش نفخ", description: "تعادل باکتری‌های روده" },
+                    { name: "سلامت روان", description: "ارتباط روده-مغز" }
+                ],
+                herbalRemedies: ["کفیر", "کلم ترش", "کیمچی", "مISO"],
+                homeRemedies: "مصرف ماست پروبیوتیک، دوغ کفیر، ترشی‌های طبیعی، مکمل پروبیوتیک تحت نظر پزشک",
+                details: "پروبیوتیک‌ها باکتری‌های مفید روده هستند که به هضم غذا و تقویت سیستم ایمنی کمک می‌کنند."
+            },
+            {
+                id: 13,
+                name: "مصرف فیبر کافی",
+                category: "تقویت گوارش",
+                description: "تنظیم حرکات روده",
+                symptoms: [
+                    { name: "پیشگیری از یبوست", description: "حجیم شدن مدفوع" },
+                    { name: "کنترل قند خون", description: "کاهش جذب قند" },
+                    { name: "کاهش کلسترول", description: "جذب چربی کمتر" },
+                    { name: "کنترل وزن", description: "احساس سیری طولانی" }
+                ],
+                herbalRemedies: ["پسیلیوم", "دانه چیا", "کتان", "سبوس جو"],
+                homeRemedies: "مصرف میوه و سبزیجات تازه، غلات کامل، حبوبات، مغزها و دانه‌ها، نوشیدن آب کافی",
+                details: "فیبر غذایی برای سلامت دستگاه گوارش ضروری است و به پیشگیری از بسیاری بیماری‌ها کمک می‌کند."
+            },
+            {
+                id: 14,
+                name: "مصرف زردچوبه",
+                category: "تقویت گوارش",
+                description: "ادویه طلایی برای گوارش",
+                symptoms: [
+                    { name: "کاهش التهاب", description: "خاصیت ضد التهابی" },
+                    { name: "بهبود کبد", description: "پاکسازی کبد" },
+                    { name: "کاهش گاز معده", description: "بهبود نفخ" },
+                    { name: "خاصیت ضد سرطانی", description: "پیشگیری از سرطان روده" }
+                ],
+                herbalRemedies: ["زردچوبه تازه", "پودر زردچوبه", "کورکومین", "چای زردچوبه"],
+                homeRemedies: "اضافه کردن زردچوبه به غذاها، نوشیدن شیر زردچوبه، مصرف زردچوبه با فلفل سیاه برای جذب بهتر",
+                details: "کورکومین موجود در زردچوبه خاصیت ضد التهابی قوی دارد و برای سلامت گوارش مفید است."
+            },
+            {
+                id: 15,
+                name: "نوشیدن آب ولرم با لیمو",
+                category: "تقویت گوارش",
+                description: "شروع روز با پاکسازی",
+                symptoms: [
+                    { name: "تحریک گوارش", description: "آماده کردن معده" },
+                    { name: "آبرسانی", description: "جایگزینی آب از دست رفته" },
+                    { name: "پاکسازی کبد", description: "تحریک تولید صفرا" },
+                    { name: "تعادل pH بدن", description: "خاصیت قلیایی" }
+                ],
+                herbalRemedies: ["لیموترش", "عسل", "زنجبیل", "نعنا"],
+                homeRemedies: "نوشیدن یک لیوان آب ولرم با آب نصف لیمو ترش تازه هر روز صبح ناشتا، اضافه کردن عسل در صورت تمایل",
+                details: "این روش ساده به پاکسازی دستگاه گوارش، تحریک کبد و بهبود هضم کمک می‌کند."
+            },
+            {
+                id: 16,
+                name: "جویدن صحیح غذا",
+                category: "تقویت گوارش",
+                description: "اولین مرحله هضم",
+                symptoms: [
+                    { name: "هضم بهتر", description: "تسهیل کار معده" },
+                    { name: "جذب بهتر مواد مغذی", description: "تجزیه کامل غذا" },
+                    { name: "کاهش نفخ", description: "ورود هوای کمتر" },
+                    { name: "کنترل وزن", description: "احساس سیری زودتر" }
+                ],
+                herbalRemedies: ["رازیانه", "نعنا", "زنجبیل", "بابونه"],
+                homeRemedies: "جویدن هر لقمه 20-30 بار، غذا خوردن در آرامش، پرهیز از عجله، توجه به طعم و بافت غذا",
+                details: "جویدن کامل غذا اولین و مهم‌ترین مرحله هضم است که کار معده و روده را بسیار آسان‌تر می‌کند."
+            },
+
+            // تقویت سیستم عصبی - بنفش (5 روش)
+            {
+                id: 17,
+                name: "مصرف امگا-3",
+                category: "تقویت سیستم عصبی",
+                description: "غذای مغز",
+                symptoms: [
+                    { name: "بهبود حافظه", description: "تقویت عملکرد مغز" },
+                    { name: "کاهش التهاب", description: "خاصیت ضد التهابی" },
+                    { name: "سلامت قلب", description: "کاهش تری گلیسیرید" },
+                    { name: "تعادل خلق و خو", description: "کاهش افسردگی" }
+                ],
+                herbalRemedies: ["دانه چیا", "کتان", "گردو", "روغن ماهی"],
+                homeRemedies: "مصرف ماهی چرب 2 بار در هفته، استفاده از روغن زیتون، مصرف مغزها و دانه‌ها، مکمل امگا-3 تحت نظر پزشک",
+                details: "اسیدهای چرب امگا-3 برای سلامت مغز، اعصاب و چشم ضروری هستند و بدن قادر به تولید آن‌ها نیست."
+            },
+            {
+                id: 18,
+                name: "مدیتیشن",
+                category: "تقویت سیستم عصبی",
+                description: "آرامش ذهن و تقویت تمرکز",
+                symptoms: [
+                    { name: "کاهش استرس", description: "کاهش کورتیزول" },
+                    { name: "بهبود خواب", description: "آرامش عمیق" },
+                    { name: "تقویت حافظه", description: "افزایش تمرکز" },
+                    { name: "تعادل عاطفی", description: "کنترل احساسات" }
+                ],
+                herbalRemedies: ["اسطوخودوس", "بابونه", "سنبل الطیب", "گل ساعتی"],
+                homeRemedies: "مدیتیشن روزانه 10-20 دقیقه، تمرینات تنفسی، یوگا، پیاده‌روی ذهنی، گوش دادن به موسیقی آرام",
+                details: "مدیتیشن به کاهش استرس، بهبود تمرکز و تقویت سلامت روان کمک می‌کند."
+            },
+            {
+                id: 19,
+                name: "مطالعه منظم",
+                category: "تقویت سیستم عصبی",
+                description: "ورزش مغز",
+                symptoms: [
+                    { name: "تقویت حافظه", description: "ایجاد ارتباطات عصبی جدید" },
+                    { name: "کاهش استرس", description: "فرار از نگرانی‌ها" },
+                    { name: "افزایش دانش", description: "گسترش دیدگاه" },
+                    { name: "بهبود تفکر انتقادی", description: "تحلیل بهتر مسائل" }
+                ],
+                herbalRemedies: ["جینکو بیلوبا", "جینسینگ", "رزماری", "مریم گلی"],
+                homeRemedies: "مطالعه روزانه 30 دقیقه، خواندن کتاب‌های متنوع، حل جدول و پازل، یادگیری مهارت جدید",
+                details: "مطالعه منظم مانند ورزش برای مغز است و به پیشگیری از زوال عقل کمک می‌کند."
+            },
+            {
+                id: 20,
+                name: "مصرف منیزیوم",
+                category: "تقویت سیستم عصبی",
+                description: "مینرال آرامش‌بخش",
+                symptoms: [
+                    { name: "آرامش اعصاب", description: "تنظیم انتقال عصبی" },
+                    { name: "بهبود خواب", description: "تنظیم ملاتونین" },
+                    { name: "کاهش گرفتگی عضلات", description: "شل کردن عضلات" },
+                    { name: "تنظیم ضربان قلب", description: "ثبات ریتم قلب" }
+                ],
+                herbalRemedies: ["اسفناج", "بادام", "آووکادو", "موز"],
+                homeRemedies: "مصرف سبزیجات برگ سبز، مغزها، دانه‌ها، حبوبات، شکلات تلخ، مکمل منیزیوم تحت نظر پزشک",
+                details: "منیزیوم در بیش از 300 واکنش بیوشیمیایی بدن نقش دارد و برای آرامش اعصاب ضروری است."
+            },
+            {
+                id: 21,
+                name: "نوشیدن چای سبز",
+                category: "تقویت سیستم عصبی",
+                description: "تقویت کننده هوشیاری",
+                symptoms: [
+                    { name: "افزایش تمرکز", description: "کافئین ملایم" },
+                    { name: "خاصیت آنتی‌اکسیدانی", description: "حفاظت از سلول‌های مغز" },
+                    { name: "کاهش استرس", description: "ال-تیانین آرامش‌بخش" },
+                    { name: "تقویت متابولیسم", description: "افزایش سوخت و ساز" }
+                ],
+                herbalRemedies: ["چای سبز", "ماچا", "اولانگ", "چای سفید"],
+                homeRemedies: "نوشیدن 2-3 فنجان چای سبز روزانه، دم کردن صحیح چای، پرهیز از افزودن شکر، مصرف در طول روز",
+                details: "چای سبز حاوی کافئین و ال-تیانین است که با همکاری هم باعث افزایش هوشیاری و آرامش می‌شوند."
+            },
+
+            // تقویت استخوان‌ها - آبی (5 روش)
+            {
+                id: 22,
+                name: "مصرف کلسیم",
+                category: "تقویت استخوان‌ها",
+                description: "ساختمان استخوان‌ها",
+                symptoms: [
+                    { name: "استحکام استخوان", description: "پیشگیری از پوکی استخوان" },
+                    { name: "سلامت دندان", description: "تقویت مینای دندان" },
+                    { name: "انقباض عضلات", description: "عملکرد صحیح عضلات" },
+                    { name: "انعقاد خون", description: "لخته شدن طبیعی خون" }
+                ],
+                herbalRemedies: ["کنجد", "بادام", "شیر", "ماست"],
+                homeRemedies: "مصرف لبنیات، سبزیجات برگ سبز، ماهی ساردین با استخوان، توفو، آب پرتقال غنی شده با کلسیم",
+                details: "کلسیم فراوان‌ترین ماده معدنی در بدن است و 99% آن در استخوان‌ها و دندان‌ها ذخیره می‌شود."
+            },
+            {
+                id: 23,
+                name: "ورزش تحمل وزن",
+                category: "تقویت استخوان‌ها",
+                description: "تحریک ساخت استخوان",
+                symptoms: [
+                    { name: "افزایش تراکم استخوان", description: "تحریک سلول‌های استخوان‌ساز" },
+                    { name: "تعادل بهتر", description: "کاهش خطر زمین خوردن" },
+                    { name: "تقویت عضلات", description: "حفاظت از استخوان‌ها" },
+                    { name: "بهبود وضعیت بدن", description: "اصلاح قوز و گودی" }
+                ],
+                herbalRemedies: ["جینسینگ", "ماکا", "گوارانا", "جینکو بیلوبا"],
+                homeRemedies: "پیاده‌روی، دویدن، تمرینات قدرتی، یوگا، تای چی، بالا رفتن از پله، رقص",
+                details: "ورزش‌های تحمل وزن با اعمال فشار بر استخوان‌ها، سلول‌های استخوان‌ساز را فعال می‌کنند."
+            },
+            {
+                id: 24,
+                name: "مصرف ویتامین K",
+                category: "تقویت استخوان‌ها",
+                description: "چسب استخوان‌ها",
+                symptoms: [
+                    { name: "جذب کلسیم", description: "هدایت کلسیم به استخوان" },
+                    { name: "ساخت استئوکلسین", description: "پروتئین استخوان‌ساز" },
+                    { name: "انعقاد خون", description: "لخته شدن طبیعی" },
+                    { name: "حفاظت از شریان‌ها", description: "پیشگیری از کلسیفیکاسیون" }
+                ],
+                herbalRemedies: ["جعفری", "اسفناج", "کلم بروکلی", "کلم پیچ"],
+                homeRemedies: "مصرف سبزیجات برگ سبز تیره، روغن کانولا، پنیر، تخم مرغ، مکمل تحت نظر پزشک",
+                details: "ویتامین K برای فعال کردن پروتئین‌هایی که کلسیم را به استخوان‌ها متصل می‌کنند ضروری است."
+            },
+            {
+                id: 25,
+                name: "مصرف منیزیوم",
+                category: "تقویت استخوان‌ها",
+                description: "همکار کلسیم",
+                symptoms: [
+                    { name: "جذب کلسیم", description: "تبدیل ویتامین D به شکل فعال" },
+                    { name: "ساخت استخوان", description: "جزء ساختاری استخوان" },
+                    { name: "تعادل کلسیم", description: "پیشگیری از رسوب در بافت‌های نرم" },
+                    { name: "انقباض عضلات", description: "عملکرد صحیح عضلات" }
+                ],
+                herbalRemedies: ["بادام", "اسفناج", "کدو تنبل", "موز"],
+                homeRemedies: "مصرف مغزها، دانه‌ها، حبوبات، غلات کامل، سبزیجات برگ سبز، شکلات تلخ",
+                details: "منیزیوم برای جذب و متابولیسم کلسیم ضروری است و حدود 60% منیزیوم بدن در استخوان‌ها ذخیره می‌شود."
+            },
+            {
+                id: 26,
+                name: "پرهیز از سیگار و الکل",
+                category: "تقویت استخوان‌ها",
+                description: "حذف عوامل تخریب استخوان",
+                symptoms: [
+                    { name: "جذب بهتر کلسیم", description: "حذف موانع جذب" },
+                    { name: "تعادل هورمونی", description: "ترشح مناسب هورمون‌ها" },
+                    { name: "سلامت کلیه", description: "دفع کمتر کلسیم" },
+                    { name: "جریان خون بهتر", description: "تغذیه بهتر استخوان" }
+                ],
+                herbalRemedies: ["زنجبیل", "نعنا", "بابونه", "اسطوخودوس"],
+                homeRemedies: "ترک سیگار، محدود کردن الکل، ورزش منظم، تغذیه سالم، مدیریت استرس",
+                details: "سیگار و مصرف زیاد الکل از عوامل اصلی پوکی استخوان هستند و جذب کلسیم را مختل می‌کنند."
+            },
+
+            // تقویت گردش خون - قرمز (4 روش)
+            {
+                id: 27,
+                name: "ورزش هوازی",
+                category: "تقویت گردش خون",
+                description: "پمپاژ بهتر خون",
+                symptoms: [
+                    { name: "افزایش جریان خون", description: "تقویت قلب" },
+                    { name: "اکسیژن‌رسانی بهتر", description: "تغذیه سلول‌ها" },
+                    { name: "کاهش فشار خون", description: "گشاد شدن عروق" },
+                    { name: "دفع سموم", description: "پاکسازی بدن" }
+                ],
+                herbalRemedies: ["جینکو بیلوبا", "فلفل کاین", "زنجبیل", "سیر"],
+                homeRemedies: "پیاده‌روی سریع، دوچرخه‌سواری، شنا، رقص، طناب زدن، ورزش‌های هوازی 150 دقیقه در هفته",
+                details: "ورزش هوازی با تقویت قلب و عروق، جریان خون را در سراسر بدن بهبود می‌بخشد."
+            },
+            {
+                id: 28,
+                name: "ماساژ درمانی",
+                category: "تقویت گردش خون",
+                description: "تحریک جریان خون",
+                symptoms: [
+                    { name: "افزایش جریان موضعی", description: "گرم شدن بافت‌ها" },
+                    { name: "کاهش گرفتگی عضلات", description: "شل شدن عضلات" },
+                    { name: "دفع اسید لاکتیک", description: "کاهش درد عضلانی" },
+                    { name: "آرامش عمیق", description: "کاهش استرس" }
+                ],
+                herbalRemedies: ["روغن نعنا", "روغن اسطوخودوس", "روغن رزماری", "روغن اکالیپتوس"],
+                homeRemedies: "ماساژ منظم، استفاده از فوم رولر، ماساژ خودکار با دست، دوش آب گرم، سونا",
+                details: "ماساژ با افزایش جریان خون موضعی، به تغذیه بافت‌ها و دفع مواد زائد کمک می‌کند."
+            },
+            {
+                id: 29,
+                name: "مصرف فلفل قرمز",
+                category: "تقویت گردش خون",
+                description: "گشادکننده عروق",
+                symptoms: [
+                    { name: "افزایش جریان خون", description: "گشاد شدن عروق" },
+                    { name: "کاهش فشار خون", description: "بهبود سلامت عروق" },
+                    { name: "تقویت متابولیسم", description: "افزایش حرارت بدن" },
+                    { name: "کاهش التهاب", description: "خاصیت ضد التهابی" }
+                ],
+                herbalRemedies: ["فلفل کاین", "فلفل هالوپینو", "فلفل سیاه", "زنجبیل"],
+                homeRemedies: "اضافه کردن فلفل قرمز به غذاها، مصرف چای فلفل قرمز، استفاده از کرم‌های حاوی کپسایسین",
+                details: "کپسایسین موجود در فلفل قرمز با گشاد کردن عروق خونی، جریان خون را بهبود می‌بخشد."
+            },
+            {
+                id: 30,
+                name: "نوشیدن آب کافی",
+                category: "تقویت گردش خون",
+                description: "رقیق کردن خون",
+                symptoms: [
+                    { name: "جریان خون بهتر", description: "کاهش ویسکوزیته خون" },
+                    { name: "دفع سموم", description: "پاکسازی خون" },
+                    { name: "تنظیم فشار خون", description: "حجم خون مناسب" },
+                    { name: "سلامت کلیه", description: "فیلتراسیون بهتر" }
+                ],
+                herbalRemedies: ["چای سبز", "دمنوش‌های گیاهی", "آب میوه طبیعی", "آب نارگیل"],
+                homeRemedies: "نوشیدن 8-10 لیوان آب روزانه، مصرف میوه‌های آبدار، پرهیز از نوشیدنی‌های قندی و کافئین زیاد",
+                details: "کم‌آبی باعث غلیظ شدن خون و کاهش جریان خون می‌شود که بر سلامت تمام اعضای بدن تأثیر منفی دارد."
+            }
+        ];
+
+        // ایجاد لیست روش‌ها
+        const diseasesContainer = document.getElementById('diseases-container');
+        const symptomsContent = document.getElementById('symptoms-content');
+        const selectedDiseaseName = document.getElementById('selected-disease-name');
+        const herbalRemedies = document.getElementById('herbal-remedies');
+        const herbalList = document.getElementById('herbal-list');
+        const homeRemedies = document.getElementById('home-remedies');
+        const homeRemediesList = document.getElementById('home-remedies-list');
+        const diseaseDetails = document.getElementById('disease-details');
+        const detailsContent = document.getElementById('details-content');
+        const searchInput = document.getElementById('search-input');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
+        const mainHeader = document.getElementById('main-header');
+
+        // تابع برای دریافت کلاس CSS بر اساس دسته
+        function getCategoryClass(category) {
+            switch(category) {
+                case 'تقویت سیستم ایمنی':
+                    return 'category-immunity';
+                case 'افزایش انرژی':
+                    return 'category-energy';
+                case 'تقویت گوارش':
+                    return 'category-digestive';
+                case 'تقویت سیستم عصبی':
+                    return 'category-nervous';
+                case 'تقویت استخوان‌ها':
+                    return 'category-bone';
+                case 'تقویت گردش خون':
+                    return 'category-circulatory';
+                default:
+                    return '';
+            }
+        }
+
+        // گروه‌بندی روش‌ها بر اساس دسته
+        const categories = {};
+        diseases.forEach(disease => {
+            if (!categories[disease.category]) {
+                categories[disease.category] = [];
+            }
+            categories[disease.category].push(disease);
+        });
+
+        // ایجاد لیست روش‌ها با گروه‌بندی و منوی بازشو
+        for (const category in categories) {
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'disease-category';
+            const categoryClass = getCategoryClass(category);
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="category-title">${category}</div>
+                <div class="category-icon">▼</div>
+            `;
+            
+            const categoryItems = document.createElement('div');
+            categoryItems.className = 'category-items';
+            
+            categories[category].forEach(disease => {
+                const diseaseElement = document.createElement('div');
+                diseaseElement.className = 'disease-item';
+                diseaseElement.dataset.id = disease.id;
+                diseaseElement.innerHTML = `
+                    <div>
+                        <div class="disease-name">${disease.name}</div>
+                        <div class="disease-desc">${disease.description}</div>
+                    </div>
+                `;
+                
+                diseaseElement.addEventListener('click', () => {
+                    document.querySelectorAll('.disease-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    diseaseElement.classList.add('active');
+                    displayDiseaseSymptoms(disease);
+                    
+                    setTimeout(() => {
+                        scrollToSymptoms();
+                    }, 300);
+                });
+                
+                categoryItems.appendChild(diseaseElement);
+            });
+            
+            categoryHeader.addEventListener('click', () => {
+                categoryElement.classList.toggle('category-open');
+            });
+            
+            categoryElement.classList.add(categoryClass);
+            categoryElement.appendChild(categoryHeader);
+            categoryElement.appendChild(categoryItems);
+            diseasesContainer.appendChild(categoryElement);
+        }
+
+        // تابع برای نمایش فواید روش انتخاب شده
+        function displayDiseaseSymptoms(disease) {
+            selectedDiseaseName.textContent = disease.name;
+            
+            let symptomsHTML = '<div class="symptoms-list">';
+            
+            disease.symptoms.forEach(symptom => {
+                symptomsHTML += `
+                    <div class="symptom-card">
+                        <div class="symptom-name">${symptom.name}</div>
+                        <div class="symptom-desc">${symptom.description}</div>
+                    </div>
+                `;
+            });
+            
+            symptomsHTML += '</div>';
+            symptomsContent.innerHTML = symptomsHTML;
+            
+            // نمایش گیاهان دارویی
+            herbalList.innerHTML = '';
+            disease.herbalRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'herbal-item';
+                remedyElement.textContent = remedy;
+                herbalList.appendChild(remedyElement);
+            });
+            
+            // نمایش روش‌های خانگی
+            homeRemediesList.textContent = disease.homeRemedies;
+            
+            detailsContent.textContent = disease.details;
+            herbalRemedies.style.display = 'block';
+            homeRemedies.style.display = 'block';
+            diseaseDetails.style.display = 'block';
+            scrollToSymptomsBtn.style.display = 'flex';
+        }
+
+        // تابع برای اسکرول به بخش فواید
+        function scrollToSymptoms() {
+            const symptomsContainer = document.querySelector('.symptoms-container');
+            if (symptomsContainer) {
+                symptomsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                symptomCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('highlight');
+                        setTimeout(() => {
+                            card.classList.remove('highlight');
+                        }, 2000);
+                    }, index * 200);
+                });
+            }
+        }
+
+        // عملکرد جستجو - اصلاح شده
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+            
+            // اگر جستجو خالی است، همه موارد را نمایش بده
+            if (searchTerm === '') {
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'block';
+                    category.querySelectorAll('.disease-item').forEach(item => {
+                        item.style.display = 'flex';
+                    });
+                });
+                return;
+            }
+            
+            // جستجو در نام و توضیحات بیماری‌ها
+            let hasResults = false;
+            
+            document.querySelectorAll('.disease-category').forEach(category => {
+                let categoryHasVisibleItems = false;
+                
+                category.querySelectorAll('.disease-item').forEach(item => {
+                    const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
+                    const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+                    
+                    if (diseaseName.includes(searchTerm) || diseaseDesc.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                        categoryHasVisibleItems = true;
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // نمایش یا مخفی کردن دسته‌بندی
+                if (categoryHasVisibleItems) {
+                    category.style.display = 'block';
+                    category.classList.add('category-open');
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+            
+            // اگر نتیجه‌ای پیدا نشد
+            if (!hasResults) {
+                diseasesContainer.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">هیچ نتیجه‌ای برای جستجوی شما یافت نشد</p>';
+            }
+        });
+
+        // دکمه بازگشت به بالا
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+            
+            if (window.pageYOffset > 100) {
+                mainHeader.classList.add('small');
+            } else {
+                mainHeader.classList.remove('small');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // دکمه اسکرول به فواید
+        scrollToSymptomsBtn.addEventListener('click', function() {
+            scrollToSymptoms();
+        });
+
+        // انتخاب اولین روش به طور پیش‌فرض
+        if (diseases.length > 0) {
+            const firstCategory = document.querySelector('.disease-category');
+            if (firstCategory) {
+                firstCategory.classList.add('category-open');
+                const firstDisease = firstCategory.querySelector('.disease-item');
+                if (firstDisease) {
+                    firstDisease.classList.add('active');
+                    const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
+                    displayDiseaseSymptoms(firstDiseaseData);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بیماری‌های تنفسی</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f7ff 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.small {
+            padding: 5px 25px;
+        }
+        
+        header.small h1 {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        header.small .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            margin-bottom: 5px;
+            font-size: 1.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .main-content {
+            margin-top: 120px;
+            transition: all 0.3s ease;
+        }
+        
+        header.small ~ .main-content {
+            margin-top: 70px;
+        }
+        
+        .search-container {
+            margin: 20px auto;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        #search-input:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        #search-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+            white-space: nowrap;
+        }
+        
+        #search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            left: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .search-suggestions.active {
+            display: block;
+        }
+        
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f3f5;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .suggestion-name {
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .suggestion-category {
+            font-size: 0.8rem;
+            color: #868e96;
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        
+        .search-info {
+            text-align: center;
+            padding: 10px;
+            color: #868e96;
+            font-size: 0.9rem;
+        }
+        
+        .content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .diseases-list {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: sticky;
+            top: 140px;
+            border: 1px solid #e1f5fe;
+        }
+        
+        header.small ~ .main-content .diseases-list {
+            top: 90px;
+        }
+        
+        .diseases-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb {
+            background: #b3e5fc;
+            border-radius: 10px;
+        }
+        
+        .diseases-list::-webkit-scrollbar-thumb:hover {
+            background: #81d4fa;
+        }
+        
+        .diseases-list h2 {
+            color: #01579b;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e1f5fe;
+            text-align: center;
+            font-size: 1.4rem;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            padding-top: 10px;
+        }
+        
+        .disease-category {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* رنگ‌بندی کاملاً متفاوت برای هر دسته */
+        .category-viral {
+            border: 2px solid #4fc3f7;
+        }
+        
+        .category-viral .category-header {
+            background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+            color: white;
+        }
+        
+        .category-viral .category-header:hover {
+            background: linear-gradient(135deg, #29b6f6 0%, #039be5 100%);
+        }
+        
+        .category-viral .disease-item:hover {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+        }
+        
+        .category-bacterial {
+            border: 2px solid #ff9800;
+        }
+        
+        .category-bacterial .category-header {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+        }
+        
+        .category-bacterial .category-header:hover {
+            background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+        }
+        
+        .category-bacterial .disease-item:hover {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+        
+        .category-chronic {
+            border: 2px solid #7b1fa2;
+        }
+        
+        .category-chronic .category-header {
+            background: linear-gradient(135deg, #7b1fa2 0%, #6a1b9a 100%);
+            color: white;
+        }
+        
+        .category-chronic .category-header:hover {
+            background: linear-gradient(135deg, #6a1b9a 0%, #4a148c 100%);
+        }
+        
+        .category-chronic .disease-item:hover {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        }
+        
+        .category-allergy {
+            border: 2px solid #43a047;
+        }
+        
+        .category-allergy .category-header {
+            background: linear-gradient(135deg, #43a047 0%, #388e3c 100%);
+            color: white;
+        }
+        
+        .category-allergy .category-header:hover {
+            background: linear-gradient(135deg, #388e3c 0%, #2e7d32 100%);
+        }
+        
+        .category-allergy .disease-item:hover {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .category-other {
+            border: 2px solid #e53935;
+        }
+        
+        .category-other .category-header {
+            background: linear-gradient(135deg, #e53935 0%, #d32f2f 100%);
+            color: white;
+        }
+        
+        .category-other .category-header:hover {
+            background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+        }
+        
+        .category-other .disease-item:hover {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+        
+        .category-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .category-open .category-icon {
+            transform: rotate(180deg);
+        }
+        
+        .category-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .category-open .category-items {
+            max-height: 1000px;
+        }
+        
+        .disease-item {
+            padding: 15px 20px;
+            background-color: white;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .disease-item:last-child {
+            border-bottom: none;
+        }
+        
+        .disease-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disease-item.active {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        .disease-name {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+        
+        .disease-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .disease-item.active .disease-desc {
+            color: #e9ecef;
+        }
+        
+        .symptoms-container {
+            flex: 2;
+            min-width: 320px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            border: 1px solid #e1f5fe;
+        }
+        
+        .symptoms-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb {
+            background: #b3e5fc;
+            border-radius: 10px;
+        }
+        
+        .symptoms-container::-webkit-scrollbar-thumb:hover {
+            background: #81d4fa;
+        }
+        
+        .symptoms-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e1f5fe;
+        }
+        
+        .symptoms-title {
+            color: #01579b;
+            font-size: 1.5rem;
+        }
+        
+        .selected-disease {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+        }
+        
+        .scroll-to-symptoms {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+        }
+        
+        .scroll-to-symptoms:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(79, 172, 254, 0.4);
+        }
+        
+        .symptoms-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .symptom-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #4facfe, #00f2fe);
+        }
+        
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .symptom-name {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .symptom-desc {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            color: #868e96;
+        }
+        
+        .no-selection i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ced4da;
+            opacity: 0.7;
+        }
+        
+        .no-selection p {
+            font-size: 1.1rem;
+        }
+        
+        .home-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-right: 5px solid #4fc3f7;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .home-title {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .home-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .home-item {
+            background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .home-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(79, 195, 247, 0.4);
+        }
+        
+        .herbal-remedies {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 100%);
+            border-radius: 12px;
+            border-right: 5px solid #689f38;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .herbal-title {
+            color: #33691e;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .herbal-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .herbal-item {
+            background: linear-gradient(135deg, #689f38 0%, #558b2f 100%);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(104, 159, 56, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .herbal-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(104, 159, 56, 0.4);
+        }
+        
+        .disease-details {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .details-title {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .details-content {
+            color: #666;
+            line-height: 1.7;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-left: 8px;
+        }
+        
+        .details-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .details-content::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb {
+            background: #b3e5fc;
+            border-radius: 10px;
+        }
+        
+        .details-content::-webkit-scrollbar-thumb:hover {
+            background: #81d4fa;
+        }
+        
+        .buy-button {
+            display: block;
+            margin: 20px auto 10px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            text-align: center;
+            text-decoration: none;
+            width: fit-content;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff8e8e 0%, #ff6b6b 100%);
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+            border: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.5);
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffffff; }
+            50% { background-color: #e1f5fe; transform: scale(1.02); }
+            100% { background-color: #ffffff; }
+        }
+
+        .symptom-card.highlight {
+            animation: highlight 2s ease;
+        }
+        
+        .footer-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-right: 5px solid #ffd43b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 999;
+            color: #856404;
+        }
+        
+        .main-content-with-footer {
+            margin-bottom: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .diseases-list, .symptoms-container {
+                width: 100%;
+                max-height: none;
+                position: static;
+            }
+            
+            .symptoms-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .symptoms-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .selected-disease {
+                margin-bottom: 0;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            #search-input {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+            
+            #search-button {
+                width: 100%;
+                padding: 15px 25px;
+                font-size: 1.1rem;
+                margin-top: 5px;
+            }
+            
+            .scroll-top {
+                left: 20px;
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            header.small h1 {
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-top: 120px;
+            }
+            
+            header.small ~ .main-content {
+                margin-top: 80px;
+            }
+            
+            .footer-warning {
+                position: static;
+                margin: 20px 0;
+            }
+            
+            .main-content-with-footer {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <h1>بیماری‌های تنفسی</h1>
+            <p class="subtitle">مرجع کامل بیماری‌های تنفسی، علائم و درمان‌های خانگی و گیاهی</p>
+        </div>
+    </header>
+    
+    <div class="main-content main-content-with-footer">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="جستجوی بیماری یا علائم...">
+                    <button id="search-button">جستجو</button>
+                    <div class="search-suggestions" id="search-suggestions">
+                        <!-- پیشنهادات جستجو اینجا نمایش داده می‌شوند -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="diseases-list">
+                    <h2>لیست بیماری‌های تنفسی</h2>
+                    <div id="diseases-container">
+                        <!-- بیماری‌ها توسط جاوااسکریپت اضافه خواهند شد -->
+                    </div>
+                </div>
+                
+                <div class="symptoms-container">
+                    <div class="symptoms-header">
+                        <div class="selected-disease" id="selected-disease-name">هیچ بیماری انتخاب نشده</div>
+                        <h2 class="symptoms-title">علائم بیماری</h2>
+                        <button class="scroll-to-symptoms" id="scrollToSymptoms" style="display: none;">
+                            <span>اسکرول به علائم</span>
+                            ↓
+                        </button>
+                    </div>
+                    
+                    <div id="symptoms-content">
+                        <div class="no-selection">
+                            <i>⬅</i>
+                            <p>لطفاً یک بیماری از لیست سمت راست انتخاب کنید</p>
+                        </div>
+                    </div>
+                    
+                    <div class="home-remedies" id="home-remedies" style="display: none;">
+                        <h3 class="home-title">درمان‌های خانگی و توصیه‌ها</h3>
+                        <div class="home-list" id="home-list">
+                            <!-- درمان‌های خانگی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                    </div>
+                    
+                    <div class="herbal-remedies" id="herbal-remedies" style="display: none;">
+                        <h3 class="herbal-title">درمان با گیاهان دارویی</h3>
+                        <div class="herbal-list" id="herbal-list">
+                            <!-- گیاهان دارویی توسط جاوااسکریپت اضافه خواهند شد -->
+                        </div>
+                    </div>
+                    
+                    <div class="disease-details" id="disease-details" style="display: none;">
+                        <h3 class="details-title">توضیحات بیشتر</h3>
+                        <div class="details-content" id="details-content">
+                            <!-- توضیحات بیماری توسط جاوااسکریپت اضافه خواهد شد -->
+                        </div>
+                        <a href="https://elistarsaffron.ir" target="_blank" class="buy-button">
+                            خرید از الیسترزعفران
+                        </a>
+                    </div>
+                    
+                    <p style="margin-top: 25px; font-size: 0.9rem; color: #666; text-align: center;">
+                        <strong>تذکر مهم:</strong> این اطلاعات صرفاً آموزشی است و برای تشخیص و درمان حتماً به پزشک مراجعه کنید.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-warning">
+        <strong>توجه مهم:</strong> این برنامه تنها یک ابزار کمک آموزشی است و به هیچ وجه جایگزین معاینه و تشخیص پزشک نمی‌شود. لطفاً برای تشخیص و درمان به پزشک متخصص مراجعه کنید.
+    </div>
+
+    <button class="scroll-top" id="scrollTop" title="برگشت به بالا">↑</button>
+
+    <script>
+        // داده‌های کامل بیماری‌های تنفسی - 30 بیماری
+        const diseases = [
+            // بیماری‌های ویروسی - آبی (8 بیماری)
+            {
+                id: 1,
+                name: "سرماخوردگی معمولی",
+                category: "بیماری‌های ویروسی",
+                description: "عفونت ویروسی دستگاه تنفسی فوقانی",
+                symptoms: [
+                    { name: "آبریزش بینی", description: "ترشحات شفاف و آبکی از بینی" },
+                    { name: "گلودرد", description: "درد و خارش در ناحیه گلو" },
+                    { name: "عطسه", description: "عطسه‌های مکرر" },
+                    { name: "سرفه", description: "سرفه خشک یا همراه با خلط" }
+                ],
+                homeRemedies: ["نوشیدن مایعات گرم", "استراحت کافی", "غرغره آب نمک", "استنشاق بخار"],
+                herbalRemedies: ["زنجبیل", "عسل", "آویشن", "پونه", "مریم‌گلی"],
+                details: "سرماخوردگی معمولی شایع‌ترین بیماری عفونی در انسان است که توسط ویروس‌های مختلفی ایجاد می‌شود."
+            },
+            {
+                id: 2,
+                name: "آنفولانزا",
+                category: "بیماری‌های ویروسی",
+                description: "عفونت ویروسی شدید دستگاه تنفسی",
+                symptoms: [
+                    { name: "تب ناگهانی", description: "تب بالا (38 درجه سانتی‌گراد یا بیشتر)" },
+                    { name: "درد عضلانی", description: "درد و کوفتگی در سراسر بدن" },
+                    { name: "سردرد", description: "سردرد شدید و مداوم" }
+                ],
+                homeRemedies: ["استراحت مطلق", "نوشیدن مایعات فراوان", "پاشویه برای کاهش تب", "مصرف سوپ گرم"],
+                herbalRemedies: ["اکیناسه (سرخارگل)", "سیر", "زنجبیل", "پروپولیس", "مریم‌گلی"],
+                details: "آنفولانزا بیماری جدی‌تری نسبت به سرماخوردگی است و می‌تواند عوارض خطرناکی داشته باشد."
+            },
+            {
+                id: 3,
+                name: "کووید-۱۹",
+                category: "بیماری‌های ویروسی",
+                description: "عفونت ویروسی ناشی از کروناویروس",
+                symptoms: [
+                    { name: "از دست دادن حس بویایی و چشایی", description: "ناتوانی در تشخیص بو و طعم" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس و احساس کمبود هوا" },
+                    { name: "سرفه خشک", description: "سرفه‌های مداوم بدون خلط" }
+                ],
+                homeRemedies: ["قرنطینه خانگی", "کنترل دمای بدن", "مصرف ویتامین C و D", "تمرینات تنفسی"],
+                herbalRemedies: ["زردچوبه", "زنجبیل", "سیر", "آویشن", "پونه"],
+                details: "کووید-۱۹ یک بیماری تنفسی مسری است که می‌تواند از فرم خفیف تا شدید متغیر باشد."
+            },
+            {
+                id: 4,
+                name: "برونشیت حاد",
+                category: "بیماری‌های ویروسی",
+                description: "التهاب ناگهانی نایژه‌ها",
+                symptoms: [
+                    { name: "سرفه همراه با خلط", description: "سرفه‌های تولیدی با خلط زرد یا سبز" },
+                    { name: "خس خس سینه", description: "صدای سوت هنگام تنفس" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس عمیق" }
+                ],
+                homeRemedies: ["نوشیدن مایعات گرم", "استنشاق بخار", "استراحت", "اجتناب از محرک‌ها"],
+                herbalRemedies: ["عسل", "آویشن", "پونه", "مرزنجوش", "بابونه"],
+                details: "برونشیت حاد معمولاً پس از یک عفونت ویروسی دستگاه تنفسی فوقانی ایجاد می‌شود."
+            },
+            {
+                id: 5,
+                name: "سینه‌پهلو ویروسی",
+                category: "بیماری‌های ویروسی",
+                description: "عفونت ویروسی ریه‌ها",
+                symptoms: [
+                    { name: "سرفه خشک", description: "سرفه بدون خلط یا با خلط کم" },
+                    { name: "تب خفیف", description: "تب زیر ۳۸ درجه سانتی‌گراد" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس" }
+                ],
+                homeRemedies: ["استراحت کافی", "نوشیدن مایعات فراوان", "مرطوب‌کننده هوا", "پرهیز از سیگار"],
+                herbalRemedies: ["پروپولیس", "آویشن", "مرزنجوش", "اکالیپتوس", "نعنا"],
+                details: "سینه‌پهلو ویروسی معمولاً خفیف‌تر از نوع باکتریایی است و خودبه‌خود بهبود می‌یابد."
+            },
+            {
+                id: 6,
+                name: "خروسک (کروپ)",
+                category: "بیماری‌های ویروسی",
+                description: "التهاب حنجره و نای",
+                symptoms: [
+                    { name: "سرفه پارس مانند", description: "سرفه‌های خشک و شبیه پارس سگ" },
+                    { name: "خشونت صدا", description: "تغییر در تن صدا" },
+                    { name: "تنفس صدادار", description: "صدای خس خس هنگام دم" }
+                ],
+                homeRemedies: ["تنفس هوای مرطوب", "نوشیدن مایعات گرم", "آرامش‌بخشی به کودک", "هوای خنک"],
+                herbalRemedies: ["بابونه", "مریم‌گلی", "آویشن", "پونه", "اسطوخودوس"],
+                details: "خروسک بیشتر در کودکان شایع است و باعث التهاب مجاری هوایی فوقانی می‌شود."
+            },
+            {
+                id: 7,
+                name: "برونشیولیت",
+                category: "بیماری‌های ویروسی",
+                description: "عفونت برونشیول‌ها در کودکان",
+                symptoms: [
+                    { name: "خس خس سینه", description: "صدای سوت هنگام بازدم" },
+                    { name: "تنفس سریع", description: "تعداد تنفس بیشتر از حد طبیعی" },
+                    { name: "اشکال در تغذیه", description: "مشکل در شیر خوردن یا غذا خوردن" }
+                ],
+                homeRemedies: ["مرطوب‌کننده هوا", "شستشوی بینی با سرم", "تغذیه مکرر با حجم کم", "پایش تنفس"],
+                herbalRemedies: ["بابونه", "پونه", "مرزنجوش", "آویشن", "اسطوخودوس"],
+                details: "برونشیولیت بیشتر در نوزادان و کودکان خردسال دیده می‌شود و توسط ویروس سنسیشیال تنفسی ایجاد می‌شود."
+            },
+            {
+                id: 8,
+                name: "مونونوکلئوز عفونی",
+                category: "بیماری‌های ویروسی",
+                description: "عفونت ویروسی با تب غده‌ای",
+                symptoms: [
+                    { name: "گلودرد شدید", description: "درد شدید به همراه تورم لوزه‌ها" },
+                    { name: "تب", description: "تب مداوم" },
+                    { name: "تورم غدد لنفاوی", description: "بزرگ شدن غدد گردن" }
+                ],
+                homeRemedies: ["استراحت کامل", "نوشیدن مایعات فراوان", "غرغره آب نمک", "پرهیز از فعالیت سنگین"],
+                herbalRemedies: ["اکیناسه", "مریم‌گلی", "پروپولیس", "زنجبیل", "آویشن"],
+                details: "مونونوکلئوز عفونی معمولاً توسط ویروس اپشتین-بار ایجاد می‌شود و به نام بیماری بوسه نیز معروف است."
+            },
+
+            // بیماری‌های باکتریایی - نارنجی (6 بیماری)
+            {
+                id: 9,
+                name: "سینه‌پهلو باکتریایی",
+                category: "بیماری‌های باکتریایی",
+                description: "عفونت باکتریایی ریه‌ها",
+                symptoms: [
+                    { name: "تب بالا", description: "تب بالای ۳۸ درجه سانتی‌گراد" },
+                    { name: "سرفه با خلط چرکی", description: "خلط غلیظ زرد یا سبز رنگ" },
+                    { name: "درد قفسه سینه", description: "درد تیز در قفسه سینه" }
+                ],
+                homeRemedies: ["استراحت مطلق", "نوشیدن مایعات گرم", "کنترل تب", "مرطوب‌کننده هوا"],
+                herbalRemedies: ["پروپولیس", "سیر", "آویشن", "اکالیپتوس", "مرزنجوش"],
+                details: "سینه‌پهلو باکتریایی معمولاً شدیدتر از نوع ویروسی است و نیاز به درمان آنتی‌بیوتیکی دارد."
+            },
+            {
+                id: 10,
+                name: "سل",
+                category: "بیماری‌های باکتریایی",
+                description: "عفونت باکتریایی مزمن ریه",
+                symptoms: [
+                    { name: "سرفه مزمن", description: "سرفه مداوم بیش از سه هفته" },
+                    { name: "خلط خونی", description: "وجود خون در خلط" },
+                    { name: "کاهش وزن", description: "کاهش وزن ناخواسته" }
+                ],
+                homeRemedies: ["تغذیه مناسب", "استراحت کافی", "دوری از آلودگی هوا", "پرهیز از سیگار"],
+                herbalRemedies: ["سیر", "زردچوبه", "زنجبیل", "پونه", "آویشن"],
+                details: "سل یک بیماری مسری است که توسط باکتری مایکوباکتریوم توبرکلوزیس ایجاد می‌شود."
+            },
+            {
+                id: 11,
+                name: "سینوزیت باکتریایی",
+                category: "بیماری‌های باکتریایی",
+                description: "عفونت باکتریایی سینوس‌ها",
+                symptoms: [
+                    { name: "احساس فشار در صورت", description: "درد و فشار در پیشانی و گونه‌ها" },
+                    { name: "ترشحات غلیظ بینی", description: "ترشحات زرد یا سبز رنگ" },
+                    { name: "کاهش حس بویایی", description: "اختلال در تشخیص بوها" }
+                ],
+                homeRemedies: ["شستشوی بینی با سرم", "استنشاق بخار", "کمپرس گرم", "نوشیدن مایعات گرم"],
+                herbalRemedies: ["اکالیپتوس", "نعنا", "آویشن", "پونه", "مرزنجوش"],
+                details: "سینوزیت باکتریایی معمولاً پس از یک سرماخوردگی ویروسی ایجاد می‌شود."
+            },
+            {
+                id: 12,
+                name: "برونشیت باکتریایی",
+                category: "بیماری‌های باکتریایی",
+                description: "عفونت باکتریایی نایژه‌ها",
+                symptoms: [
+                    { name: "سرفه با خلط چرکی", description: "خلط غلیظ زرد یا سبز" },
+                    { name: "تب خفیف", description: "تب زیر ۳۸ درجه" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس" }
+                ],
+                homeRemedies: ["نوشیدن مایعات فراوان", "استراحت", "اجتناب از محرک‌ها", "مرطوب‌کننده هوا"],
+                herbalRemedies: ["آویشن", "پونه", "مرزنجوش", "سیر", "پروپولیس"],
+                details: "برونشیت باکتریایی کمتر از نوع ویروسی شایع است و معمولاً در افراد با سیستم ایمنی ضعیف دیده می‌شود."
+            },
+            {
+                id: 13,
+                name: "اپیگلوتیت",
+                category: "بیماری‌های باکتریایی",
+                description: "عفونت و التهاب دریچه نای",
+                symptoms: [
+                    { name: "اشکال شدید در بلع", description: "ناتوانی در بلع حتی آب دهان" },
+                    { name: "تنفس صدادار", description: "صدای خروسک هنگام تنفس" },
+                    { name: "بی‌قراری", description: "اضطراب و بی‌قراری شدید" }
+                ],
+                homeRemedies: ["مراجعه فوری به پزشک", "آرامش‌بخشی", "پرهیز از دراز کشیدن", "تنفس آرام"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "آویشن", "مریم‌گلی"],
+                details: "اپیگلوتیت یک وضعیت اورژانسی است که می‌تواند باعث انسداد کامل راه هوایی شود."
+            },
+            {
+                id: 14,
+                name: "سیاه سرفه",
+                category: "بیماری‌های باکتریایی",
+                description: "عفونت باکتریایی مجاری تنفسی",
+                symptoms: [
+                    { name: "سرفه‌های پشت سر هم", description: "حملات سرفه شدید و مداوم" },
+                    { name: "صدای هواخوری", description: "صدای بلند دم پس از سرفه" },
+                    { name: "استفراغ پس از سرفه", description: "تهوع و استفراغ ناشی از سرفه" }
+                ],
+                homeRemedies: ["تغذیه مقوی با حجم کم", "مرطوب‌کننده هوا", "پرهیز از محرک‌ها", "استراحت"],
+                herbalRemedies: ["عسل", "آویشن", "پونه", "زنجبیل", "نعنا"],
+                details: "سیاه سرفه یک بیماری بسیار مسری است که توسط باکتری بوردتلا پرتوسیس ایجاد می‌شود."
+            },
+
+            // بیماری‌های مزمن - بنفش (8 بیماری)
+            {
+                id: 15,
+                name: "آسم",
+                category: "بیماری‌های مزمن",
+                description: "بیماری التهابی مزمن راه‌های هوایی",
+                symptoms: [
+                    { name: "خس خس سینه", description: "صدای سوت هنگام بازدم" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس به خصوص شب‌ها" },
+                    { name: "سرفه خشک", description: "سرفه‌های مزمن به خصوص صبح‌ها" }
+                ],
+                homeRemedies: ["شناسایی و پرهیز از محرک‌ها", "تمرینات تنفسی", "استفاده از دستگاه بخور", "پرهیز از سیگار"],
+                herbalRemedies: ["زنجبیل", "زردچوبه", "سیر", "پونه", "آویشن"],
+                details: "آسم یک بیماری مزمن است که باعث التهاب و تنگی راه‌های هوایی می‌شود."
+            },
+            {
+                id: 16,
+                name: "بیماری انسدادی مزمن ریوی (COPD)",
+                category: "بیماری‌های مزمن",
+                description: "بیماری پیشرونده انسداد راه‌های هوایی",
+                symptoms: [
+                    { name: "تنگی نفس پیشرونده", description: "اشکال در تنفس که با زمان بدتر می‌شود" },
+                    { name: "سرفه مزمن", description: "سرفه مداوم با خلط" },
+                    { name: "خس خس سینه", description: "صدای سوت هنگام تنفس" }
+                ],
+                homeRemedies: ["ترک سیگار", "تمرینات تنفسی", "تغذیه مناسب", "فعالیت بدنی منظم"],
+                herbalRemedies: ["اکالیپتوس", "آویشن", "پونه", "زنجبیل", "نعنا"],
+                details: "COPD معمولاً در اثر سال‌ها سیگار کشیدن ایجاد می‌شود و شامل آمفیزم و برونشیت مزمن است."
+            },
+            {
+                id: 17,
+                name: "فیبروز سیستیک",
+                category: "بیماری‌های مزمن",
+                description: "بیماری ژنتیکی غدد برون‌ریز",
+                symptoms: [
+                    { name: "سرفه با خلط غلیظ", description: "خلط چسبنده و غلیظ" },
+                    { name: "عفونت‌های مکرر ریوی", description: "عفونت‌های تنفسی تکرارشونده" },
+                    { name: "کاهش وزن", description: "عدم رشد و کاهش وزن" }
+                ],
+                homeRemedies: ["فیزیوتراپی قفسه سینه", "تغذیه پرکالری", "مصرف آنزیم‌های گوارشی", "ورزش منظم"],
+                herbalRemedies: ["آویشن", "پونه", "اکالیپتوس", "نعنا", "مرزنجوش"],
+                details: "فیبروز سیستیک یک بیماری ارثی است که بر ریه‌ها و سیستم گوارش تأثیر می‌گذارد."
+            },
+            {
+                id: 18,
+                name: "برونشکتازی",
+                category: "بیماری‌های مزمن",
+                description: "گشاد شدن غیرعادی نایژه‌ها",
+                symptoms: [
+                    { name: "سرفه با خلط فراوان", description: "مقدار زیاد خلط روزانه" },
+                    { name: "خلط خونی", description: "وجود خون در خلط" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس" }
+                ],
+                homeRemedies: ["فیزیوتراپی قفسه سینه", "شستشوی روزانه بینی", "تغذیه مناسب", "پرهیز از عفونت"],
+                herbalRemedies: ["آویشن", "پونه", "اکالیپتوس", "نعنا", "مرزنجوش"],
+                details: "برونشکتازی یک بیماری مزمن است که در آن دیواره نایژه‌ها به طور دائم گشاد می‌شود."
+            },
+            {
+                id: 19,
+                name: "سارکوئیدوز",
+                category: "بیماری‌های مزمن",
+                description: "بیماری التهابی با گرانولوم",
+                symptoms: [
+                    { name: "سرفه خشک", description: "سرفه مزمن بدون خلط" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس" },
+                    { name: "درد قفسه سینه", description: "درد مبهم در قفسه سینه" }
+                ],
+                homeRemedies: ["پایش منظم علائم", "تغذیه سالم", "ورزش سبک", "پرهیز از سیگار"],
+                herbalRemedies: ["زردچوبه", "زنجبیل", "سیر", "آویشن", "پونه"],
+                details: "سارکوئیدوز یک بیماری سیستمیک است که می‌تواند چندین اندام از جمله ریه‌ها را درگیر کند."
+            },
+            {
+                id: 20,
+                name: "آمفیزم",
+                category: "بیماری‌های مزمن",
+                description: "تخریب دیواره آلوئول‌های ریوی",
+                symptoms: [
+                    { name: "تنگی نفس", description: "اشکال در تنفس به خصوص هنگام فعالیت" },
+                    { name: "سرفه مزمن", description: "سرفه مداوم" },
+                    { name: "خس خس سینه", description: "صدای سوت هنگام تنفس" }
+                ],
+                homeRemedies: ["ترک سیگار", "تمرینات تنفسی", "تغذیه مناسب", "فعالیت بدنی منظم"],
+                herbalRemedies: ["اکالیپتوس", "آویشن", "پونه", "نعنا", "مرزنجوش"],
+                details: "آمفیزم نوعی COPD است که در آن کیسه‌های هوایی ریه آسیب می‌بینند."
+            },
+            {
+                id: 21,
+                name: "برونشیت مزمن",
+                category: "بیماری‌های مزمن",
+                description: "التهاب مزمن نایژه‌ها",
+                symptoms: [
+                    { name: "سرفه تولیدی", description: "سرفه با خلط به مدت حداقل ۳ ماه" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس" },
+                    { name: "خس خس سینه", description: "صدای سوت هنگام تنفس" }
+                ],
+                homeRemedies: ["ترک سیگار", "اجتناب از محرک‌ها", "مرطوب‌کننده هوا", "تمرینات تنفسی"],
+                herbalRemedies: ["آویشن", "پونه", "اکالیپتوس", "نعنا", "مرزنجوش"],
+                details: "برونشیت مزمن نوعی COPD است که با سرفه تولیدی به مدت طولانی مشخص می‌شود."
+            },
+            {
+                id: 22,
+                name: "آزبستوز",
+                category: "بیماری‌های مزمن",
+                description: "بیماری ریوی ناشی از آزبست",
+                symptoms: [
+                    { name: "تنگی نفس", description: "اشکال در تنفس" },
+                    { name: "سرفه خشک", description: "سرفه مزمن بدون خلط" },
+                    { name: "درد قفسه سینه", description: "درد و احساس فشار در قفسه سینه" }
+                ],
+                homeRemedies: ["ترک سیگار", "پرهیز از آلودگی", "تمرینات تنفسی", "تغذیه سالم"],
+                herbalRemedies: ["آویشن", "پونه", "زنجبیل", "زردچوبه", "نعنا"],
+                details: "آزبستوز یک بیماری ریوی است که در اثر استنشاق طولانی‌مدت الیاف آزبست ایجاد می‌شود."
+            },
+
+            // بیماری‌های آلرژیک - سبز (8 بیماری)
+            {
+                id: 23,
+                name: "رینیت آلرژیک",
+                category: "بیماری‌های آلرژیک",
+                description: "التهاب آلرژیک مخاط بینی",
+                symptoms: [
+                    { name: "عطسه‌های مکرر", description: "عطسه‌های پشت سر هم" },
+                    { name: "آبریزش بینی", description: "ترشحات آبکی از بینی" },
+                    { name: "خارش بینی", description: "احساس خارش در بینی" }
+                ],
+                homeRemedies: ["شستشوی بینی با سرم", "پرهیز از آلرژن‌ها", "استفاده از دستگاه تصفیه هوا", "بستن پنجره‌ها"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "رینیت آلرژیک یا تب یونجه، واکنش آلرژیک به مواد حساسیت‌زای استنشاقی است."
+            },
+            {
+                id: 24,
+                name: "آسم آلرژیک",
+                category: "بیماری‌های آلرژیک",
+                description: "آسم ناشی از واکنش آلرژیک",
+                symptoms: [
+                    { name: "خس خس سینه", description: "صدای سوت هنگام تنفس" },
+                    { name: "تنگی نفس", description: "اشکال در تنفس" },
+                    { name: "سرفه", description: "سرفه‌های آلرژیک" }
+                ],
+                homeRemedies: ["شناسایی و پرهیز از آلرژن‌ها", "استفاده از دستگاه تصفیه هوا", "شستشوی بینی", "نظافت منظم"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "زنجبیل", "آویشن"],
+                details: "آسم آلرژیک نوعی آسم است که در اثر واکنش به مواد حساسیت‌زا ایجاد می‌شود."
+            },
+            {
+                id: 25,
+                name: "آلرژی به قارچ",
+                category: "بیماری‌های آلرژیک",
+                description: "واکنش آلرژیک به اسپور قارچ",
+                symptoms: [
+                    { name: "عطسه", description: "عطسه‌های مکرر" },
+                    { name: "خارش چشم", description: "احساس خارش و سوزش در چشم‌ها" },
+                    { name: "آبریزش بینی", description: "ترشحات آبکی از بینی" }
+                ],
+                homeRemedies: ["کاهش رطوبت محیط", "تعمیر نشتی‌ها", "تمیز کردن مناطق مرطوب", "استفاده از دستگاه رطوبت‌گیر"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "آلرژی به قارچ در اثر استنشاق اسپورهای قارچ موجود در هوا ایجاد می‌شود."
+            },
+            {
+                id: 26,
+                name: "آلرژی به گرده گیاهان",
+                category: "بیماری‌های آلرژیک",
+                description: "واکنش آلرژیک به گرده گل‌ها و گیاهان",
+                symptoms: [
+                    { name: "عطسه", description: "عطسه‌های پشت سر هم" },
+                    { name: "آبریزش بینی", description: "ترشحات آبکی از بینی" },
+                    { name: "خارش گلو", description: "احساس خارش در گلو" }
+                ],
+                homeRemedies: ["بستن پنجره‌ها", "استفاده از ماسک", "دوش گرفتن پس از ورود به خانه", "پرهیز از فضای باز در صبح"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "آلرژی به گرده گیاهان معمولاً فصلی است و در بهار و تابستان شدت می‌یابد."
+            },
+            {
+                id: 27,
+                name: "آلرژی به کنه گرد و غبار",
+                category: "بیماری‌های آلرژیک",
+                description: "واکنش آلرژیک به کنه‌های موجود در گرد و غبار",
+                symptoms: [
+                    { name: "عطسه", description: "عطسه به خصوص صبح‌ها" },
+                    { name: "آبریزش بینی", description: "ترشحات بینی" },
+                    { name: "خارش بینی", description: "احساس خارش در بینی" }
+                ],
+                homeRemedies: ["شستشوی ملحفه با آب داغ", "استفاده از روبالشی ضدحساسیت", "کاهش رطوبت خانه", "جارو برقی با فیلتر HEPA"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "آلرژی به کنه گرد و غبار در اثر استنشاق فضولات کنه‌های موجود در گرد و غبار خانه ایجاد می‌شود."
+            },
+            {
+                id: 28,
+                name: "آلرژی به حیوانات خانگی",
+                category: "بیماری‌های آلرژیک",
+                description: "واکنش آلرژیک به شوره حیوانات",
+                symptoms: [
+                    { name: "عطسه", description: "عطسه در حضور حیوان" },
+                    { name: "خارش چشم", description: "قرمزی و خارش چشم‌ها" },
+                    { name: "کهیر", description: "ضایعات پوستی خارش‌دار" }
+                ],
+                homeRemedies: ["شستشوی دست پس از تماس", "ممنوعیت ورود حیوان به اتاق خواب", "استفاده از دستگاه تصفیه هوا", "شستشوی منظم حیوان"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "آلرژی به حیوانات خانگی در اثر واکنش به پروتئین‌های موجود در بزاق، ادرار یا شوره حیوانات ایجاد می‌شود."
+            },
+            {
+                id: 29,
+                name: "درماتیت آتوپیک تنفسی",
+                category: "بیماری‌های آلرژیک",
+                description: "واکنش آلرژیک همراه با علائم تنفسی و پوستی",
+                symptoms: [
+                    { name: "خس خس سینه", description: "صدای سوت هنگام تنفس" },
+                    { name: "خارش پوست", description: "خارش و dryness پوست" },
+                    { name: "کهیر", description: "ضایعات پوستی قرمز" }
+                ],
+                homeRemedies: ["شناسایی و پرهیز از آلرژن‌ها", "مرطوب‌کنندگی پوست", "استفاده از لباس نخی", "کمپرس خنک"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "درماتیت آتوپیک یک بیماری آلرژیک است که هم پوست و هم سیستم تنفسی را درگیر می‌کند."
+            },
+            {
+                id: 30,
+                name: "آنافیلاکسی تنفسی",
+                category: "بیماری‌های آلرژیک",
+                description: "واکنش آلرژیک شدید با درگیری تنفسی",
+                symptoms: [
+                    { name: "تنگی نفس شدید", description: "اشکال شدید در تنفس" },
+                    { name: "تورم گلو", description: "احساس تورم و گرفتگی گلو" },
+                    { name: "خس خس سینه", description: "صدای سوت بلند هنگام تنفس" }
+                ],
+                homeRemedies: ["مراجعه فوری به اورژانس", "استفاده از اپی‌پن", "دراز کشیدن با پاهای بالا", "آرامش‌بخشی"],
+                herbalRemedies: ["بابونه", "اسطوخودوس", "نعنا", "مریم‌گلی", "آویشن"],
+                details: "آنافیلاکسی یک واکنش آلرژیک شدید و تهدیدکننده زندگی است که نیاز به درمان فوری دارد."
+            }
+        ];
+
+        // ایجاد لیست بیماری‌ها
+        const diseasesContainer = document.getElementById('diseases-container');
+        const symptomsContent = document.getElementById('symptoms-content');
+        const selectedDiseaseName = document.getElementById('selected-disease-name');
+        const homeRemedies = document.getElementById('home-remedies');
+        const homeList = document.getElementById('home-list');
+        const herbalRemedies = document.getElementById('herbal-remedies');
+        const herbalList = document.getElementById('herbal-list');
+        const diseaseDetails = document.getElementById('disease-details');
+        const detailsContent = document.getElementById('details-content');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const scrollTopBtn = document.getElementById('scrollTop');
+        const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
+        const mainHeader = document.getElementById('main-header');
+
+        // تابع برای دریافت کلاس CSS بر اساس دسته
+        function getCategoryClass(category) {
+            switch(category) {
+                case 'بیماری‌های ویروسی':
+                    return 'category-viral';
+                case 'بیماری‌های باکتریایی':
+                    return 'category-bacterial';
+                case 'بیماری‌های مزمن':
+                    return 'category-chronic';
+                case 'بیماری‌های آلرژیک':
+                    return 'category-allergy';
+                case 'سایر بیماری‌های تنفسی':
+                    return 'category-other';
+                default:
+                    return '';
+            }
+        }
+
+        // گروه‌بندی بیماری‌ها بر اساس دسته
+        const categories = {};
+        diseases.forEach(disease => {
+            if (!categories[disease.category]) {
+                categories[disease.category] = [];
+            }
+            categories[disease.category].push(disease);
+        });
+
+        // ایجاد لیست بیماری‌ها با گروه‌بندی و منوی بازشو
+        for (const category in categories) {
+            const categoryElement = document.createElement('div');
+            categoryElement.className = 'disease-category';
+            const categoryClass = getCategoryClass(category);
+            
+            const categoryHeader = document.createElement('div');
+            categoryHeader.className = 'category-header';
+            categoryHeader.innerHTML = `
+                <div class="category-title">${category}</div>
+                <div class="category-icon">▼</div>
+            `;
+            
+            const categoryItems = document.createElement('div');
+            categoryItems.className = 'category-items';
+            
+            categories[category].forEach(disease => {
+                const diseaseElement = document.createElement('div');
+                diseaseElement.className = 'disease-item';
+                diseaseElement.dataset.id = disease.id;
+                diseaseElement.innerHTML = `
+                    <div>
+                        <div class="disease-name">${disease.name}</div>
+                        <div class="disease-desc">${disease.description}</div>
+                    </div>
+                `;
+                
+                diseaseElement.addEventListener('click', () => {
+                    document.querySelectorAll('.disease-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    diseaseElement.classList.add('active');
+                    displayDiseaseSymptoms(disease);
+                    
+                    setTimeout(() => {
+                        scrollToSymptoms();
+                    }, 300);
+                });
+                
+                categoryItems.appendChild(diseaseElement);
+            });
+            
+            categoryHeader.addEventListener('click', () => {
+                categoryElement.classList.toggle('category-open');
+            });
+            
+            categoryElement.classList.add(categoryClass);
+            categoryElement.appendChild(categoryHeader);
+            categoryElement.appendChild(categoryItems);
+            diseasesContainer.appendChild(categoryElement);
+        }
+
+        // تابع برای نمایش علائم بیماری انتخاب شده
+        function displayDiseaseSymptoms(disease) {
+            selectedDiseaseName.textContent = disease.name;
+            
+            let symptomsHTML = '<div class="symptoms-list">';
+            
+            disease.symptoms.forEach(symptom => {
+                symptomsHTML += `
+                    <div class="symptom-card">
+                        <div class="symptom-name">${symptom.name}</div>
+                        <div class="symptom-desc">${symptom.description}</div>
+                    </div>
+                `;
+            });
+            
+            symptomsHTML += '</div>';
+            symptomsContent.innerHTML = symptomsHTML;
+            
+            // نمایش درمان‌های خانگی
+            homeList.innerHTML = '';
+            disease.homeRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'home-item';
+                remedyElement.textContent = remedy;
+                homeList.appendChild(remedyElement);
+            });
+            
+            // نمایش درمان‌های گیاهی
+            herbalList.innerHTML = '';
+            disease.herbalRemedies.forEach(remedy => {
+                const remedyElement = document.createElement('div');
+                remedyElement.className = 'herbal-item';
+                remedyElement.textContent = remedy;
+                herbalList.appendChild(remedyElement);
+            });
+            
+            detailsContent.textContent = disease.details;
+            homeRemedies.style.display = 'block';
+            herbalRemedies.style.display = 'block';
+            diseaseDetails.style.display = 'block';
+        }
+
+        // تابع برای اسکرول به بخش علائم
+        function scrollToSymptoms() {
+            const symptomsContainer = document.querySelector('.symptoms-container');
+            if (symptomsContainer) {
+                symptomsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                const symptomCards = document.querySelectorAll('.symptom-card');
+                symptomCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('highlight');
+                        setTimeout(() => {
+                            card.classList.remove('highlight');
+                        }, 2000);
+                    }, index * 200);
+                });
+            }
+        }
+
+        // تابع برای جستجوی پیش‌بینانه
+        function showSearchSuggestions(searchTerm) {
+            searchSuggestions.innerHTML = '';
+            
+            if (searchTerm.length < 2) {
+                searchSuggestions.classList.remove('active');
+                return;
+            }
+            
+            const filteredDiseases = diseases.filter(disease => 
+                disease.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                disease.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                disease.symptoms.some(symptom => 
+                    symptom.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            );
+            
+            if (filteredDiseases.length === 0) {
+                searchSuggestions.innerHTML = '<div class="search-info">هیچ نتیجه‌ای یافت نشد</div>';
+            } else {
+                filteredDiseases.slice(0, 8).forEach(disease => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.innerHTML = `
+                        <div class="suggestion-name">${disease.name}</div>
+                        <div class="suggestion-category">${disease.category}</div>
+                    `;
+                    
+                    suggestionItem.addEventListener('click', () => {
+                        searchInput.value = disease.name;
+                        searchSuggestions.classList.remove('active');
+                        performSearch(disease.name);
+                    });
+                    
+                    searchSuggestions.appendChild(suggestionItem);
+                });
+                
+                if (filteredDiseases.length > 8) {
+                    const moreInfo = document.createElement('div');
+                    moreInfo.className = 'search-info';
+                    moreInfo.textContent = `${filteredDiseases.length} نتیجه یافت شد - برای دیدن همه نتایج Enter را بزنید`;
+                    searchSuggestions.appendChild(moreInfo);
+                }
+            }
+            
+            searchSuggestions.classList.add('active');
+        }
+
+        // عملکرد جستجوی اصلی
+        function performSearch(searchTerm = null) {
+            const term = searchTerm || searchInput.value.trim().toLowerCase();
+            
+            if (term === '') {
+                // اگر جستجو خالی باشد، همه موارد را نشان بده
+                document.querySelectorAll('.disease-item').forEach(item => {
+                    item.style.display = 'flex';
+                });
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'block';
+                });
+                return;
+            }
+            
+            let foundAny = false;
+            
+            document.querySelectorAll('.disease-item').forEach(item => {
+                const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
+                const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+                
+                if (diseaseName.includes(term) || diseaseDesc.includes(term)) {
+                    item.style.display = 'flex';
+                    foundAny = true;
+                    
+                    // دسته مربوطه را باز کن
+                    const categoryElement = item.closest('.disease-category');
+                    categoryElement.style.display = 'block';
+                    categoryElement.classList.add('category-open');
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // اگر هیچ نتیجه‌ای پیدا نشد
+            if (!foundAny) {
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'none';
+                });
+                
+                // پیام "نتیجه‌ای یافت نشد" نشان بده
+                const noResults = document.createElement('div');
+                noResults.className = 'no-selection';
+                noResults.innerHTML = `
+                    <p>هیچ نتیجه‌ای برای "${term}" یافت نشد</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">لطفاً عبارت جستجو را تغییر دهید</p>
+                `;
+                
+                // اگر پیام قبلی وجود دارد، حذف کن
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+                
+                noResults.classList.add('no-results');
+                diseasesContainer.appendChild(noResults);
+            } else {
+                // اگر نتیجه پیدا شد، پیام "نتیجه‌ای یافت نشد" را پاک کن
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+            }
+        }
+
+        // رویداد جستجو با دکمه
+        searchButton.addEventListener('click', () => {
+            searchSuggestions.classList.remove('active');
+            performSearch();
+        });
+
+        // رویداد جستجو با اینتر
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchSuggestions.classList.remove('active');
+                performSearch();
+            }
+        });
+
+        // جستجوی پیش‌بینانه لحظه‌ای
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const term = this.value.trim();
+            
+            if (term === '') {
+                searchSuggestions.classList.remove('active');
+                performSearch('');
+                return;
+            }
+            
+            // تاخیر برای جلوگیری از جستجوی بیش از حد
+            searchTimeout = setTimeout(() => {
+                showSearchSuggestions(term);
+            }, 300);
+        });
+
+        // بستن پیشنهادات وقتی کاربر خارج از باکس جستجو کلیک می‌کند
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                searchSuggestions.classList.remove('active');
+            }
+        });
+
+        // دکمه بازگشت به بالا
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+            
+            if (window.pageYOffset > 100) {
+                mainHeader.classList.add('small');
+            } else {
+                mainHeader.classList.remove('small');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // دکمه اسکرول به علائم
+        scrollToSymptomsBtn.addEventListener('click', function() {
+            scrollToSymptoms();
+        });
+
+        // انتخاب اولین بیماری به طور پیش‌فرض
+        if (diseases.length > 0) {
+            const firstCategory = document.querySelector('.disease-category');
+            if (firstCategory) {
+                firstCategory.classList.add('category-open');
+                const firstDisease = firstCategory.querySelector('.disease-item');
+                if (firstDisease) {
+                    firstDisease.classList.add('active');
+                    const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
+                    displayDiseaseSymptoms(firstDiseaseData);
+                    scrollToSymptomsBtn.style.display = 'flex';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
