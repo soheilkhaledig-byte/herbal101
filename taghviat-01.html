@@ -82,6 +82,12 @@
             position: relative;
         }
         
+        .search-box {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+        
         #search-input {
             width: 100%;
             padding: 12px 20px;
@@ -97,6 +103,101 @@
             outline: none;
             box-shadow: 0 6px 20px rgba(81, 207, 102, 0.3);
             transform: translateY(-2px);
+        }
+        
+        #search-button {
+            background: linear-gradient(135deg, #51cf66 0%, #2b8a3e 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
+            white-space: nowrap;
+        }
+        
+        #search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(81, 207, 102, 0.4);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            left: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .search-suggestions.active {
+            display: block;
+        }
+        
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f3f5;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .suggestion-name {
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .suggestion-category {
+            font-size: 0.8rem;
+            color: #868e96;
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        
+        .search-info {
+            text-align: center;
+            padding: 10px;
+            color: #868e96;
+            font-size: 0.9rem;
+        }
+        
+        .symptom-match {
+            font-size: 0.75rem;
+            color: #51cf66;
+            background: #ebfbee;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+        
+        .search-stats {
+            text-align: center;
+            padding: 10px;
+            color: #495057;
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: none;
         }
         
         .content {
@@ -649,6 +750,17 @@
             animation: highlight 2s ease;
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 25px rgba(81, 207, 102, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
+        }
+
+        .symptom-card.matched {
+            animation: pulse 2s ease infinite;
+            border-color: #51cf66;
+        }
+        
         .footer-warning {
             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
             border-right: 5px solid #ffd43b;
@@ -695,6 +807,24 @@
                 margin-bottom: 0;
             }
             
+            .search-box {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            #search-input {
+                width: 100%;
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+            
+            #search-button {
+                width: 100%;
+                padding: 15px 25px;
+                font-size: 1.1rem;
+                margin-top: 5px;
+            }
+            
             .scroll-top {
                 left: 20px;
                 bottom: 20px;
@@ -712,11 +842,11 @@
             }
             
             .main-content {
-                margin-top: 150px;
+                margin-top: 120px;
             }
             
             header.small ~ .main-content {
-                margin-top: 100px;
+                margin-top: 80px;
             }
             
             .footer-warning {
@@ -726,11 +856,6 @@
             
             .main-content-with-footer {
                 margin-bottom: 20px;
-            }
-            
-            .search-container {
-                margin: 10px auto 20px;
-                padding: 0 15px;
             }
         }
     </style>
@@ -745,7 +870,16 @@
     <div class="main-content main-content-with-footer">
         <div class="container">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="جستجوی روش تقویتی یا علائم...">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="جستجوی روش تقویتی یا علائم... (مثال: انرژی، خواب، استرس)">
+                    <button id="search-button">جستجو</button>
+                    <div class="search-suggestions" id="search-suggestions">
+                        <!-- پیشنهادات جستجو اینجا نمایش داده می‌شوند -->
+                    </div>
+                </div>
+                <div class="search-stats" id="search-stats" style="display: none;">
+                    <!-- آمار جستجو -->
+                </div>
             </div>
             
             <div class="content">
@@ -1285,6 +1419,9 @@
         const diseaseDetails = document.getElementById('disease-details');
         const detailsContent = document.getElementById('details-content');
         const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const searchStats = document.getElementById('search-stats');
         const scrollTopBtn = document.getElementById('scrollTop');
         const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
         const mainHeader = document.getElementById('main-header');
@@ -1346,16 +1483,7 @@
                 `;
                 
                 diseaseElement.addEventListener('click', () => {
-                    document.querySelectorAll('.disease-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    diseaseElement.classList.add('active');
-                    displayDiseaseSymptoms(disease);
-                    
-                    setTimeout(() => {
-                        scrollToSymptoms();
-                    }, 300);
+                    selectAndDisplayDisease(disease);
                 });
                 
                 categoryItems.appendChild(diseaseElement);
@@ -1371,15 +1499,52 @@
             diseasesContainer.appendChild(categoryElement);
         }
 
+        // تابع برای انتخاب و نمایش روش
+        function selectAndDisplayDisease(disease, highlightSymptoms = []) {
+            // همه آیتم‌ها را از حالت active خارج کن
+            document.querySelectorAll('.disease-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // آیتم مربوط به روش را پیدا و انتخاب کن
+            const diseaseItem = document.querySelector(`.disease-item[data-id="${disease.id}"]`);
+            if (diseaseItem) {
+                diseaseItem.classList.add('active');
+                diseaseItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+            
+            // دسته مربوطه را باز کن
+            if (diseaseItem) {
+                const categoryElement = diseaseItem.closest('.disease-category');
+                if (categoryElement) {
+                    categoryElement.classList.add('category-open');
+                }
+            }
+            
+            // فواید روش را نمایش بده
+            displayDiseaseSymptoms(disease, highlightSymptoms);
+            
+            // به بخش فواید اسکرول کن
+            setTimeout(() => {
+                scrollToSymptoms();
+            }, 300);
+        }
+
         // تابع برای نمایش فواید روش انتخاب شده
-        function displayDiseaseSymptoms(disease) {
+        function displayDiseaseSymptoms(disease, highlightSymptoms = []) {
             selectedDiseaseName.textContent = disease.name;
             
             let symptomsHTML = '<div class="symptoms-list">';
             
             disease.symptoms.forEach(symptom => {
+                const isHighlighted = highlightSymptoms.includes(symptom.name);
+                const highlightClass = isHighlighted ? 'matched' : '';
+                
                 symptomsHTML += `
-                    <div class="symptom-card">
+                    <div class="symptom-card ${highlightClass}" data-symptom="${symptom.name}">
                         <div class="symptom-name">${symptom.name}</div>
                         <div class="symptom-desc">${symptom.description}</div>
                     </div>
@@ -1405,6 +1570,8 @@
             herbalRemedies.style.display = 'block';
             homeRemedies.style.display = 'block';
             diseaseDetails.style.display = 'block';
+            
+            // دکمه اسکرول به فواید را نشان بده
             scrollToSymptomsBtn.style.display = 'flex';
         }
 
@@ -1429,52 +1596,277 @@
             }
         }
 
-        // عملکرد جستجو - اصلاح شده
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.trim().toLowerCase();
+        // تابع برای جستجوی پیش‌بینانه با قابلیت جستجوی فواید
+        function showSearchSuggestions(searchTerm) {
+            searchSuggestions.innerHTML = '';
             
-            // اگر جستجو خالی است، همه موارد را نمایش بده
-            if (searchTerm === '') {
-                document.querySelectorAll('.disease-category').forEach(category => {
-                    category.style.display = 'block';
-                    category.querySelectorAll('.disease-item').forEach(item => {
-                        item.style.display = 'flex';
-                    });
-                });
+            if (searchTerm.length < 2) {
+                searchSuggestions.classList.remove('active');
+                searchStats.style.display = 'none';
                 return;
             }
             
-            // جستجو در نام و توضیحات بیماری‌ها
-            let hasResults = false;
-            
-            document.querySelectorAll('.disease-category').forEach(category => {
-                let categoryHasVisibleItems = false;
+            const filteredDiseases = diseases.filter(disease => {
+                // جستجو در نام روش
+                if (disease.name.toLowerCase().includes(searchTerm.toLowerCase())) return true;
                 
-                category.querySelectorAll('.disease-item').forEach(item => {
-                    const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
-                    const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+                // جستجو در توضیحات روش
+                if (disease.description.toLowerCase().includes(searchTerm.toLowerCase())) return true;
+                
+                // جستجو در فواید روش (نام و توضیحات فواید)
+                const hasMatchingSymptom = disease.symptoms.some(symptom => 
+                    symptom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    symptom.description.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                
+                return hasMatchingSymptom;
+            });
+            
+            // نمایش آمار جستجو
+            if (filteredDiseases.length > 0) {
+                const symptomMatches = filteredDiseases.filter(disease => 
+                    disease.symptoms.some(symptom => 
+                        symptom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        symptom.description.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                ).length;
+                
+                searchStats.innerHTML = `
+                    <strong>${filteredDiseases.length}</strong> روش یافت شد | 
+                    <strong>${symptomMatches}</strong> روش با فایده "${searchTerm}"
+                `;
+                searchStats.style.display = 'block';
+            } else {
+                searchStats.style.display = 'none';
+            }
+            
+            if (filteredDiseases.length === 0) {
+                searchSuggestions.innerHTML = '<div class="search-info">هیچ نتیجه‌ای یافت نشد</div>';
+            } else {
+                filteredDiseases.slice(0, 8).forEach(disease => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
                     
-                    if (diseaseName.includes(searchTerm) || diseaseDesc.includes(searchTerm)) {
-                        item.style.display = 'flex';
-                        categoryHasVisibleItems = true;
-                        hasResults = true;
-                    } else {
-                        item.style.display = 'none';
-                    }
+                    // پیدا کردن فوایدی که با عبارت جستجو مطابقت دارند
+                    const matchingSymptoms = disease.symptoms.filter(symptom => 
+                        symptom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        symptom.description.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                    
+                    suggestionItem.innerHTML = `
+                        <div>
+                            <div class="suggestion-name">${disease.name}</div>
+                            ${matchingSymptoms.length > 0 ? 
+                                `<div class="symptom-match">${matchingSymptoms.length} فایده مطابقت دارد</div>` : 
+                                ''
+                            }
+                        </div>
+                        <div class="suggestion-category">${disease.category}</div>
+                    `;
+                    
+                    suggestionItem.addEventListener('click', () => {
+                        searchInput.value = disease.name;
+                        searchSuggestions.classList.remove('active');
+                        searchStats.style.display = 'none';
+                        
+                        // روش مورد نظر را انتخاب و نمایش بده
+                        const symptomsToHighlight = matchingSymptoms.map(s => s.name);
+                        selectAndDisplayDisease(disease, symptomsToHighlight);
+                    });
+                    
+                    searchSuggestions.appendChild(suggestionItem);
                 });
                 
-                // نمایش یا مخفی کردن دسته‌بندی
-                if (categoryHasVisibleItems) {
+                if (filteredDiseases.length > 8) {
+                    const moreInfo = document.createElement('div');
+                    moreInfo.className = 'search-info';
+                    moreInfo.textContent = `${filteredDiseases.length} نتیجه یافت شد - برای دیدن همه نتایج Enter را بزنید`;
+                    searchSuggestions.appendChild(moreInfo);
+                }
+            }
+            
+            searchSuggestions.classList.add('active');
+        }
+
+        // عملکرد جستجوی اصلی با قابلیت جستجوی فواید
+        function performSearch(searchTerm = null) {
+            const term = searchTerm || searchInput.value.trim().toLowerCase();
+            
+            if (term === '') {
+                // اگر جستجو خالی باشد، همه موارد را نشان بده
+                document.querySelectorAll('.disease-item').forEach(item => {
+                    item.style.display = 'flex';
+                });
+                document.querySelectorAll('.disease-category').forEach(category => {
                     category.style.display = 'block';
-                    category.classList.add('category-open');
-                } else {
-                    category.style.display = 'none';
+                    category.classList.remove('category-open');
+                });
+                searchStats.style.display = 'none';
+                
+                // اولین دسته را باز کن
+                const firstCategory = document.querySelector('.disease-category');
+                if (firstCategory) {
+                    firstCategory.classList.add('category-open');
+                }
+                return;
+            }
+            
+            let foundAny = false;
+            let matchingDiseases = [];
+            let exactSymptomMatches = [];
+            
+            // پیدا کردن روش‌های منطبق
+            diseases.forEach(disease => {
+                const diseaseName = disease.name.toLowerCase();
+                const diseaseDesc = disease.description.toLowerCase();
+                
+                // جستجو در فواید روش
+                const matchingSymptoms = disease.symptoms.filter(symptom => 
+                    symptom.name.toLowerCase().includes(term) ||
+                    symptom.description.toLowerCase().includes(term)
+                );
+                
+                const hasMatchingSymptom = matchingSymptoms.length > 0;
+                
+                if (diseaseName.includes(term) || diseaseDesc.includes(term) || hasMatchingSymptom) {
+                    matchingDiseases.push({
+                        disease: disease,
+                        isNameMatch: diseaseName.includes(term),
+                        isDescMatch: diseaseDesc.includes(term),
+                        symptomMatches: matchingSymptoms
+                    });
+                    foundAny = true;
+                    
+                    if (hasMatchingSymptom) {
+                        exactSymptomMatches.push({
+                            disease: disease,
+                            symptoms: matchingSymptoms
+                        });
+                    }
                 }
             });
             
-            // اگر نتیجه‌ای پیدا نشد
-            if (!hasResults) {
-                diseasesContainer.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">هیچ نتیجه‌ای برای جستجوی شما یافت نشد</p>';
+            // نمایش آمار جستجو
+            if (foundAny) {
+                searchStats.innerHTML = `
+                    <strong>${matchingDiseases.length}</strong> روش یافت شد | 
+                    <strong>${exactSymptomMatches.length}</strong> روش با فایده "${term}"
+                `;
+                searchStats.style.display = 'block';
+            } else {
+                searchStats.style.display = 'none';
+            }
+            
+            if (foundAny) {
+                // همه آیتم‌ها را مخفی کن
+                document.querySelectorAll('.disease-item').forEach(item => {
+                    item.style.display = 'none';
+                });
+                
+                // همه دسته‌ها را مخفی کن
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'none';
+                });
+                
+                // روش‌های منطبق را نمایش بده
+                matchingDiseases.forEach(match => {
+                    const diseaseItem = document.querySelector(`.disease-item[data-id="${match.disease.id}"]`);
+                    if (diseaseItem) {
+                        diseaseItem.style.display = 'flex';
+                        
+                        // دسته مربوطه را نمایش و باز کن
+                        const categoryElement = diseaseItem.closest('.disease-category');
+                        if (categoryElement) {
+                            categoryElement.style.display = 'block';
+                            categoryElement.classList.add('category-open');
+                        }
+                    }
+                });
+                
+                // اولین روش منطبق را انتخاب کن
+                let diseaseToSelect;
+                let symptomsToHighlight = [];
+                
+                // اولویت با روش‌هایی که در فوایدشان مطابقت دارد
+                if (exactSymptomMatches.length > 0) {
+                    diseaseToSelect = exactSymptomMatches[0].disease;
+                    symptomsToHighlight = exactSymptomMatches[0].symptoms.map(s => s.name);
+                } else if (matchingDiseases.length > 0) {
+                    // اگر مطابقتی در فواید نبود، اولین روش منطبق را انتخاب کن
+                    diseaseToSelect = matchingDiseases[0].disease;
+                }
+                
+                if (diseaseToSelect) {
+                    selectAndDisplayDisease(diseaseToSelect, symptomsToHighlight);
+                }
+                
+                // اگر پیام "نتیجه‌ای یافت نشد" وجود دارد، حذف کن
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+            } else {
+                // اگر هیچ نتیجه‌ای پیدا نشد
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'none';
+                });
+                
+                // پیام "نتیجه‌ای یافت نشد" نشان بده
+                const noResults = document.createElement('div');
+                noResults.className = 'no-selection';
+                noResults.innerHTML = `
+                    <p>هیچ نتیجه‌ای برای "${term}" یافت نشد</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">لطفاً عبارت جستجو را تغییر دهید</p>
+                `;
+                
+                // اگر پیام قبلی وجود دارد، حذف کن
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+                
+                noResults.classList.add('no-results');
+                diseasesContainer.appendChild(noResults);
+            }
+        }
+
+        // رویداد جستجو با دکمه
+        searchButton.addEventListener('click', () => {
+            searchSuggestions.classList.remove('active');
+            performSearch();
+        });
+
+        // رویداد جستجو با اینتر
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchSuggestions.classList.remove('active');
+                performSearch();
+            }
+        });
+
+        // جستجوی پیش‌بینانه لحظه‌ای
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const term = this.value.trim();
+            
+            if (term === '') {
+                searchSuggestions.classList.remove('active');
+                searchStats.style.display = 'none';
+                performSearch('');
+                return;
+            }
+            
+            // تاخیر برای جلوگیری از جستجوی بیش از حد
+            searchTimeout = setTimeout(() => {
+                showSearchSuggestions(term);
+            }, 300);
+        });
+
+        // بستن پیشنهادات وقتی کاربر خارج از باکس جستجو کلیک می‌کند
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                searchSuggestions.classList.remove('active');
             }
         });
 
@@ -1512,9 +1904,8 @@
                 firstCategory.classList.add('category-open');
                 const firstDisease = firstCategory.querySelector('.disease-item');
                 if (firstDisease) {
-                    firstDisease.classList.add('active');
                     const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
-                    displayDiseaseSymptoms(firstDiseaseData);
+                    selectAndDisplayDisease(firstDiseaseData);
                 }
             }
         }
