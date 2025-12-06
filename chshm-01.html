@@ -180,6 +180,15 @@
             font-size: 0.9rem;
         }
         
+        .symptom-match {
+            font-size: 0.75rem;
+            color: #1e88e5;
+            background: #e6f7ff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+        
         .content {
             display: flex;
             gap: 20px;
@@ -731,6 +740,17 @@
             animation: highlight 2s ease;
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); }
+        }
+
+        .symptom-card.matched {
+            animation: pulse 2s ease infinite;
+            border-color: #ff6b6b;
+        }
+        
         .footer-warning {
             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
             border-right: 5px solid #ffd43b;
@@ -750,6 +770,16 @@
         
         .main-content-with-footer {
             margin-bottom: 100px;
+        }
+        
+        .search-stats {
+            text-align: center;
+            padding: 10px;
+            color: #495057;
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 10px 0;
         }
         
         @media (max-width: 768px) {
@@ -839,11 +869,14 @@
         <div class="container">
             <div class="search-container">
                 <div class="search-box">
-                    <input type="text" id="search-input" placeholder="جستجوی بیماری یا علائم چشمی...">
+                    <input type="text" id="search-input" placeholder="جستجوی بیماری یا علائم چشمی... (مثال: تاری دید، سردرد، قرمزی)">
                     <button id="search-button">جستجو</button>
                     <div class="search-suggestions" id="search-suggestions">
                         <!-- پیشنهادات جستجو اینجا نمایش داده می‌شوند -->
                     </div>
+                </div>
+                <div class="search-stats" id="search-stats" style="display: none;">
+                    <!-- آمار جستجو -->
                 </div>
             </div>
             
@@ -911,7 +944,6 @@
     <script>
         // داده‌های کامل بیماری‌های چشم - 30 بیماری
         const diseases = [
-            // اختلالات انکساری - آبی (6 بیماری)
             {
                 id: 1,
                 name: "نزدیک‌بینی",
@@ -996,8 +1028,6 @@
                 herbalRemedies: ["زعفران", "بابونه", "گل گاوزبان", "اسپند", "شنبلیله"],
                 details: "کراتوکونوس یک بیماری پیشرونده قرنیه است که معمولاً در نوجوانی شروع می‌شود."
             },
-
-            // آب مروارید و عدسی - نارنجی (6 بیماری)
             {
                 id: 7,
                 name: "آب مروارید",
@@ -1037,7 +1067,7 @@
                     { name: "کاهش تدریجی بینایی", description: "کاهش آهسته بینایی" }
                 ],
                 homeRemedies: ["معاینه منظم", "محافظت از چشم", "تغذیه مناسب", "اجتناب از آسیب"],
-                herbalRemedies: ["زعفران", "زردچوبه", "سیر", "چای سبز", "جینکو بیلوبa"],
+                herbalRemedies: ["زعفران", "زردچوبه", "سیر", "چای سبز", "جینکو بیلوبا"],
                 details: "آب مروارید ثانویه ممکن است ماهها یا سالها پس از جراحی اولیه ایجاد شود."
             },
             {
@@ -1065,7 +1095,7 @@
                     { name: "نیاز به نور بیشتر", description: "احساس نیاز به نور قوی‌تر" }
                 ],
                 homeRemedies: ["محافظت از UV", "تغذیه سرشار از آنتی‌اکسیدان", "معاینه منظم", "استراحت چشمی"],
-                herbalRemedies: ["زعفران", "زردچوبه", "سیر", "چای سبز", "جینکو بیلوبa"],
+                herbalRemedies: ["زعفران", "زردچوبه", "سیر", "چای سبز", "جینکو بیلوبا"],
                 details: "این فرآیند طبیعی پیری است اما با محافظت از نور خورشید می‌توان آن را کند کرد."
             },
             {
@@ -1082,8 +1112,6 @@
                 herbalRemedies: ["زعفران", "زردچوبه", "سیر", "چای سبز", "جینکو بیلوبا"],
                 details: "میکروفتالمی یک ناهنجاری مادرزادی است که ممکن است یک یا هر دو چشم را درگیر کند."
             },
-
-            // گلوکوم - سبز (6 بیماری)
             {
                 id: 13,
                 name: "گلوکوم زاویه باز",
@@ -1123,7 +1151,7 @@
                     { name: "اشک ریزش زیاد", description: "اشک‌ریزی مداوم" }
                 ],
                 homeRemedies: ["درمان فوری", "معاینه منظم", "پیگیری دقیق", "حمایت خانواده"],
-                herbalRemedies: ["زعفران", "جینکو بیلوبa", "زغال اخته", "شاه‌توت", "چای سبز"],
+                herbalRemedies: ["زعفران", "جینکو بیلوبا", "زغال اخته", "شاه‌توت", "چای سبز"],
                 details: "گلوکوم مادرزادی نیاز به تشخیص و درمان سریع برای جلوگیری از آسیب دائمی دارد."
             },
             {
@@ -1168,8 +1196,6 @@
                 herbalRemedies: ["زعفران", "جینکو بیلوبا", "زغال اخته", "شاه‌توت", "چای سبز"],
                 details: "در گلوکوم رنگدانه‌ای، رنگدانه‌های عنبیه آزاد شده و باعث انسداد زهکشی می‌شوند."
             },
-
-            // بیماری‌های شبکیه - قرمز (6 بیماری)
             {
                 id: 19,
                 name: "جداشدگی شبکیه",
@@ -1190,7 +1216,7 @@
                 category: "بیماری‌های شبکیه",
                 description: "تخریب بخش مرکزی شبکیه",
                 symptoms: [
-                    { name: "تاری دید مرکزی", description: "کدر شدن中心 بینایی" },
+                    { name: "تاری دید مرکزی", description: "کدر شدن بینایی مرکزی" },
                     { name: "اعوجاج خطوط", description: "دیدن خطوط موجدار" },
                     { name: "لکه تاریک", description: "لکه سیاه در مرکز دید" }
                 ],
@@ -1233,7 +1259,7 @@
                 description: "قطع جریان خون به شبکیه",
                 symptoms: [
                     { name: "از دست دادن ناگهانی بینایی", description: "نابینایی ناگهانی یک چشم" },
-                    { name: "دردless vision loss", description: "از دست دادن بینایی بدون درد" },
+                    { name: "درد بدون از دست دادن بینایی", description: "از دست دادن بینایی بدون درد" },
                     { name: "تاری دید ناگهانی", description: "کاهش ناگهانی بینایی" }
                 ],
                 homeRemedies: ["مراجعه فوری به پزشک", "درمان اورژانسی", "کنترل عوامل خطر", "پیشگیری"],
@@ -1251,11 +1277,9 @@
                     { name: "لکه‌های تاریک", description: "نقاط کور در بینایی" }
                 ],
                 homeRemedies: ["مراجعه فوری", "کنترل فشار خون", "کنترل دیابت", "معاینه منظم"],
-                herbalRemedies: ["زعفران", "زغال اخته", "شاه‌توت", "جینکو بیلوبa", "چای سبز"],
+                herbalRemedies: ["زعفران", "زغال اخته", "شاه‌توت", "جینکو بیلوبا", "چای سبز"],
                 details: "انسداد ورید شبکیه می‌تواند منجر به ادم ماکولا و کاهش بینایی شود."
             },
-
-            // التهاب‌های چشمی - بنفش (6 بیماری)
             {
                 id: 25,
                 name: "یووئیت",
@@ -1281,7 +1305,7 @@
                     { name: "حساسیت به نور", description: "نورگریزی" }
                 ],
                 homeRemedies: ["پرهیز از لنز تماسی", "استراحت چشمی", "مرطوب نگه‌داشتن چشم", "مراجعه به پزشک"],
-                herbalRemedies: ["زعفرan", "بابونه", "گل گاوزبان", "اسپند", "شنبلیله"],
+                herbalRemedies: ["زعفران", "بابونه", "گل گاوزبان", "اسپند", "شنبلیله"],
                 details: "کراتیت می‌تواند عفونی یا غیرعفونی باشد و در صورت عدم درمان باعث زخم قرنیه می‌شود."
             },
             {
@@ -1342,19 +1366,20 @@
             }
         ];
 
-        // ایجاد لیست بیماری‌ها
+        // عناصر DOM
         const diseasesContainer = document.getElementById('diseases-container');
         const symptomsContent = document.getElementById('symptoms-content');
         const selectedDiseaseName = document.getElementById('selected-disease-name');
-        const homeRemedies = document.getElementById('home-remedies');
+        const homeRemediesElement = document.getElementById('home-remedies');
         const homeList = document.getElementById('home-list');
-        const herbalRemedies = document.getElementById('herbal-remedies');
+        const herbalRemediesElement = document.getElementById('herbal-remedies');
         const herbalList = document.getElementById('herbal-list');
         const diseaseDetails = document.getElementById('disease-details');
         const detailsContent = document.getElementById('details-content');
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
         const searchSuggestions = document.getElementById('search-suggestions');
+        const searchStats = document.getElementById('search-stats');
         const scrollTopBtn = document.getElementById('scrollTop');
         const scrollToSymptomsBtn = document.getElementById('scrollToSymptoms');
         const mainHeader = document.getElementById('main-header');
@@ -1377,83 +1402,108 @@
             }
         }
 
-        // گروه‌بندی بیماری‌ها بر اساس دسته
-        const categories = {};
-        diseases.forEach(disease => {
-            if (!categories[disease.category]) {
-                categories[disease.category] = [];
-            }
-            categories[disease.category].push(disease);
-        });
+        // ایجاد لیست بیماری‌ها
+        function createDiseasesList() {
+            diseasesContainer.innerHTML = '';
+            
+            // گروه‌بندی بیماری‌ها
+            const categories = {};
+            diseases.forEach(disease => {
+                if (!categories[disease.category]) {
+                    categories[disease.category] = [];
+                }
+                categories[disease.category].push(disease);
+            });
 
-        // ایجاد لیست بیماری‌ها با گروه‌بندی و منوی بازشو
-        for (const category in categories) {
-            const categoryElement = document.createElement('div');
-            categoryElement.className = 'disease-category';
-            const categoryClass = getCategoryClass(category);
-            
-            const categoryHeader = document.createElement('div');
-            categoryHeader.className = 'category-header';
-            categoryHeader.innerHTML = `
-                <div class="category-title">${category}</div>
-                <div class="category-icon">▼</div>
-            `;
-            
-            const categoryItems = document.createElement('div');
-            categoryItems.className = 'category-items';
-            
-            categories[category].forEach(disease => {
-                const diseaseElement = document.createElement('div');
-                diseaseElement.className = 'disease-item';
-                diseaseElement.dataset.id = disease.id;
-                diseaseElement.innerHTML = `
-                    <div>
-                        <div class="disease-name">${disease.name}</div>
-                        <div class="disease-desc">${disease.description}</div>
-                    </div>
+            // ایجاد دسته‌ها و بیماری‌ها
+            for (const category in categories) {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = `disease-category ${getCategoryClass(category)}`;
+                
+                const categoryHeader = document.createElement('div');
+                categoryHeader.className = 'category-header';
+                categoryHeader.innerHTML = `
+                    <div class="category-title">${category}</div>
+                    <div class="category-icon">▼</div>
                 `;
                 
-                diseaseElement.addEventListener('click', () => {
-                    document.querySelectorAll('.disease-item').forEach(item => {
-                        item.classList.remove('active');
+                const categoryItems = document.createElement('div');
+                categoryItems.className = 'category-items';
+                
+                categories[category].forEach(disease => {
+                    const diseaseElement = document.createElement('div');
+                    diseaseElement.className = 'disease-item';
+                    diseaseElement.dataset.id = disease.id;
+                    diseaseElement.innerHTML = `
+                        <div>
+                            <div class="disease-name">${disease.name}</div>
+                            <div class="disease-desc">${disease.description}</div>
+                        </div>
+                    `;
+                    
+                    diseaseElement.addEventListener('click', () => {
+                        selectAndDisplayDisease(disease);
                     });
                     
-                    diseaseElement.classList.add('active');
-                    displayDiseaseSymptoms(disease);
-                    
-                    setTimeout(() => {
-                        scrollToSymptoms();
-                    }, 300);
+                    categoryItems.appendChild(diseaseElement);
                 });
                 
-                categoryItems.appendChild(diseaseElement);
-            });
-            
-            categoryHeader.addEventListener('click', () => {
-                categoryElement.classList.toggle('category-open');
-            });
-            
-            categoryElement.classList.add(categoryClass);
-            categoryElement.appendChild(categoryHeader);
-            categoryElement.appendChild(categoryItems);
-            diseasesContainer.appendChild(categoryElement);
+                categoryHeader.addEventListener('click', () => {
+                    categoryElement.classList.toggle('category-open');
+                });
+                
+                categoryElement.appendChild(categoryHeader);
+                categoryElement.appendChild(categoryItems);
+                diseasesContainer.appendChild(categoryElement);
+            }
         }
 
-        // تابع برای نمایش علائم بیماری انتخاب شده
-        function displayDiseaseSymptoms(disease) {
+        // تابع برای انتخاب و نمایش بیماری
+        function selectAndDisplayDisease(disease, highlightSymptoms = []) {
+            // حذف active از همه
+            document.querySelectorAll('.disease-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // اضافه کردن active به بیماری انتخاب شده
+            const diseaseItem = document.querySelector(`.disease-item[data-id="${disease.id}"]`);
+            if (diseaseItem) {
+                diseaseItem.classList.add('active');
+                
+                // باز کردن دسته مربوطه
+                const categoryElement = diseaseItem.closest('.disease-category');
+                if (categoryElement) {
+                    categoryElement.classList.add('category-open');
+                }
+            }
+            
+            // نمایش علائم بیماری
+            displayDiseaseSymptoms(disease, highlightSymptoms);
+            
+            // نمایش دکمه اسکرول
+            scrollToSymptomsBtn.style.display = 'flex';
+            
+            // اسکرول به علائم
+            setTimeout(() => {
+                scrollToSymptoms();
+            }, 300);
+        }
+
+        // تابع برای نمایش علائم بیماری
+        function displayDiseaseSymptoms(disease, highlightSymptoms = []) {
             selectedDiseaseName.textContent = disease.name;
             
+            // ایجاد کارت‌های علائم
             let symptomsHTML = '<div class="symptoms-list">';
-            
             disease.symptoms.forEach(symptom => {
+                const isHighlighted = highlightSymptoms.includes(symptom.name);
                 symptomsHTML += `
-                    <div class="symptom-card">
+                    <div class="symptom-card ${isHighlighted ? 'matched' : ''}">
                         <div class="symptom-name">${symptom.name}</div>
                         <div class="symptom-desc">${symptom.description}</div>
                     </div>
                 `;
             });
-            
             symptomsHTML += '</div>';
             symptomsContent.innerHTML = symptomsHTML;
             
@@ -1475,13 +1525,16 @@
                 herbalList.appendChild(remedyElement);
             });
             
+            // نمایش توضیحات
             detailsContent.textContent = disease.details;
-            homeRemedies.style.display = 'block';
-            herbalRemedies.style.display = 'block';
+            
+            // نمایش بخش‌ها
+            homeRemediesElement.style.display = 'block';
+            herbalRemediesElement.style.display = 'block';
             diseaseDetails.style.display = 'block';
         }
 
-        // تابع برای اسکرول به بخش علائم
+        // تابع برای اسکرول به علائم
         function scrollToSymptoms() {
             const symptomsContainer = document.querySelector('.symptoms-container');
             if (symptomsContainer) {
@@ -1490,6 +1543,7 @@
                     block: 'start'
                 });
                 
+                // انیمیشن کارت‌ها
                 const symptomCards = document.querySelectorAll('.symptom-card');
                 symptomCards.forEach((card, index) => {
                     setTimeout(() => {
@@ -1508,32 +1562,73 @@
             
             if (searchTerm.length < 2) {
                 searchSuggestions.classList.remove('active');
+                searchStats.style.display = 'none';
                 return;
             }
             
-            const filteredDiseases = diseases.filter(disease => 
-                disease.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                disease.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                disease.symptoms.some(symptom => 
-                    symptom.name.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-            );
+            // فیلتر بیماری‌ها
+            const filteredDiseases = diseases.filter(disease => {
+                // جستجو در نام و توضیحات
+                if (disease.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                    disease.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+                    return true;
+                }
+                
+                // جستجو در علائم
+                return disease.symptoms.some(symptom => 
+                    symptom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    symptom.description.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            });
             
+            // نمایش آمار
+            if (filteredDiseases.length > 0) {
+                const symptomMatches = filteredDiseases.filter(disease => 
+                    disease.symptoms.some(symptom => 
+                        symptom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        symptom.description.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
+                ).length;
+                
+                searchStats.innerHTML = `
+                    <strong>${filteredDiseases.length}</strong> بیماری یافت شد | 
+                    <strong>${symptomMatches}</strong> بیماری با علامت "${searchTerm}"
+                `;
+                searchStats.style.display = 'block';
+            } else {
+                searchStats.style.display = 'none';
+            }
+            
+            // نمایش پیشنهادات
             if (filteredDiseases.length === 0) {
                 searchSuggestions.innerHTML = '<div class="search-info">هیچ نتیجه‌ای یافت نشد</div>';
             } else {
                 filteredDiseases.slice(0, 8).forEach(disease => {
+                    // بررسی تطابق علائم
+                    const matchingSymptoms = disease.symptoms.filter(symptom => 
+                        symptom.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        symptom.description.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                    
                     const suggestionItem = document.createElement('div');
                     suggestionItem.className = 'suggestion-item';
                     suggestionItem.innerHTML = `
-                        <div class="suggestion-name">${disease.name}</div>
+                        <div>
+                            <div class="suggestion-name">${disease.name}</div>
+                            ${matchingSymptoms.length > 0 ? 
+                                `<div class="symptom-match">${matchingSymptoms.length} علامت مطابقت دارد</div>` : 
+                                ''
+                            }
+                        </div>
                         <div class="suggestion-category">${disease.category}</div>
                     `;
                     
                     suggestionItem.addEventListener('click', () => {
                         searchInput.value = disease.name;
                         searchSuggestions.classList.remove('active');
-                        performSearch(disease.name);
+                        searchStats.style.display = 'none';
+                        const symptomsToHighlight = matchingSymptoms.map(s => s.name);
+                        selectAndDisplayDisease(disease, symptomsToHighlight);
                     });
                     
                     searchSuggestions.appendChild(suggestionItem);
@@ -1555,42 +1650,118 @@
             const term = searchTerm || searchInput.value.trim().toLowerCase();
             
             if (term === '') {
-                // اگر جستجو خالی باشد، همه موارد را نشان بده
+                // نمایش همه موارد
                 document.querySelectorAll('.disease-item').forEach(item => {
                     item.style.display = 'flex';
                 });
                 document.querySelectorAll('.disease-category').forEach(category => {
                     category.style.display = 'block';
+                    category.classList.remove('category-open');
                 });
+                searchStats.style.display = 'none';
+                
+                // باز کردن اولین دسته
+                const firstCategory = document.querySelector('.disease-category');
+                if (firstCategory) {
+                    firstCategory.classList.add('category-open');
+                }
                 return;
             }
             
             let foundAny = false;
+            let matchingDiseases = [];
+            let exactSymptomMatches = [];
             
-            document.querySelectorAll('.disease-item').forEach(item => {
-                const diseaseName = item.querySelector('.disease-name').textContent.toLowerCase();
-                const diseaseDesc = item.querySelector('.disease-desc').textContent.toLowerCase();
+            // یافتن بیماری‌های منطبق
+            diseases.forEach(disease => {
+                const diseaseName = disease.name.toLowerCase();
+                const diseaseDesc = disease.description.toLowerCase();
                 
-                if (diseaseName.includes(term) || diseaseDesc.includes(term)) {
-                    item.style.display = 'flex';
+                // جستجو در علائم
+                const matchingSymptoms = disease.symptoms.filter(symptom => 
+                    symptom.name.toLowerCase().includes(term) ||
+                    symptom.description.toLowerCase().includes(term)
+                );
+                
+                const hasMatchingSymptom = matchingSymptoms.length > 0;
+                
+                if (diseaseName.includes(term) || diseaseDesc.includes(term) || hasMatchingSymptom) {
+                    matchingDiseases.push({
+                        disease: disease,
+                        symptomMatches: matchingSymptoms
+                    });
                     foundAny = true;
                     
-                    // دسته مربوطه را باز کن
-                    const categoryElement = item.closest('.disease-category');
-                    categoryElement.style.display = 'block';
-                    categoryElement.classList.add('category-open');
-                } else {
-                    item.style.display = 'none';
+                    if (hasMatchingSymptom) {
+                        exactSymptomMatches.push({
+                            disease: disease,
+                            symptoms: matchingSymptoms
+                        });
+                    }
                 }
             });
             
-            // اگر هیچ نتیجه‌ای پیدا نشد
-            if (!foundAny) {
+            // نمایش آمار
+            if (foundAny) {
+                searchStats.innerHTML = `
+                    <strong>${matchingDiseases.length}</strong> بیماری یافت شد | 
+                    <strong>${exactSymptomMatches.length}</strong> بیماری با علامت "${term}"
+                `;
+                searchStats.style.display = 'block';
+            } else {
+                searchStats.style.display = 'none';
+            }
+            
+            if (foundAny) {
+                // مخفی کردن همه موارد
+                document.querySelectorAll('.disease-item').forEach(item => {
+                    item.style.display = 'none';
+                });
+                
                 document.querySelectorAll('.disease-category').forEach(category => {
                     category.style.display = 'none';
                 });
                 
-                // پیام "نتیجه‌ای یافت نشد" نشان بده
+                // نمایش موارد منطبق
+                matchingDiseases.forEach(match => {
+                    const diseaseItem = document.querySelector(`.disease-item[data-id="${match.disease.id}"]`);
+                    if (diseaseItem) {
+                        diseaseItem.style.display = 'flex';
+                        
+                        const categoryElement = diseaseItem.closest('.disease-category');
+                        if (categoryElement) {
+                            categoryElement.style.display = 'block';
+                            categoryElement.classList.add('category-open');
+                        }
+                    }
+                });
+                
+                // انتخاب اولین بیماری منطبق
+                let diseaseToSelect;
+                let symptomsToHighlight = [];
+                
+                if (exactSymptomMatches.length > 0) {
+                    diseaseToSelect = exactSymptomMatches[0].disease;
+                    symptomsToHighlight = exactSymptomMatches[0].symptoms.map(s => s.name);
+                } else if (matchingDiseases.length > 0) {
+                    diseaseToSelect = matchingDiseases[0].disease;
+                }
+                
+                if (diseaseToSelect) {
+                    selectAndDisplayDisease(diseaseToSelect, symptomsToHighlight);
+                }
+                
+                // حذف پیام "نتیجه‌ای یافت نشد"
+                const existingNoResults = diseasesContainer.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+            } else {
+                // نمایش پیام عدم یافتن نتیجه
+                document.querySelectorAll('.disease-category').forEach(category => {
+                    category.style.display = 'none';
+                });
+                
                 const noResults = document.createElement('div');
                 noResults.className = 'no-selection';
                 noResults.innerHTML = `
@@ -1598,7 +1769,6 @@
                     <p style="margin-top: 10px; font-size: 0.9rem;">لطفاً عبارت جستجو را تغییر دهید</p>
                 `;
                 
-                // اگر پیام قبلی وجود دارد، حذف کن
                 const existingNoResults = diseasesContainer.querySelector('.no-results');
                 if (existingNoResults) {
                     existingNoResults.remove();
@@ -1606,30 +1776,22 @@
                 
                 noResults.classList.add('no-results');
                 diseasesContainer.appendChild(noResults);
-            } else {
-                // اگر نتیجه پیدا شد، پیام "نتیجه‌ای یافت نشد" را پاک کن
-                const existingNoResults = diseasesContainer.querySelector('.no-results');
-                if (existingNoResults) {
-                    existingNoResults.remove();
-                }
             }
         }
 
-        // رویداد جستجو با دکمه
+        // رویدادهای جستجو
         searchButton.addEventListener('click', () => {
             searchSuggestions.classList.remove('active');
             performSearch();
         });
 
-        // رویداد جستجو با اینتر
-        searchInput.addEventListener('keypress', function(e) {
+        searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 searchSuggestions.classList.remove('active');
                 performSearch();
             }
         });
 
-        // جستجوی پیش‌بینانه لحظه‌ای
         let searchTimeout;
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
@@ -1637,25 +1799,25 @@
             
             if (term === '') {
                 searchSuggestions.classList.remove('active');
+                searchStats.style.display = 'none';
                 performSearch('');
                 return;
             }
             
-            // تاخیر برای جلوگیری از جستجوی بیش از حد
             searchTimeout = setTimeout(() => {
                 showSearchSuggestions(term);
             }, 300);
         });
 
-        // بستن پیشنهادات وقتی کاربر خارج از باکس جستجو کلیک می‌کند
-        document.addEventListener('click', function(e) {
+        // بستن پیشنهادات جستجو
+        document.addEventListener('click', (e) => {
             if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
                 searchSuggestions.classList.remove('active');
             }
         });
 
         // دکمه بازگشت به بالا
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 scrollTopBtn.classList.add('show');
             } else {
@@ -1669,7 +1831,7 @@
             }
         });
 
-        scrollTopBtn.addEventListener('click', function() {
+        scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -1677,24 +1839,29 @@
         });
 
         // دکمه اسکرول به علائم
-        scrollToSymptomsBtn.addEventListener('click', function() {
+        scrollToSymptomsBtn.addEventListener('click', () => {
             scrollToSymptoms();
         });
 
-        // انتخاب اولین بیماری به طور پیش‌فرض
-        if (diseases.length > 0) {
-            const firstCategory = document.querySelector('.disease-category');
-            if (firstCategory) {
-                firstCategory.classList.add('category-open');
-                const firstDisease = firstCategory.querySelector('.disease-item');
-                if (firstDisease) {
-                    firstDisease.classList.add('active');
-                    const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
-                    displayDiseaseSymptoms(firstDiseaseData);
-                    scrollToSymptomsBtn.style.display = 'flex';
+        // مقداردهی اولیه
+        document.addEventListener('DOMContentLoaded', () => {
+            createDiseasesList();
+            
+            // انتخاب اولین بیماری
+            if (diseases.length > 0) {
+                const firstCategory = document.querySelector('.disease-category');
+                if (firstCategory) {
+                    firstCategory.classList.add('category-open');
+                    const firstDisease = firstCategory.querySelector('.disease-item');
+                    if (firstDisease) {
+                        const firstDiseaseData = diseases.find(d => d.id == firstDisease.dataset.id);
+                        if (firstDiseaseData) {
+                            selectAndDisplayDisease(firstDiseaseData);
+                        }
+                    }
                 }
             }
-        }
+        });
     </script>
 </body>
 </html>
